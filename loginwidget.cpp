@@ -12,7 +12,7 @@ LoginWidget::LoginWidget(QWidget *parent) :
 
     // Set window properties
     setWindowTitle("Medical System Login");
-    setFixedSize(1000, 900);
+    setFixedSize(1600, 1500);
 
     // Connect buttons
     connect(ui->btnLogin, &QPushButton::clicked, this, &LoginWidget::on_btnLogin_clicked);

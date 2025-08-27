@@ -12,7 +12,7 @@ RegisterWidget::RegisterWidget(QWidget *parent) :
 
     // Set window properties
     setWindowTitle("Register - Medical System");
-    setFixedSize(1000, 900);
+    setFixedSize(1600, 1500);
 
     // Connect buttons to functions
     connect(ui->btnRegister, &QPushButton::clicked, this, &RegisterWidget::on_btnRegister_clicked);
