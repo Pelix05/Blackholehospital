@@ -16,6 +16,8 @@ public:
     explicit LoginWidget(QWidget *parent = nullptr);
     ~LoginWidget();
 
+    QString getSelectedRole() const;
+
 
 private slots:
     void on_btnLogin_clicked();

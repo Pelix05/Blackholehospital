@@ -14,6 +14,9 @@ RegisterWidget::RegisterWidget(QWidget *parent) :
     setWindowTitle("Register - Medical System");
     setFixedSize(1600, 1500);
 
+    ui->cbRole->addItem("Patient");
+        ui->cbRole->addItem("Doctor");
+
     // Connect buttons to functions
     connect(ui->btnRegister, &QPushButton::clicked, this, &RegisterWidget::on_btnRegister_clicked);
     connect(ui->btnBack, &QPushButton::clicked, this, &RegisterWidget::on_btnBack_clicked);
@@ -27,7 +30,7 @@ void RegisterWidget::on_btnRegister_clicked()
     QString phone = ui->lePhone->text();
     QString password = ui->lePassword->text();
     QString confirmPassword = ui->leConfirmPassword->text();
-
+    QString role = ui->cbRole->currentText();
     // Validasi input
     if (name.isEmpty() || email.isEmpty() || phone.isEmpty() || password.isEmpty()) {
         QMessageBox::warning(this, "Error", "Semua field harus diisi!");
@@ -63,6 +66,7 @@ void RegisterWidget::on_btnRegister_clicked()
     qDebug() << "Name:" << name;
     qDebug() << "Email:" << email;
     qDebug() << "Phone:" << phone;
+    qDebug() << "Role:" << role;
 
     QMessageBox::information(this, "Success", "Registrasi berhasil!\nSilakan login dengan akun Anda.");
     emit backToLogin();  // Kembali ke login
@@ -71,6 +75,11 @@ void RegisterWidget::on_btnRegister_clicked()
 void RegisterWidget::on_btnBack_clicked()
 {
     emit backToLogin();  // Kirim signal untuk kembali ke login
+}
+
+QString RegisterWidget::getSelectedRole() const
+{
+    return ui->cbRole->currentText();
 }
 
 RegisterWidget::~RegisterWidget()

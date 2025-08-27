@@ -15,6 +15,8 @@ public:
     explicit RegisterWidget(QWidget *parent = nullptr);
     ~RegisterWidget();
 
+    QString getSelectedRole() const;
+
 signals:
     void backToLogin();  // Signal untuk kembali ke login
 

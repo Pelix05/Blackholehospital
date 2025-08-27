@@ -14,6 +14,9 @@ LoginWidget::LoginWidget(QWidget *parent) :
     setWindowTitle("Medical System Login");
     setFixedSize(1600, 1500);
 
+    ui->cbRole->addItem("Patient");
+    ui->cbRole->addItem("Doctor");
+
     // Connect buttons
     connect(ui->btnLogin, &QPushButton::clicked, this, &LoginWidget::on_btnLogin_clicked);
     connect(ui->btnRegister, &QPushButton::clicked, this, &LoginWidget::on_btnRegister_clicked);
@@ -24,14 +27,14 @@ void LoginWidget::on_btnLogin_clicked()
 {
     QString username = ui->leUsername->text();
     QString password = ui->lePassword->text();
-
+    QString role = ui->cbRole->currentText();
     if (username.isEmpty() || password.isEmpty()) {
-        QMessageBox::warning(this, "Error", "Username dan password tidak boleh kosong!");
+        QMessageBox::warning(this, "Error", "Username dan password cannot be empty!");
         return;
     }
 
     qDebug() << "Login attempt - Username:" << username << "Password:" << password;
-    QMessageBox::information(this, "Success", "Login berhasil!");
+    QMessageBox::information(this, "Success", "Login success!");
 }
 
 void LoginWidget::on_btnRegister_clicked()
@@ -57,6 +60,12 @@ void LoginWidget::on_btnForgot_clicked()
 {
     QMessageBox::information(this, "Info", "Fitur lupa password akan datang soon!");
 }
+
+QString LoginWidget::getSelectedRole() const
+{
+    return ui->cbRole->currentText();
+}
+
 
 LoginWidget::~LoginWidget()
 {
