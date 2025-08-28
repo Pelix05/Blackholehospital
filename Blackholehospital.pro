@@ -19,16 +19,22 @@ SOURCES += \
     forgotpasswordwidget.cpp \
     main.cpp \
     loginwidget.cpp \
+    patientmainwindow.cpp \
+    registerpage.cpp \
     registerwidget.cpp
 
 HEADERS += \
     forgotpasswordwidget.h \
     loginwidget.h \
+    patientmainwindow.h \
+    registerpage.h \
     registerwidget.h
 
 FORMS += \
     forgotpasswordwidget.ui \
     loginwidget.ui \
+    patientmainwindow.ui \
+    registerpage.ui \
     registerwidget.ui
 
 # Default rules for deployment.
