@@ -15,7 +15,17 @@ RegisterWidget::RegisterWidget(QWidget *parent) :
     setFixedSize(1900, 900);
 
     ui->cbRole->addItem("Patient");
-        ui->cbRole->addItem("Doctor");
+    ui->cbRole->addItem("Doctor");
+
+    QPixmap logo(":/images/medical_logo.png");
+        QLabel *logoLabel = new QLabel(this);
+        logoLabel->setPixmap(logo.scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        logoLabel->setAlignment(Qt::AlignLeft);
+        logoLabel->setAttribute(Qt::WA_TranslucentBackground);
+        logoLabel->setStyleSheet("background: transparent;");
+        logoLabel->setGeometry(900, 40, 100, 100); // Posisi dan ukuran
+
+
 
         // ===== TAMBAHAN STYLE SHEET =====
             // Style untuk latar belakang window
@@ -24,7 +34,7 @@ RegisterWidget::RegisterWidget(QWidget *parent) :
             // Style untuk judul
             ui->labelTitle->setStyleSheet("QLabel {"
                                          "color: #0066cc;"
-                                         "font-size: 28px;"
+                                         "font-size: 30px;"
                                          "font-weight: bold;"
                                          "background-color: transparent;"
                                          "}");
@@ -33,7 +43,7 @@ RegisterWidget::RegisterWidget(QWidget *parent) :
                                           "background-color: #4CAF50;"
                                           "color: white;"
                                           "border-radius: 10px;"
-                                          "padding: 12px;"
+                                          "padding: 8px;"
                                           "font-size: 16px;"
                                           "}"
                                           "QPushButton:hover {"
@@ -64,6 +74,7 @@ RegisterWidget::RegisterWidget(QWidget *parent) :
                                    "}";
 
             ui->leUsername->setStyleSheet(lineEditStyle);
+            ui->leUserId->setStyleSheet(lineEditStyle);
             ui->lePassword->setStyleSheet(lineEditStyle);
             ui->leEmail->setStyleSheet(lineEditStyle);
             ui->lePhone->setStyleSheet(lineEditStyle);
@@ -138,14 +149,15 @@ RegisterWidget::RegisterWidget(QWidget *parent) :
 void RegisterWidget::on_btnRegister_clicked()
 {
     // Ambil data dari form
-    QString name = ui->leUsername->text();
+    QString username = ui->leUsername->text();
+    QString userid = ui->leUserId->text();
     QString email = ui->leEmail->text();
     QString phone = ui->lePhone->text();
     QString password = ui->lePassword->text();
     QString confirmPassword = ui->leConfirmPassword->text();
     QString role = ui->cbRole->currentText();
     // Validasi input
-    if (name.isEmpty() || email.isEmpty() || phone.isEmpty() || password.isEmpty()) {
+    if (username.isEmpty() || email.isEmpty() || phone.isEmpty() || password.isEmpty()) {
         QMessageBox::warning(this, "Error", "Please fill all the information above!");
         return;
     }
@@ -176,7 +188,8 @@ void RegisterWidget::on_btnRegister_clicked()
 
     // Jika semua validasi passed
     qDebug() << "Register successful:";
-    qDebug() << "Name:" << name;
+    qDebug() << "Name:" << username;
+    qDebug() << "Name:" << userid;
     qDebug() << "Email:" << email;
     qDebug() << "Phone:" << phone;
     qDebug() << "Role:" << role;

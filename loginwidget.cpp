@@ -1,5 +1,6 @@
 #include "loginwidget.h"
 #include "ui_loginwidget.h"
+#include "patientmainwindow.h"
 #include <QMessageBox>
 #include <QDebug>
 #include <QPixmap>
@@ -118,7 +119,7 @@ LoginWidget::LoginWidget(QWidget *parent) :
                                "border: 2px solid #0066cc;"
                                "}";
 
-        ui->leUsername->setStyleSheet(lineEditStyle);
+        ui->leUserId->setStyleSheet(lineEditStyle);
         ui->lePassword->setStyleSheet(lineEditStyle);
 
         // Style untuk combo box
@@ -184,23 +185,29 @@ LoginWidget::LoginWidget(QWidget *parent) :
         // ===== END STYLE SHEET =====
 
     // Connect buttons
-    connect(ui->btnLogin, &QPushButton::clicked, this, &LoginWidget::on_btnLogin_clicked);
     connect(ui->btnRegister, &QPushButton::clicked, this, &LoginWidget::on_btnRegister_clicked);
     connect(ui->btnForgot, &QPushButton::clicked, this, &LoginWidget::on_btnForgot_clicked);
 }
 
 void LoginWidget::on_btnLogin_clicked()
 {
-    QString username = ui->leUsername->text();
+    QString userid = ui->leUserId->text();
     QString password = ui->lePassword->text();
     QString role = ui->cbRole->currentText();
-    if (username.isEmpty() || password.isEmpty()) {
-        QMessageBox::warning(this, "Error", "Username dan password cannot be empty!");
+    if (userid.isEmpty() || password.isEmpty()) {
+        QMessageBox::warning(this, "Error", "UserID dan password cannot be empty!");
         return;
     }
 
-    qDebug() << "Login attempt - Username:" << username << "Password:" << password;
-    QMessageBox::information(this, "Success", "Login success!");
+    qDebug() << "Login attempt - UserID:" << userid << "Password:" << password;
+    if (role == "Patient") {
+            patientmainwindow *pmw = new patientmainwindow();
+            pmw->show();
+            this->close();   // Tutup login window
+        }
+        else {
+            QMessageBox::warning(this, "Error", "Invalid role selected!");
+        }
 }
 
 void LoginWidget::on_btnRegister_clicked()

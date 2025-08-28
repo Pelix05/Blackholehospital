@@ -1,4 +1,5 @@
 #include "loginwidget.h"
+#include "patientmainwindow.h"
 
 #include <QApplication>
 

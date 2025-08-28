@@ -30,5 +30,6 @@ private:
     Ui::LoginWidget *ui;
     RegisterWidget *registerWidget;
     ForgotPasswordWidget *forgotPasswordWidget;
+
 };
 #endif // LOGINWIDGET_H
