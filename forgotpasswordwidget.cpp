@@ -13,6 +13,13 @@ ForgotPasswordWidget::ForgotPasswordWidget(QWidget *parent) :
     // Set window properties
     setWindowTitle("Reset Password - Medical System");
     setFixedSize(1900, 900);
+    QPixmap logo(":/images/medical_logo.png");
+        QLabel *logoLabel = new QLabel(this);
+        logoLabel->setPixmap(logo.scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        logoLabel->setAlignment(Qt::AlignLeft);
+        logoLabel->setAttribute(Qt::WA_TranslucentBackground);
+        logoLabel->setStyleSheet("background: transparent;");
+        logoLabel->setGeometry(900, 30, 100, 100); // Posisi dan ukuran
 
     // ===== TAMBAHAN STYLE SHEET =====
         // Style untuk latar belakang window
@@ -125,7 +132,7 @@ void ForgotPasswordWidget::on_btnResetPassword_clicked()
     // 2. Mengirim email dengan link reset password
     // 3. atau Langsung mengubah password (tergantung kebijakan keamanan)
 
-    QMessageBox::information(this, "Success", "Instruksi reset password telah dikirim ke email Anda!\nSilakan cek inbox atau folder spam Anda.");
+    QMessageBox::information(this, "Success", "You have successfully change your password");
     emit backToLogin();  // Kembali ke login
 }
 

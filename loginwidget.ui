@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>LoginWidget</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>730</x>
@@ -34,16 +34,16 @@
      <widget class="QComboBox" name="cbRole"/>
     </item>
     <item row="3" column="0">
-     <widget class="QLabel" name="labelUsername">
+     <widget class="QLabel" name="labelUserId">
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Username :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;User ID :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </item>
     <item row="3" column="1">
-     <widget class="QLineEdit" name="leUsername">
+     <widget class="QLineEdit" name="leUserId">
       <property name="placeholderText">
-       <string>Input your username</string>
+       <string>Input your UserID</string>
       </property>
      </widget>
     </item>
@@ -107,7 +107,7 @@
        <enum>QFrame::NoFrame</enum>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;Blackhole Hospital&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:28pt;&quot;&gt;BLACKHOLE HOSPITAL&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
