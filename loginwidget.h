@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include "registerwidget.h"
+#include "forgotpasswordwidget.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class LoginWidget; }
@@ -27,5 +29,6 @@ private slots:
 private:
     Ui::LoginWidget *ui;
     RegisterWidget *registerWidget;
+    ForgotPasswordWidget *forgotPasswordWidget;
 };
 #endif // LOGINWIDGET_H

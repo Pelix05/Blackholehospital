@@ -6,7 +6,8 @@
 LoginWidget::LoginWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LoginWidget),
-    registerWidget(nullptr)  // Initialize pointer ke nullptr
+    registerWidget(nullptr),  // Initialize pointer ke nullptr
+    forgotPasswordWidget(nullptr)
 {
     ui->setupUi(this);
 
@@ -29,12 +30,12 @@ void LoginWidget::on_btnLogin_clicked()
     QString password = ui->lePassword->text();
     QString role = ui->cbRole->currentText();
     if (username.isEmpty() || password.isEmpty()) {
-        QMessageBox::warning(this, "Error", "Username dan password cannot be empty!");
+        QMessageBox::warning(this, "Error", "Username dan password tidak boleh kosong!");
         return;
     }
 
     qDebug() << "Login attempt - Username:" << username << "Password:" << password;
-    QMessageBox::information(this, "Success", "Login success!");
+    QMessageBox::information(this, "Success", "Login berhasil!");
 }
 
 void LoginWidget::on_btnRegister_clicked()
@@ -58,7 +59,21 @@ void LoginWidget::on_btnRegister_clicked()
 
 void LoginWidget::on_btnForgot_clicked()
 {
-    QMessageBox::information(this, "Info", "Fitur lupa password akan datang soon!");
+    // Buat forgot password window jika belum ada
+    if (!forgotPasswordWidget) {
+        forgotPasswordWidget = new ForgotPasswordWidget();
+
+        // Connect signal dari forgot password window
+        connect(forgotPasswordWidget, &ForgotPasswordWidget::backToLogin, this, [this]() {
+            this->show();                           // Tampilkan login window
+            forgotPasswordWidget->hide();           // Sembunyikan forgot password window
+        });
+    }
+
+    this->hide();                   // Sembunyikan login window
+    forgotPasswordWidget->show();   // Tampilkan forgot password window
+    forgotPasswordWidget->raise();
+    forgotPasswordWidget->activateWindow();
 }
 
 QString LoginWidget::getSelectedRole() const
@@ -66,11 +81,13 @@ QString LoginWidget::getSelectedRole() const
     return ui->cbRole->currentText();
 }
 
-
 LoginWidget::~LoginWidget()
 {
     delete ui;
     if (registerWidget) {
         delete registerWidget;  // Hapus register widget jika ada
+    }
+    if (forgotPasswordWidget) {
+        delete forgotPasswordWidget;  // Hapus forgot password widget jika ada
     }
 }
