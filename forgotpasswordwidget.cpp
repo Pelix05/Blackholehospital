@@ -12,7 +12,63 @@ ForgotPasswordWidget::ForgotPasswordWidget(QWidget *parent) :
 
     // Set window properties
     setWindowTitle("Reset Password - Medical System");
-    setFixedSize(1600, 1500);
+    setFixedSize(1900, 900);
+
+    // ===== TAMBAHAN STYLE SHEET =====
+        // Style untuk latar belakang window
+        this->setStyleSheet("background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 #e6f7ff, stop: 1 #ffffff);");
+
+        // Style untuk judul
+        ui->labelTitle->setStyleSheet("QLabel {"
+                                     "color: #0066cc;"
+                                     "font-size: 28px;"
+                                     "font-weight: bold;"
+                                     "background-color: transparent;"
+                                     "}");
+
+        ui->btnResetPassword->setStyleSheet("QPushButton {"
+                                      "background-color: #4CAF50;"
+                                      "color: white;"
+                                      "border-radius: 10px;"
+                                      "padding: 15px;"
+                                      "font-size: 16px;"
+                                      "}"
+                                      "QPushButton:hover {"
+                                      "background-color: #45a049;"
+                                      "}");
+
+        ui->btnBack->setStyleSheet("QPushButton {"
+                                      "background-color: #FF0000;"
+                                      "color: white;"
+                                      "border-radius: 10px;"
+                                      "padding: 15px;"
+                                      "font-size: 16px;"
+                                      "}"
+                                      "QPushButton:hover {"
+                                      "background-color: #8B0000;"
+                                      "}");
+
+
+        // Style untuk line edit
+        QString lineEditStyle = "QLineEdit {"
+                               "border: 2px solid #cccccc;"
+                               "border-radius: 8px;"
+                               "padding: 12px;"
+                               "font-size: 16px;"
+                               "background-color: white;"
+                               "}"
+                               "QLineEdit:focus {"
+                               "border: 2px solid #0066cc;"
+                               "}";
+        ui->leEmail->setStyleSheet(lineEditStyle);
+        ui->leNewPassword->setStyleSheet(lineEditStyle);
+        ui->leConfirmNewPassword->setStyleSheet(lineEditStyle);
+
+
+
+
+
+        // ===== END STYLE SHEET =====
 
     // Connect buttons to functions
     connect(ui->btnResetPassword, &QPushButton::clicked, this, &ForgotPasswordWidget::on_btnResetPassword_clicked);
@@ -23,7 +79,7 @@ void ForgotPasswordWidget::on_btnResetPassword_clicked()
 {
     QString email = ui->leEmail->text();
     QString newPassword = ui->leNewPassword->text();
-    QString confirmPassword = ui->leConfirmPassword->text();
+    QString confirmPassword = ui->leConfirmNewPassword->text();
 
     // Validasi input
     if (email.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {

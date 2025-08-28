@@ -6,31 +6,55 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1287</width>
-    <height>468</height>
+    <width>1900</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>LoginWidget</string>
   </property>
-  <widget class="QWidget" name="layoutWidget">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>10</y>
-     <width>1271</width>
-     <height>441</height>
+     <x>730</x>
+     <y>260</y>
+     <width>761</width>
+     <height>351</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="3">
+   <layout class="QFormLayout" name="formLayout">
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;LOGIN AS :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QComboBox" name="cbRole"/>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="labelUsername">
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Username :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
      <widget class="QLineEdit" name="leUsername">
       <property name="placeholderText">
        <string>Input your username</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="3">
+    <item row="4" column="0">
+     <widget class="QLabel" name="labelPassword">
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Password :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
      <widget class="QLineEdit" name="lePassword">
       <property name="echoMode">
        <enum>QLineEdit::Password</enum>
@@ -40,7 +64,14 @@
       </property>
      </widget>
     </item>
-    <item row="4" column="3">
+    <item row="5" column="0">
+     <widget class="QCheckBox" name="checkBox">
+      <property name="text">
+       <string>Remember me</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
      <widget class="QPushButton" name="btnForgot">
       <property name="text">
        <string>Forget Password ?</string>
@@ -53,57 +84,51 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="0" colspan="4">
-     <widget class="QComboBox" name="cbRole"/>
-    </item>
-    <item row="5" column="0">
+    <item row="7" column="0">
      <widget class="QPushButton" name="btnRegister">
       <property name="text">
        <string>Register</string>
       </property>
      </widget>
     </item>
-    <item row="5" column="1" colspan="3">
+    <item row="7" column="1">
      <widget class="QPushButton" name="btnLogin">
       <property name="text">
        <string>Login</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="0" colspan="3">
-     <widget class="QLabel" name="labelUsername">
-      <property name="text">
-       <string>Username :</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0" colspan="3">
-     <widget class="QLabel" name="labelPassword">
-      <property name="text">
-       <string>Password</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0" colspan="3">
-     <widget class="QCheckBox" name="checkBox">
-      <property name="text">
-       <string>Remember me</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="2" colspan="2">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Blackhole Hospital</string>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="0" colspan="2">
-     <widget class="QLabel" name="label_2">
+     <widget class="QLabel" name="labelTitle">
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
       <property name="text">
-       <string>LOGIN</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;Blackhole Hospital&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>false</bool>
       </property>
      </widget>
+    </item>
+    <item row="1" column="0" colspan="2">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
     </item>
    </layout>
   </widget>

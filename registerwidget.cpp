@@ -12,10 +12,79 @@ RegisterWidget::RegisterWidget(QWidget *parent) :
 
     // Set window properties
     setWindowTitle("Register - Medical System");
-    setFixedSize(1600, 1500);
+    setFixedSize(1900, 900);
 
     ui->cbRole->addItem("Patient");
         ui->cbRole->addItem("Doctor");
+
+        // ===== TAMBAHAN STYLE SHEET =====
+            // Style untuk latar belakang window
+            this->setStyleSheet("background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 #e6f7ff, stop: 1 #ffffff);");
+
+            // Style untuk judul
+            ui->labelTitle->setStyleSheet("QLabel {"
+                                         "color: #0066cc;"
+                                         "font-size: 28px;"
+                                         "font-weight: bold;"
+                                         "background-color: transparent;"
+                                         "}");
+
+            ui->btnRegister->setStyleSheet("QPushButton {"
+                                          "background-color: #4CAF50;"
+                                          "color: white;"
+                                          "border-radius: 10px;"
+                                          "padding: 15px;"
+                                          "font-size: 16px;"
+                                          "}"
+                                          "QPushButton:hover {"
+                                          "background-color: #45a049;"
+                                          "}");
+            ui->btnBack->setStyleSheet("QPushButton {"
+                                          "background-color: #FF0000;"
+                                          "color: white;"
+                                          "border-radius: 10px;"
+                                          "padding: 15px;"
+                                          "font-size: 16px;"
+                                          "}"
+                                          "QPushButton:hover {"
+                                          "background-color: #8B0000;"
+                                          "}");
+
+
+            // Style untuk line edit
+            QString lineEditStyle = "QLineEdit {"
+                                   "border: 2px solid #cccccc;"
+                                   "border-radius: 8px;"
+                                   "padding: 12px;"
+                                   "font-size: 16px;"
+                                   "background-color: white;"
+                                   "}"
+                                   "QLineEdit:focus {"
+                                   "border: 2px solid #0066cc;"
+                                   "}";
+
+            ui->leUsername->setStyleSheet(lineEditStyle);
+            ui->lePassword->setStyleSheet(lineEditStyle);
+            ui->leEmail->setStyleSheet(lineEditStyle);
+            ui->lePhone->setStyleSheet(lineEditStyle);
+            ui->leConfirmPassword->setStyleSheet(lineEditStyle);
+
+            // Style untuk combo box
+            ui->cbRole->setStyleSheet("QComboBox {"
+                                     "border: 2px solid #cccccc;"
+                                     "border-radius: 8px;"
+                                     "padding: 12px;"
+                                     "font-size: 16px;"
+                                     "background-color: white;"
+                                     "}"
+                                     "QComboBox:focus {"
+                                     "border: 2px solid #0066cc;"
+                                     "}"
+                                     "QComboBox QAbstractItemView {"
+                                     "border: 2px solid #cccccc;"
+                                     "selection-background-color: #0066cc;"
+                                     "}");
+            // ===== END STYLE SHEET =====
 
     // Connect buttons to functions
     connect(ui->btnRegister, &QPushButton::clicked, this, &RegisterWidget::on_btnRegister_clicked);
