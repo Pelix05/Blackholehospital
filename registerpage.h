@@ -19,6 +19,7 @@ public:
 
 private slots:
     void button_clicked();
+    void onDoctorDoubleClicked(const QModelIndex &index);
 
 private:
     Ui::registerpage *ui;

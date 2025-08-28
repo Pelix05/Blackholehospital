@@ -1,5 +1,7 @@
 #include "registerpage.h"
 #include "ui_registerpage.h"
+#include "doctordetial.h"
+#include <QDialog>
 #include <QMessageBox>
 #include <QStandardItem>
 #include <QTableView>
@@ -12,6 +14,10 @@ registerpage::registerpage(QWidget *parent) :
 
     connect(ui->pushButton, &QPushButton::clicked,
             this, &registerpage::button_clicked);
+
+    connect(ui->tableView, &QTableView::doubleClicked,
+            this, &registerpage::onDoctorDoubleClicked);
+
 
     model = new QStandardItemModel(this);
     model->setHorizontalHeaderLabels(
@@ -58,6 +64,31 @@ void registerpage::button_clicked()
     model->setItem(row, 8, new QStandardItem(QString::number(remain)));
 
     QMessageBox::information(this, "成功", "挂号成功！");
+}
+
+// 新增：双击医生姓名时弹出详情
+void registerpage::onDoctorDoubleClicked(const QModelIndex &index)
+{
+    int row = index.row();
+    int col = index.column();
+
+    // 只处理“姓名”列（第 3 列，索引为 3）
+    if (col == 3) {
+        QString jobId   = model->item(row, 2)->text();
+        QString dep     = model->item(row, 1)->text();
+        QString name    = model->item(row, 3)->text();
+        QString workTime= model->item(row, 4)->text();
+        double fee      = model->item(row, 5)->text().toDouble();
+        int limit       = model->item(row, 6)->text().toInt();
+
+        // 示例：可以改成数据库取真实资料和头像路径
+        QString profile = name + " 医生，经验丰富，擅长临床诊断与治疗。";
+        QString photoPath = ":/images/default_doctor.png";
+
+        doctordetial dialog(this);
+        dialog.setDoctorInfo(jobId, dep, name, profile, photoPath, workTime, fee, limit);
+        dialog.exec();
+    }
 }
 
 void registerpage::addDoctor(QString id, QString dep, QString job, QString name,

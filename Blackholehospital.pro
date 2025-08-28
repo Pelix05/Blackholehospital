@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    doctordetial.cpp \
     forgotpasswordwidget.cpp \
     main.cpp \
     loginwidget.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
     registerwidget.cpp
 
 HEADERS += \
+    doctordetial.h \
     forgotpasswordwidget.h \
     loginwidget.h \
     patientmainwindow.h \
@@ -31,6 +33,7 @@ HEADERS += \
     registerwidget.h
 
 FORMS += \
+    doctordetial.ui \
     forgotpasswordwidget.ui \
     loginwidget.ui \
     patientmainwindow.ui \
