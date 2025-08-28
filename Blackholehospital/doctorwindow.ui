@@ -42,7 +42,7 @@
   <widget class="QPushButton" name="btnProfile">
    <property name="geometry">
     <rect>
-     <x>-25</x>
+     <x>30</x>
      <y>140</y>
      <width>311</width>
      <height>30</height>
