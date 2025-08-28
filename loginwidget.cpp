@@ -1,6 +1,7 @@
 #include "loginwidget.h"
 #include "ui_loginwidget.h"
 #include "patientmainwindow.h"
+#include "doctorwindow.h"
 #include <QMessageBox>
 #include <QDebug>
 #include <QPixmap>
@@ -204,7 +205,12 @@ void LoginWidget::on_btnLogin_clicked()
             patientmainwindow *pmw = new patientmainwindow();
             pmw->show();
             this->close();   // Tutup login window
-        }
+        }else if(role =="Doctor"){
+            doctorwindow *dw = new doctorwindow();
+            dw->show();
+            this->close();
+
+    }
         else {
             QMessageBox::warning(this, "Error", "Invalid role selected!");
         }

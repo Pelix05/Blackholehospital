@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     doctordetial.cpp \
+    doctorwindow.cpp \
     forgotpasswordwidget.cpp \
     main.cpp \
     loginwidget.cpp \
@@ -26,6 +27,7 @@ SOURCES += \
 
 HEADERS += \
     doctordetial.h \
+    doctorwindow.h \
     forgotpasswordwidget.h \
     loginwidget.h \
     patientmainwindow.h \
@@ -34,6 +36,7 @@ HEADERS += \
 
 FORMS += \
     doctordetial.ui \
+    doctorwindow.ui \
     forgotpasswordwidget.ui \
     loginwidget.ui \
     patientmainwindow.ui \

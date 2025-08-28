@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>doctorwindow</class>
+ <widget class="QWidget" name="doctorwindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1900</width>
+    <height>850</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Doctor</string>
+  </property>
+  <widget class="QPushButton" name="btnInfo">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>30</y>
+     <width>281</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Check appointment information</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnPrescription">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>90</y>
+     <width>351</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Edit prescription and examination order</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnProfile">
+   <property name="geometry">
+    <rect>
+     <x>-25</x>
+     <y>140</y>
+     <width>311</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Edit Personal Information</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnPlatform">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>240</y>
+     <width>271</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Communication Platform</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnAttendance">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>340</y>
+     <width>106</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Attendance</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnExit">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>500</y>
+     <width>106</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnCase">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>60</y>
+     <width>221</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Edit Patient Case</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
