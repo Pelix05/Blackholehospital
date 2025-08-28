@@ -33,7 +33,7 @@ RegisterWidget::RegisterWidget(QWidget *parent) :
                                           "background-color: #4CAF50;"
                                           "color: white;"
                                           "border-radius: 10px;"
-                                          "padding: 15px;"
+                                          "padding: 12px;"
                                           "font-size: 16px;"
                                           "}"
                                           "QPushButton:hover {"
@@ -43,7 +43,7 @@ RegisterWidget::RegisterWidget(QWidget *parent) :
                                           "background-color: #FF0000;"
                                           "color: white;"
                                           "border-radius: 10px;"
-                                          "padding: 15px;"
+                                          "padding: 8px;"
                                           "font-size: 16px;"
                                           "}"
                                           "QPushButton:hover {"
@@ -55,7 +55,7 @@ RegisterWidget::RegisterWidget(QWidget *parent) :
             QString lineEditStyle = "QLineEdit {"
                                    "border: 2px solid #cccccc;"
                                    "border-radius: 8px;"
-                                   "padding: 12px;"
+                                   "padding: 9px;"
                                    "font-size: 16px;"
                                    "background-color: white;"
                                    "}"
@@ -70,20 +70,64 @@ RegisterWidget::RegisterWidget(QWidget *parent) :
             ui->leConfirmPassword->setStyleSheet(lineEditStyle);
 
             // Style untuk combo box
-            ui->cbRole->setStyleSheet("QComboBox {"
-                                     "border: 2px solid #cccccc;"
-                                     "border-radius: 8px;"
-                                     "padding: 12px;"
-                                     "font-size: 16px;"
-                                     "background-color: white;"
-                                     "}"
-                                     "QComboBox:focus {"
-                                     "border: 2px solid #0066cc;"
-                                     "}"
-                                     "QComboBox QAbstractItemView {"
-                                     "border: 2px solid #cccccc;"
-                                     "selection-background-color: #0066cc;"
-                                     "}");
+            ui->cbRole->setStyleSheet(
+                    "QComboBox {"
+                    "   background-color: #f8f9fa;"
+                    "   border: 3px solid #d0d0d0;"
+                    "   border-radius: 8px;"
+                    "   padding: 5px;"
+                    "   font-size: 14px;"
+                    "   color: #333333;"
+                    "   margin-bottom: 1px;"
+                    "   min-width: 15em;"
+                    "}"
+                    "QComboBox:focus {"
+                    "   border: 2px solid #0066cc;"
+                    "   background-color: #ffffff;"
+                    "}"
+                    "QComboBox:hover {"
+                    "   border: 2px solid #a0a0a0;"
+                    "}"
+                    "QComboBox QAbstractItemView {"
+                    "   border: 2px solid #d0d0d0;"
+                    "   border-radius: 8px;"
+                    "   background-color: white;"
+                    "   selection-background-color: #0066cc;"
+                    "   selection-color: white;"
+                    "}"
+                );
+
+            ui->cbAgree->setStyleSheet(
+                    "QCheckBox {"
+                    "   spacing: 8px;"
+                    "   font-size: 13px;"
+                    "   color: #555555;"
+                    "   margin: 10px 0px;"
+                    "}"
+                    "QCheckBox::indicator {"
+                    "   width: 18px;"
+                    "   height: 18px;"
+                    "   border: 2px solid #d0d0d0;"
+                    "   border-radius: 4px;"
+                    "   background-color: #f8f9fa;"
+                    "}"
+                    "QCheckBox::indicator:hover {"
+                    "   border: 2px solid #a0a0a0;"
+                    "}"
+                    "QCheckBox::indicator:checked {"
+                    "   background-color: #0066cc;"
+                    "   border: 2px solid #0066cc;"
+                    "   image: url(:/images/checkmark.png);"
+                    "}"
+                    "QCheckBox::indicator:checked:hover {"
+                    "   background-color: #0052a3;"
+                    "   border: 2px solid #0052a3;"
+                    "}"
+                    "QCheckBox::indicator:disabled {"
+                    "   background-color: #e9ecef;"
+                    "   border: 2px solid #cccccc;"
+                    "}"
+                );
             // ===== END STYLE SHEET =====
 
     // Connect buttons to functions
@@ -102,17 +146,17 @@ void RegisterWidget::on_btnRegister_clicked()
     QString role = ui->cbRole->currentText();
     // Validasi input
     if (name.isEmpty() || email.isEmpty() || phone.isEmpty() || password.isEmpty()) {
-        QMessageBox::warning(this, "Error", "Semua field harus diisi!");
+        QMessageBox::warning(this, "Error", "Please fill all the information above!");
         return;
     }
 
     if (!ui->cbAgree->isChecked()) {
-        QMessageBox::warning(this, "Error", "Anda harus menyetujui terms and conditions!");
+        QMessageBox::warning(this, "Error", "You have to agree the terms and conditions!");
         return;
     }
 
     if (password != confirmPassword) {
-        QMessageBox::warning(this, "Error", "Password dan Confirm Password tidak sama!");
+        QMessageBox::warning(this, "Error", "Password dan Confirm Password doesn't match!");
         return;
     }
 
@@ -120,13 +164,13 @@ void RegisterWidget::on_btnRegister_clicked()
     QRegularExpression emailRegex(R"(\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b)",
                                  QRegularExpression::CaseInsensitiveOption);
     if (!emailRegex.match(email).hasMatch()) {
-        QMessageBox::warning(this, "Error", "Format email tidak valid!");
+        QMessageBox::warning(this, "Error", "Wrong email format!");
         return;
     }
 
     // Validasi phone number (minimal 10 digit)
     if (phone.length() < 10) {
-        QMessageBox::warning(this, "Error", "Nomor telepon harus minimal 10 digit!");
+        QMessageBox::warning(this, "Error", "Phone number min 10 digit!");
         return;
     }
 
@@ -137,7 +181,7 @@ void RegisterWidget::on_btnRegister_clicked()
     qDebug() << "Phone:" << phone;
     qDebug() << "Role:" << role;
 
-    QMessageBox::information(this, "Success", "Registrasi berhasil!\nSilakan login dengan akun Anda.");
+    QMessageBox::information(this, "Success", "Registrasi Success!");
     emit backToLogin();  // Kembali ke login
 }
 

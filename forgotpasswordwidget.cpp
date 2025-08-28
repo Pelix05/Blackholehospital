@@ -26,6 +26,16 @@ ForgotPasswordWidget::ForgotPasswordWidget(QWidget *parent) :
                                      "background-color: transparent;"
                                      "}");
 
+
+        ui->frame->setStyleSheet(
+                "QFrame {"
+                "   background-color: #e6f7ff;"
+                "   border: 2px solid #d0d0d0;"
+                "   border-radius: 15px;"
+                "   padding: 25px;"
+                "}"
+            );
+
         ui->btnResetPassword->setStyleSheet("QPushButton {"
                                       "background-color: #4CAF50;"
                                       "color: white;"
@@ -83,7 +93,7 @@ void ForgotPasswordWidget::on_btnResetPassword_clicked()
 
     // Validasi input
     if (email.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
-        QMessageBox::warning(this, "Error", "Semua field harus diisi!");
+        QMessageBox::warning(this, "Error", "Please fill the information above!");
         return;
     }
 
@@ -91,18 +101,18 @@ void ForgotPasswordWidget::on_btnResetPassword_clicked()
     QRegularExpression emailRegex(R"(\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b)",
                                  QRegularExpression::CaseInsensitiveOption);
     if (!emailRegex.match(email).hasMatch()) {
-        QMessageBox::warning(this, "Error", "Format email tidak valid!");
+        QMessageBox::warning(this, "Error", "Wrong email format!");
         return;
     }
 
     if (newPassword != confirmPassword) {
-        QMessageBox::warning(this, "Error", "Password baru dan konfirmasi password tidak sama!");
+        QMessageBox::warning(this, "Error", "New password and New password confirmation doesn't match!");
         return;
     }
 
     // Validasi kekuatan password (minimal 8 karakter)
     if (newPassword.length() < 8) {
-        QMessageBox::warning(this, "Error", "Password harus minimal 8 karakter!");
+        QMessageBox::warning(this, "Error", "Password min 8 character!");
         return;
     }
 

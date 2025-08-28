@@ -45,7 +45,7 @@ LoginWidget::LoginWidget(QWidget *parent) :
                                    "background-color: #0066cc;"
                                    "color: white;"
                                    "border-radius: 10px;"
-                                   "padding: 15px;"
+                                   "padding: 12px;"
                                    "font-size: 16px;"
                                    "font-weight: bold;"
                                    "}"
@@ -61,7 +61,7 @@ LoginWidget::LoginWidget(QWidget *parent) :
                                       "background-color: #4CAF50;"
                                       "color: white;"
                                       "border-radius: 10px;"
-                                      "padding: 15px;"
+                                      "padding: 12px;"
                                       "font-size: 16px;"
                                       "}"
                                       "QPushButton:hover {"
@@ -78,12 +78,39 @@ LoginWidget::LoginWidget(QWidget *parent) :
                                     "QPushButton:hover {"
                                     "color: #004080;"
                                     "}");
+        ui->cbRole->setStyleSheet(
+                "QComboBox {"
+                "   background-color: #f8f9fa;"
+                "   border: 2px solid #d0d0d0;"
+                "   border-radius: 8px;"
+                "   padding: 12px;"
+                "   font-size: 14px;"
+                "   color: #333333;"
+                "   margin-bottom: 10px;"
+                "   min-width: 10em;"
+                "}"
+                "QComboBox:focus {"
+                "   border: 2px solid #0066cc;"
+                "   background-color: #ffffff;"
+                "}"
+                "QComboBox:hover {"
+                "   border: 2px solid #a0a0a0;"
+                "}"
+                "QComboBox QAbstractItemView {"
+                "   border: 2px solid #d0d0d0;"
+                "   border-radius: 8px;"
+                "   background-color: white;"
+                "   selection-background-color: #0066cc;"
+                "   selection-color: white;"
+                "}"
+            );
+
 
         // Style untuk line edit
         QString lineEditStyle = "QLineEdit {"
                                "border: 2px solid #cccccc;"
                                "border-radius: 8px;"
-                               "padding: 12px;"
+                               "padding: 8px;"
                                "font-size: 16px;"
                                "background-color: white;"
                                "}"
@@ -95,20 +122,65 @@ LoginWidget::LoginWidget(QWidget *parent) :
         ui->lePassword->setStyleSheet(lineEditStyle);
 
         // Style untuk combo box
-        ui->cbRole->setStyleSheet("QComboBox {"
-                                 "border: 2px solid #cccccc;"
-                                 "border-radius: 8px;"
-                                 "padding: 12px;"
-                                 "font-size: 16px;"
-                                 "background-color: white;"
-                                 "}"
-                                 "QComboBox:focus {"
-                                 "border: 2px solid #0066cc;"
-                                 "}"
-                                 "QComboBox QAbstractItemView {"
-                                 "border: 2px solid #cccccc;"
-                                 "selection-background-color: #0066cc;"
-                                 "}");
+        ui->cbRole->setStyleSheet(
+                "QComboBox {"
+                "   background-color: #f8f9fa;"
+                "   border: 3px solid #d0d0d0;"
+                "   border-radius: 8px;"
+                "   padding: 9px;"
+                "   font-size: 14px;"
+                "   color: #333333;"
+                "   margin-bottom: 8px;"
+                "   min-width: 10em;"
+                "}"
+                "QComboBox:focus {"
+                "   border: 2px solid #0066cc;"
+                "   background-color: #ffffff;"
+                "}"
+                "QComboBox:hover {"
+                "   border: 2px solid #a0a0a0;"
+                "}"
+                "QComboBox QAbstractItemView {"
+                "   border: 2px solid #d0d0d0;"
+                "   border-radius: 8px;"
+                "   background-color: white;"
+                "   selection-background-color: #0066cc;"
+                "   selection-color: white;"
+                "}"
+            );
+
+        ui->cbRememberMe->setStyleSheet(
+                "QCheckBox {"
+                "   spacing: 8px;"
+                "   font-size: 13px;"
+                "   color: #555555;"
+                "   margin: 10px 0px;"
+                "}"
+                "QCheckBox::indicator {"
+                "   width: 18px;"
+                "   height: 18px;"
+                "   border: 2px solid #d0d0d0;"
+                "   border-radius: 4px;"
+                "   background-color: #f8f9fa;"
+                "}"
+                "QCheckBox::indicator:hover {"
+                "   border: 2px solid #a0a0a0;"
+                "}"
+                "QCheckBox::indicator:checked {"
+                "   background-color: #0066cc;"
+                "   border: 2px solid #0066cc;"
+                "   image: url(:/images/checkmark.png);"
+                "}"
+                "QCheckBox::indicator:checked:hover {"
+                "   background-color: #0052a3;"
+                "   border: 2px solid #0052a3;"
+                "}"
+                "QCheckBox::indicator:disabled {"
+                "   background-color: #e9ecef;"
+                "   border: 2px solid #cccccc;"
+                "}"
+            );
+
         // ===== END STYLE SHEET =====
 
     // Connect buttons
@@ -123,12 +195,12 @@ void LoginWidget::on_btnLogin_clicked()
     QString password = ui->lePassword->text();
     QString role = ui->cbRole->currentText();
     if (username.isEmpty() || password.isEmpty()) {
-        QMessageBox::warning(this, "Error", "Username dan password tidak boleh kosong!");
+        QMessageBox::warning(this, "Error", "Username dan password cannot be empty!");
         return;
     }
 
     qDebug() << "Login attempt - Username:" << username << "Password:" << password;
-    QMessageBox::information(this, "Success", "Login berhasil!");
+    QMessageBox::information(this, "Success", "Login success!");
 }
 
 void LoginWidget::on_btnRegister_clicked()
