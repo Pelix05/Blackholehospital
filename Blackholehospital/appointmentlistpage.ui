@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>appointmentlistpage</class>
+ <widget class="QWidget" name="appointmentlistpage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1900</width>
+    <height>850</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QTableWidget" name="tAppointment">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>90</y>
+     <width>1581</width>
+     <height>751</height>
+    </rect>
+   </property>
+   <property name="columnCount">
+    <number>5</number>
+   </property>
+   <attribute name="horizontalHeaderStretchLastSection">
+    <bool>true</bool>
+   </attribute>
+   <column>
+    <property name="text">
+     <string>Patient Name</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Appointment Time</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Condition</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Contact Number</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Desease Detail</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="btnBack">
+   <property name="geometry">
+    <rect>
+     <x>1720</x>
+     <y>20</y>
+     <width>106</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>BACK</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

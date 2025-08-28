@@ -16,12 +16,12 @@ public:
     ~doctorwindow();
 
 private slots:
-   // void onAppointmentInfoClicked();
+   void onAppointmentInfoClicked();
    // void onEditCaseClicked();
    // void onEditPrescriptionClicked();
    void onEditProfileClicked();
    // void onPlatformClicked();
-   // void onAttendanceClicked();
+   void onAttendanceClicked();
    void onExitClicked();
 
 

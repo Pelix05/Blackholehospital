@@ -17,6 +17,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     appointment.cpp \
+    appointmentlistpage.cpp \
+    attendancepage.cpp \
     casedialog.cpp \
     doctordetial.cpp \
     doctorprofilepage.cpp \
@@ -31,6 +33,8 @@ SOURCES += \
 
 HEADERS += \
     appointment.h \
+    appointmentlistpage.h \
+    attendancepage.h \
     casedialog.h \
     doctordetial.h \
     doctorprofilepage.h \
@@ -44,6 +48,8 @@ HEADERS += \
 
 FORMS += \
     appointment.ui \
+    appointmentlistpage.ui \
+    attendancepage.ui \
     casedialog.ui \
     doctordetial.ui \
     doctorprofilepage.ui \
