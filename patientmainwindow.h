@@ -17,6 +17,8 @@ public:
 
 private slots:
     void register_clicked();
+    void medicalrecord_clicked();
+    void appointment_clicked();
 
 private:
     Ui::patientmainwindow *ui;

@@ -66,7 +66,7 @@ void registerpage::button_clicked()
     QMessageBox::information(this, "成功", "挂号成功！");
 }
 
-// 新增：双击医生姓名时弹出详情
+// 双击医生姓名时弹出详情
 void registerpage::onDoctorDoubleClicked(const QModelIndex &index)
 {
     int row = index.row();
@@ -81,7 +81,7 @@ void registerpage::onDoctorDoubleClicked(const QModelIndex &index)
         double fee      = model->item(row, 5)->text().toDouble();
         int limit       = model->item(row, 6)->text().toInt();
 
-        // 示例：可以改成数据库取真实资料和头像路径
+        // 可以改成数据库取真实资料和头像路径
         QString profile = name + " 医生，经验丰富，擅长临床诊断与治疗。";
         QString photoPath = ":/images/default_doctor.png";
 
