@@ -20,6 +20,7 @@ SOURCES += \
     appointmentlistpage.cpp \
     attendancepage.cpp \
     casedialog.cpp \
+    dataanalysispage.cpp \
     doctordetial.cpp \
     doctorplatform.cpp \
     doctorprofilepage.cpp \
@@ -29,8 +30,10 @@ SOURCES += \
     main.cpp \
     loginwidget.cpp \
     medicalrecord.cpp \
+    patientdetailpage.cpp \
     patientmainwindow.cpp \
     prescription.cpp \
+    prescriptionpage.cpp \
     registerpage.cpp \
     registerwidget.cpp
 
@@ -39,6 +42,7 @@ HEADERS += \
     appointmentlistpage.h \
     attendancepage.h \
     casedialog.h \
+    dataanalysispage.h \
     doctordetial.h \
     doctorplatform.h \
     doctorprofilepage.h \
@@ -47,8 +51,10 @@ HEADERS += \
     instruction.h \
     loginwidget.h \
     medicalrecord.h \
+    patientdetailpage.h \
     patientmainwindow.h \
     prescription.h \
+    prescriptionpage.h \
     registerpage.h \
     registerwidget.h
 
@@ -57,6 +63,7 @@ FORMS += \
     appointmentlistpage.ui \
     attendancepage.ui \
     casedialog.ui \
+    dataanalysispage.ui \
     doctordetial.ui \
     doctorplatform.ui \
     doctorprofilepage.ui \
@@ -65,8 +72,10 @@ FORMS += \
     instruction.ui \
     loginwidget.ui \
     medicalrecord.ui \
+    patientdetailpage.ui \
     patientmainwindow.ui \
     prescription.ui \
+    prescriptionpage.ui \
     registerpage.ui \
     registerwidget.ui
 
