@@ -10,7 +10,7 @@ PatientDetailPage::PatientDetailPage(const QString &patientInfo, QWidget *parent
 {
     ui->setupUi(this);
     setWindowTitle("患者病例详情");
-    resize(400, 450);
+    resize(1900, 850);
 
     // 设置患者信息
     ui->infoLabel->setText(patientInfo);

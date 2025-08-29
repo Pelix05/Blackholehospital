@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1900</width>
-    <height>711</height>
+    <width>1700</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,12 +16,21 @@
   <widget class="QTableView" name="tableView">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>40</x>
      <y>30</y>
-     <width>1871</width>
-     <height>641</height>
+     <width>1600</width>
+     <height>600</height>
     </rect>
    </property>
+   <attribute name="horizontalHeaderHighlightSections">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderHighlightSections">
+    <bool>false</bool>
+   </attribute>
   </widget>
  </widget>
  <resources/>

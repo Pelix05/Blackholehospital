@@ -16,7 +16,7 @@
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>180</x>
      <y>130</y>
      <width>1700</width>
      <height>700</height>
@@ -56,7 +56,7 @@
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>10</x>
      <y>0</y>
      <width>160</width>
      <height>851</height>

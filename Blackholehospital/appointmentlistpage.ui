@@ -16,11 +16,14 @@
   <widget class="QTableWidget" name="tAppointment">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>90</y>
-     <width>1581</width>
-     <height>751</height>
+     <x>90</x>
+     <y>119</y>
+     <width>1700</width>
+     <height>701</height>
     </rect>
+   </property>
+   <property name="showGrid">
+    <bool>true</bool>
    </property>
    <property name="columnCount">
     <number>5</number>
@@ -57,8 +60,8 @@
   <widget class="QPushButton" name="btnBack">
    <property name="geometry">
     <rect>
-     <x>1720</x>
-     <y>20</y>
+     <x>1680</x>
+     <y>30</y>
      <width>106</width>
      <height>30</height>
     </rect>

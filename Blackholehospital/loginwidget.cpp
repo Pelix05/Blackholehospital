@@ -14,6 +14,8 @@ LoginWidget::LoginWidget(QWidget *parent) :
     forgotPasswordWidget(nullptr)
 {
     ui->setupUi(this);
+    this->setWindowTitle("BLACKHOLE HOSPITAL");
+
 
     // Set window properties
     setWindowTitle("Medical System Login");

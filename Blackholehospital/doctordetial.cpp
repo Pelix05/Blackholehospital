@@ -8,7 +8,7 @@ doctordetial::doctordetial(QWidget *parent)  :
     ui(new Ui::doctordetial)
 {
     ui->setupUi(this);
-    this->setWindowTitle("doctorprofile");
+    this->setWindowTitle("DOCTOR'S DETAIL");
     this->setModal(true);
 }
 

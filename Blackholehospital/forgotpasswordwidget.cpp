@@ -9,6 +9,8 @@ ForgotPasswordWidget::ForgotPasswordWidget(QWidget *parent) :
     ui(new Ui::ForgotPasswordWidget)
 {
     ui->setupUi(this);
+    this->setWindowTitle("FORGOT PASSWORD");
+
 
     // Set window properties
     setWindowTitle("Reset Password - Medical System");

@@ -11,7 +11,7 @@ patientmainwindow::patientmainwindow(QWidget *parent)
     , ui(new Ui::patientmainwindow)
 {
     ui->setupUi(this);
-    setWindowTitle("患者界面");
+    setWindowTitle("PATIENT");
     // ===== STYLE SHEET UNTUK MAIN WINDOW =====
         this->setStyleSheet(
             "QMainWindow {"

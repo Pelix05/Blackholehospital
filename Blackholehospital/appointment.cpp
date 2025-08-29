@@ -11,6 +11,11 @@ appointment::appointment(QWidget *parent) :
     resultsModel(new QStandardItemModel(this))
 {
     ui->setupUi(this);
+    this->setWindowTitle("APPOINTMENT");
+    ui->resultsView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+
+
 
     resultsModel->setHorizontalHeaderLabels({
         "User ID", "Name", "Hospital", "Departement", "Clinic", "Time", "Available", "Maximum", "Appointment", "Slot"

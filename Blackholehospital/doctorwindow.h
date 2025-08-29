@@ -17,8 +17,8 @@ public:
 
 private slots:
    void onAppointmentInfoClicked();
-   // void onEditCaseClicked();
-   // void onEditPrescriptionClicked();
+   void onEditCaseClicked();
+   void onEditPrescriptionClicked();
    void onEditProfileClicked();
    void onPlatformClicked();
    void onAttendanceClicked();

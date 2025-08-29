@@ -9,7 +9,36 @@ casedialog::casedialog(QWidget *parent) :
     ui(new Ui::casedialog)
 {
     ui->setupUi(this);
-    this->setWindowTitle("病例详情");
+    this->setWindowTitle("CASE DETAIL");
+
+    this->setStyleSheet(
+        "QDialog {"
+        "   background-color: #fdfdfd;"
+        "   border-radius: 12px;"
+        "}"
+        "QLabel {"
+        "   font-size: 14px;"
+        "   font-weight: bold;"
+        "   color: #333;"
+        "}"
+        "QTextEdit {"
+        "   border: 1px solid #cccccc;"
+        "   border-radius: 6px;"
+        "   padding: 6px;"
+        "   background: #ffffff;"
+        "}"
+        "QPushButton {"
+        "   background-color: #0078D7;"
+        "   color: white;"
+        "   border-radius: 8px;"
+        "   padding: 6px 14px;"
+        "   font-weight: bold;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #005a9e;"
+        "}"
+    );
+
 
     connect(ui->pushButton,&QPushButton::clicked,
             this,&casedialog::backbuttonclicked);

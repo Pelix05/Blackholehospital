@@ -11,6 +11,10 @@ registerpage::registerpage(QWidget *parent) :
     ui(new Ui::registerpage)
 {
     ui->setupUi(this);
+    this->setWindowTitle("REGISTER");
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+
 
     // ====== STYLE UNTUK REGISTER PAGE ======
     this->setStyleSheet(

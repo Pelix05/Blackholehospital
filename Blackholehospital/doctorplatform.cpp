@@ -5,6 +5,8 @@ doctorplatform::doctorplatform(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::doctorplatform)
 {
+    this->setWindowTitle("DOCTOR'S PLATFORM");
+
     // Add doctors to the list
         QStringList doctors = {"张医生(内科)", "李医生(外科)", "王医生(儿科)", "赵医生(眼科)"};
         ui->listDoctors->addItems(doctors);

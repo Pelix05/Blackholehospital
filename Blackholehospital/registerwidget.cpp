@@ -9,6 +9,8 @@ RegisterWidget::RegisterWidget(QWidget *parent) :
     ui(new Ui::RegisterWidget)
 {
     ui->setupUi(this);
+    this->setWindowTitle("REGISTER");
+
 
     // Set window properties
     setWindowTitle("Register - Medical System");

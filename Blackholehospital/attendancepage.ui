@@ -13,65 +13,145 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="lStatus">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>40</y>
-     <width>191</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Present Condition :</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btnCheckIn">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>90</y>
-     <width>106</width>
-     <height>30</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>CHECK OUT</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btnCheckOut">
+  <widget class="QFrame" name="frameAttendance">
    <property name="geometry">
     <rect>
      <x>230</x>
      <y>90</y>
-     <width>106</width>
-     <height>30</height>
+     <width>501</width>
+     <height>581</height>
     </rect>
    </property>
-   <property name="text">
-    <string>CHECK OUT</string>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
    </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="lStatusOut">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>320</y>
+      <width>400</width>
+      <height>70</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Check Out :</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnCheckOut">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>390</y>
+      <width>250</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>CHECK OUT</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnCheckIn">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>180</y>
+      <width>250</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>CHECK IN</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lStatusIn">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>110</y>
+      <width>400</width>
+      <height>70</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Check In :</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
   </widget>
-  <widget class="QPushButton" name="btnPermission">
+  <widget class="QFrame" name="frameLeave">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>200</y>
-     <width>121</width>
-     <height>30</height>
+     <x>900</x>
+     <y>90</y>
+     <width>841</width>
+     <height>581</height>
     </rect>
    </property>
-   <property name="text">
-    <string>PERMISSION</string>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
    </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QPushButton" name="btnPermission">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>480</y>
+      <width>250</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PERMISSION</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="leReason">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>70</y>
+      <width>731</width>
+      <height>371</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+    <property name="placeholderText">
+     <string>Write your permission reason ....</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>30</y>
+      <width>80</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Reason :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QPushButton" name="btnBack">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>290</y>
-     <width>106</width>
-     <height>30</height>
+     <x>1610</x>
+     <y>750</y>
+     <width>131</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">

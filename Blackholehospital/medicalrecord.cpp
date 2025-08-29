@@ -9,9 +9,46 @@ medicalrecord::medicalrecord(QWidget *parent) :
     ui(new Ui::medicalrecord)
 {
     ui->setupUi(this);
+    this->setWindowTitle("MEDICAL RECORD");
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+
+
+    ui->tableView->setStyleSheet(
+                "QTableView {"
+                "   background-color: white;"
+                "   border: 4px solid #0066cc;"
+                "   border-radius: 8px;"
+                "   gridline-color: #cce6ff;"
+                "   selection-background-color: #cce6ff;"
+                "   padding: 12px;"
+
+                "   selection-color: #003366;"
+                "}"
+                "QHeaderView::section {"
+                "   background-color: #0066cc;"
+                "   color: white;"
+                "   padding: 2px;"
+                "   border: none;"
+                "   font-weight: bold;"
+                "   font-size: 16px;"
+                "}"
+                "QTableCornerButton::section {"
+                "   background-color: #0066cc;"
+                "   border: none;"
+                "}"
+                "QTableView::item {"
+                "   padding: 16px;"
+                "}"
+                "QTableView::item:selected {"
+                "   background-color: #99ccff;"
+                "   color: black;"
+                "}"
+    );
+
 
     model = new QStandardItemModel(this);
-    model -> setHorizontalHeaderLabels({"序号", "日期", "科室", "主治医生", "工号"});
+    model -> setHorizontalHeaderLabels({"NO", "DATE", "DEPARTMENT", "MAIN DOCTOR", "USER ID"});
 
 
     addcase(1, "2023-09-01", "内科", "张三", "1001");
