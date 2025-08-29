@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1900</width>
-    <height>800</height>
+    <height>850</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -42,8 +42,8 @@
      <widget class="QPushButton" name="register_2">
       <property name="maximumSize">
        <size>
-        <width>50</width>
-        <height>25</height>
+        <width>200</width>
+        <height>100</height>
        </size>
       </property>
       <property name="text">
@@ -61,8 +61,8 @@
      <widget class="QPushButton" name="medicalrecord">
       <property name="maximumSize">
        <size>
-        <width>50</width>
-        <height>25</height>
+        <width>200</width>
+        <height>100</height>
        </size>
       </property>
       <property name="text">
@@ -83,8 +83,8 @@
      <widget class="QPushButton" name="appointment">
       <property name="maximumSize">
        <size>
-        <width>50</width>
-        <height>25</height>
+        <width>200</width>
+        <height>100</height>
        </size>
       </property>
       <property name="text">

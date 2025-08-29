@@ -20,7 +20,7 @@ private slots:
    // void onEditCaseClicked();
    // void onEditPrescriptionClicked();
    void onEditProfileClicked();
-   // void onPlatformClicked();
+   void onPlatformClicked();
    void onAttendanceClicked();
    void onExitClicked();
 

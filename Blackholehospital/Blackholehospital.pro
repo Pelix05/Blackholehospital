@@ -21,6 +21,7 @@ SOURCES += \
     attendancepage.cpp \
     casedialog.cpp \
     doctordetial.cpp \
+    doctorplatform.cpp \
     doctorprofilepage.cpp \
     doctorwindow.cpp \
     forgotpasswordwidget.cpp \
@@ -37,6 +38,7 @@ HEADERS += \
     attendancepage.h \
     casedialog.h \
     doctordetial.h \
+    doctorplatform.h \
     doctorprofilepage.h \
     doctorwindow.h \
     forgotpasswordwidget.h \
@@ -52,6 +54,7 @@ FORMS += \
     attendancepage.ui \
     casedialog.ui \
     doctordetial.ui \
+    doctorplatform.ui \
     doctorprofilepage.ui \
     doctorwindow.ui \
     forgotpasswordwidget.ui \

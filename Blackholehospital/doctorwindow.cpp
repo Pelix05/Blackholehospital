@@ -4,6 +4,7 @@
 #include "doctorprofilepage.h"
 #include "appointmentlistpage.h"
 #include "attendancepage.h"
+#include "doctorplatform.h"
 
 doctorwindow::doctorwindow(QWidget *parent) :
     QWidget(parent),
@@ -14,9 +15,9 @@ doctorwindow::doctorwindow(QWidget *parent) :
      //   connect(ui->btnCase, &QPushButton::clicked, this, &doctorwindow::onEditCaseClicked);
      //   connect(ui->btnPrescription, &QPushButton::clicked, this, &doctorwindow::onEditPrescriptionClicked);
     connect(ui->btnProfile, &QPushButton::clicked, this, &doctorwindow::onEditProfileClicked);
-      //  connect(ui->btnPlatform, &QPushButton::clicked, this, &doctorwindow::onPlatformClicked);
-     connect(ui->btnAttendance, &QPushButton::clicked, this, &doctorwindow::onAttendanceClicked);
-     connect(ui->btnExit, &QPushButton::clicked, this, &doctorwindow::onExitClicked);
+    connect(ui->btnPlatform, &QPushButton::clicked, this, &doctorwindow::onPlatformClicked);
+    connect(ui->btnAttendance, &QPushButton::clicked, this, &doctorwindow::onAttendanceClicked);
+    connect(ui->btnExit, &QPushButton::clicked, this, &doctorwindow::onExitClicked);
 }
 
 void doctorwindow::onEditProfileClicked()
@@ -41,6 +42,13 @@ void doctorwindow::onAttendanceClicked()
 {
     attendancepage *attendancePage = new attendancepage();
     attendancePage->show();
+
+}
+
+void doctorwindow::onPlatformClicked()
+{
+    doctorplatform *doctorPage = new doctorplatform();
+    doctorPage->show();
 
 }
 
