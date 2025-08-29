@@ -102,14 +102,15 @@ void doctorwindow::onAppointmentInfoClicked()
 
 void doctorwindow::onEditCaseClicked()
 {
- PatientDetailPage *patientdetailPage = new PatientDetailPage("", this);
- patientdetailPage->show();
+
+PatientDetailPage *patientdetailPage = new PatientDetailPage("");
+patientdetailPage->show();
 
 }
 
 void doctorwindow::onEditPrescriptionClicked()
 {
- PrescriptionPage *prescriptionPage = new PrescriptionPage("", this);
+ PrescriptionPage *prescriptionPage = new PrescriptionPage("");
  prescriptionPage->show();
 
 }

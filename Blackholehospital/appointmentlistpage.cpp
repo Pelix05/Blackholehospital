@@ -71,7 +71,7 @@ appointmentlistpage::appointmentlistpage(QWidget *parent) :
 
             /* === Back button === */
             QPushButton#btnBack {
-                background-color: #0078d7;
+                background-color: #ff0000;
                 color: white;
                 border: none;
                 border-radius: 8px;
@@ -82,11 +82,11 @@ appointmentlistpage::appointmentlistpage(QWidget *parent) :
             }
 
             QPushButton#btnBack:hover {
-                background-color: #005fa3;
+                background-color: #8B0000;
             }
 
             QPushButton#btnBack:pressed {
-                background-color: #004578;
+                background-color: #8B0000;
             }
         )");
 

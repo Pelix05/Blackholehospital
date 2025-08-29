@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1198</width>
-    <height>497</height>
+    <width>1900</width>
+    <height>850</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,36 +16,36 @@
   <widget class="QLabel" name="infoLabel">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>60</x>
      <y>40</y>
-     <width>80</width>
-     <height>21</height>
+     <width>121</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="text">
-    <string>患者信息</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;患者信息&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QLabel" name="caseRecordLabel">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>110</y>
-     <width>80</width>
-     <height>21</height>
+     <x>70</x>
+     <y>130</y>
+     <width>191</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
-    <string>病例详情:</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;病例详情 :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QTextEdit" name="caseRecord">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>60</x>
      <y>190</y>
-     <width>388</width>
-     <height>271</height>
+     <width>751</width>
+     <height>601</height>
     </rect>
    </property>
    <property name="html">
@@ -59,23 +59,23 @@ p, li { white-space: pre-wrap; }
   <widget class="QLabel" name="adviceLabel">
    <property name="geometry">
     <rect>
-     <x>500</x>
-     <y>100</y>
-     <width>80</width>
-     <height>21</height>
+     <x>940</x>
+     <y>140</y>
+     <width>111</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="text">
-    <string>医嘱:</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;医嘱 : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QTextEdit" name="adviceEdit">
    <property name="geometry">
     <rect>
-     <x>580</x>
-     <y>180</y>
-     <width>351</width>
-     <height>281</height>
+     <x>940</x>
+     <y>190</y>
+     <width>901</width>
+     <height>601</height>
     </rect>
    </property>
    <property name="html">
@@ -86,39 +86,39 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;医嘱内容...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="saveBtn">
+  <widget class="QPushButton" name="btnSave">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>30</y>
-     <width>106</width>
-     <height>30</height>
+     <x>630</x>
+     <y>50</y>
+     <width>150</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="text">
     <string>保存</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="prescriptionBtn">
+  <widget class="QPushButton" name="btnPrescription">
    <property name="geometry">
     <rect>
-     <x>540</x>
-     <y>30</y>
-     <width>106</width>
-     <height>30</height>
+     <x>810</x>
+     <y>50</y>
+     <width>150</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="text">
     <string>留下医嘱</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="backBtn">
+  <widget class="QPushButton" name="btnBack">
    <property name="geometry">
     <rect>
-     <x>710</x>
-     <y>30</y>
-     <width>106</width>
-     <height>30</height>
+     <x>990</x>
+     <y>50</y>
+     <width>150</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="text">

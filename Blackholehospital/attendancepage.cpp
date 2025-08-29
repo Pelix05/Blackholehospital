@@ -117,7 +117,7 @@ attendancepage::attendancepage(QWidget *parent) :
 
            /* === Back button === */
            QPushButton#btnBack {
-               background-color: #6c757d;
+               background-color: #ff0000;
                color: white;
                border-radius: 8px;
                padding: 10px 20px;
@@ -125,10 +125,10 @@ attendancepage::attendancepage(QWidget *parent) :
                margin-top: 20px;
            }
            QPushButton#btnBack:hover {
-               background-color: #5a6268;
+               background-color: #8B0000;
            }
            QPushButton#btnBack:pressed {
-               background-color: #495057;
+               background-color: #8B0000;
            }
 
            /* === Reason input === */
