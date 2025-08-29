@@ -24,7 +24,6 @@ private slots:
 private:
     Ui::medicalrecord *ui;
     QStandardItemModel *model;
-    QString generateDiagnosis(const QString &department, const QString &doctor);
     QString generateInstructions(const QString &department);
     QString generatePrescription(const QString &department);
 

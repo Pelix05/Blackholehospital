@@ -54,7 +54,7 @@ void medicalrecord::doubleclicked(const QModelIndex &index){
 
 
     casedialog dialog(this);
-    dialog.setCaseInfo(doctor, dep, date, "这是病例诊断结果........",instructions,prescription);
+    dialog.setCaseInfo(doctor, dep, date, "这是病例诊断结果........");
     dialog.exec();
 }
 

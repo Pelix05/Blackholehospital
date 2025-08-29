@@ -25,10 +25,12 @@ SOURCES += \
     doctorprofilepage.cpp \
     doctorwindow.cpp \
     forgotpasswordwidget.cpp \
+    instruction.cpp \
     main.cpp \
     loginwidget.cpp \
     medicalrecord.cpp \
     patientmainwindow.cpp \
+    prescription.cpp \
     registerpage.cpp \
     registerwidget.cpp
 
@@ -42,9 +44,11 @@ HEADERS += \
     doctorprofilepage.h \
     doctorwindow.h \
     forgotpasswordwidget.h \
+    instruction.h \
     loginwidget.h \
     medicalrecord.h \
     patientmainwindow.h \
+    prescription.h \
     registerpage.h \
     registerwidget.h
 
@@ -58,9 +62,11 @@ FORMS += \
     doctorprofilepage.ui \
     doctorwindow.ui \
     forgotpasswordwidget.ui \
+    instruction.ui \
     loginwidget.ui \
     medicalrecord.ui \
     patientmainwindow.ui \
+    prescription.ui \
     registerpage.ui \
     registerwidget.ui
 

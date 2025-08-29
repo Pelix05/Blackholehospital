@@ -75,30 +75,30 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="labelinstruction">
+  <widget class="QPushButton" name="insturctions">
    <property name="geometry">
     <rect>
-     <x>770</x>
-     <y>30</y>
-     <width>551</width>
-     <height>121</height>
+     <x>870</x>
+     <y>50</y>
+     <width>211</width>
+     <height>71</height>
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>查看医嘱</string>
    </property>
   </widget>
-  <widget class="QLabel" name="labelprescription">
+  <widget class="QPushButton" name="prescription">
    <property name="geometry">
     <rect>
-     <x>770</x>
-     <y>220</y>
-     <width>571</width>
-     <height>161</height>
+     <x>870</x>
+     <y>240</y>
+     <width>211</width>
+     <height>71</height>
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>查看处方</string>
    </property>
   </widget>
  </widget>

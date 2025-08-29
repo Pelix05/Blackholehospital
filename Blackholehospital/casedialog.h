@@ -15,7 +15,7 @@ public:
     explicit casedialog(QWidget *parent = nullptr);
     ~casedialog();
 
-    void setCaseInfo(QString doctor, QString dep, QString date, QString result,QString instructions,QString prescription);
+    void setCaseInfo(QString doctor, QString dep, QString date, QString result);
 
 public slots:
         void backbuttonclicked();
