@@ -64,6 +64,50 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
+     <widget class="QPushButton" name="medicinesearch">
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>药品搜索</string>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="autoRepeatDelay">
+       <number>300</number>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="selfcheck">
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>健康自测问卷</string>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="autoRepeatDelay">
+       <number>300</number>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QPushButton" name="medicalrecord">
       <property name="maximumSize">
        <size>
@@ -118,6 +162,48 @@
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QPushButton" name="btnback">
+   <property name="geometry">
+    <rect>
+     <x>1720</x>
+     <y>60</y>
+     <width>106</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>返回</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnpayment">
+   <property name="geometry">
+    <rect>
+     <x>1290</x>
+     <y>60</y>
+     <width>106</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::WheelFocus</enum>
+   </property>
+   <property name="text">
+    <string>充值</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="personalprofile">
+   <property name="geometry">
+    <rect>
+     <x>1500</x>
+     <y>60</y>
+     <width>106</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>个人资料</string>
+   </property>
   </widget>
  </widget>
  <resources/>

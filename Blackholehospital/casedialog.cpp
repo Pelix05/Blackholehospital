@@ -2,6 +2,7 @@
 #include "ui_casedialog.h"
 #include "instruction.h"
 #include "prescription.h"
+#include "hospitalization.h"
 
 
 casedialog::casedialog(QWidget *parent) :
@@ -51,6 +52,11 @@ casedialog::casedialog(QWidget *parent) :
 
     connect(ui->prescription, &QPushButton::clicked, this, [=](){
         Prescription dlg(this);
+        dlg.exec();
+    });
+
+    connect(ui->hospitalization, &QPushButton::clicked, this, [=](){
+        hospitalization dlg(this);
         dlg.exec();
     });
 }

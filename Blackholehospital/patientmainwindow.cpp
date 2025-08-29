@@ -3,6 +3,11 @@
 #include "registerpage.h"
 #include "medicalrecord.h"
 #include "appointment.h"
+#include "healthyselfcheck.h"
+#include "recharge.h"
+#include "loginwidget.h"
+#include "medicinesearch.h"
+#include "patientinfo.h"
 #include <QMessageBox>
 #include <QDebug>
 
@@ -69,6 +74,8 @@ patientmainwindow::patientmainwindow(QWidget *parent)
         registerpage *regpage = new registerpage(this);
         medicalrecord *medrc = new medicalrecord(this);
         appointment *apm = new appointment(this);
+        healthyselfcheck *selfc = new healthyselfcheck(this);
+        medicinesearch *mdsrch = new medicinesearch(this);
 
 
 
@@ -76,6 +83,8 @@ patientmainwindow::patientmainwindow(QWidget *parent)
     ui -> stackedWidget -> addWidget(regpage);
     ui-> stackedWidget ->addWidget(medrc);
     ui-> stackedWidget ->addWidget(apm);
+    ui-> stackedWidget ->addWidget(selfc);
+    ui-> stackedWidget ->addWidget(mdsrch);
 
     // 显式连接信号槽
     connect(ui->register_2, &QPushButton::clicked, this, [=]() {
@@ -90,6 +99,29 @@ patientmainwindow::patientmainwindow(QWidget *parent)
         ui->stackedWidget->setCurrentWidget(apm);
     });
 
+    connect(ui->selfcheck, &QPushButton::clicked, this, [=]() {
+        ui->stackedWidget->setCurrentWidget(selfc);
+    });
+
+    connect(ui->medicinesearch, &QPushButton::clicked, this, [=]() {
+        ui->stackedWidget->setCurrentWidget(mdsrch);
+    });
+
+    connect(ui->btnback, &QPushButton::clicked, this, [=]() {
+        LoginWidget *loginWindow = new LoginWidget();
+        loginWindow->show();
+        this->close();
+    });
+
+    connect(ui->btnpayment, &QPushButton::clicked, this, [=]() {
+        recharge *rech = new recharge();
+        rech->show();
+    });
+
+    connect(ui->personalprofile, &QPushButton::clicked, this, [=]() {
+        patientinfo *pinfo = new patientinfo();
+        pinfo->show();
+    });
 
 }
 

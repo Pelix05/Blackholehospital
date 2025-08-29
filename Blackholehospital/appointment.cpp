@@ -114,8 +114,6 @@ appointment::appointment(QWidget *parent) :
             this, &appointment::searchclicked);
     connect(ui->bookButton,   &QPushButton::clicked,
             this, &appointment::bookclicked);
-    connect(ui->backButton,   &QPushButton::clicked,
-            this, &appointment::backclicked);
 
     // 设定时间控件
     ui->dateedit->setCalendarPopup(true);
@@ -288,7 +286,4 @@ void appointment::bookclicked()
 
 }
 
-void appointment::backclicked()
-{
-    emit backRequested();
-}
+

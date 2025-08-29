@@ -25,15 +25,21 @@ SOURCES += \
     doctorplatform.cpp \
     doctorprofilepage.cpp \
     doctorwindow.cpp \
+    editprofile.cpp \
     forgotpasswordwidget.cpp \
+    healthyselfcheck.cpp \
+    hospitalization.cpp \
     instruction.cpp \
     main.cpp \
     loginwidget.cpp \
     medicalrecord.cpp \
+    medicinesearch.cpp \
     patientdetailpage.cpp \
+    patientinfo.cpp \
     patientmainwindow.cpp \
     prescription.cpp \
     prescriptionpage.cpp \
+    recharge.cpp \
     registerpage.cpp \
     registerwidget.cpp
 
@@ -47,14 +53,21 @@ HEADERS += \
     doctorplatform.h \
     doctorprofilepage.h \
     doctorwindow.h \
+    editprofile.h \
     forgotpasswordwidget.h \
+    healthyselfcheck.h \
+    hospitalization.h \
     instruction.h \
     loginwidget.h \
     medicalrecord.h \
+    medicinesearch.h \
     patientdetailpage.h \
+    patientinfo.h \
     patientmainwindow.h \
+    personalprofile.h \
     prescription.h \
     prescriptionpage.h \
+    recharge.h \
     registerpage.h \
     registerwidget.h
 
@@ -68,14 +81,20 @@ FORMS += \
     doctorplatform.ui \
     doctorprofilepage.ui \
     doctorwindow.ui \
+    editprofile.ui \
     forgotpasswordwidget.ui \
+    healthyselfcheck.ui \
+    hospitalization.ui \
     instruction.ui \
     loginwidget.ui \
     medicalrecord.ui \
+    medicinesearch.ui \
     patientdetailpage.ui \
+    patientinfo.ui \
     patientmainwindow.ui \
     prescription.ui \
     prescriptionpage.ui \
+    recharge.ui \
     registerpage.ui \
     registerwidget.ui
 
@@ -86,3 +105,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     images/resources.qrc
+
+DISTFILES +=
