@@ -81,6 +81,8 @@ RegisterWidget::RegisterWidget(QWidget *parent) :
             ui->leEmail->setStyleSheet(lineEditStyle);
             ui->lePhone->setStyleSheet(lineEditStyle);
             ui->leConfirmPassword->setStyleSheet(lineEditStyle);
+            ui->leDateBirth->setStyleSheet(lineEditStyle);
+            ui->leAddress->setStyleSheet(lineEditStyle);
 
             // Style untuk combo box
             ui->cbRole->setStyleSheet(
