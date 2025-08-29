@@ -85,7 +85,7 @@
        </size>
       </property>
       <property name="text">
-       <string>搜索</string>
+       <string>Sort</string>
       </property>
      </widget>
     </item>
@@ -120,7 +120,7 @@
     </size>
    </property>
    <property name="text">
-    <string>返回</string>
+    <string>BACK</string>
    </property>
    <property name="iconSize">
     <size>
@@ -132,20 +132,26 @@
   <widget class="QPushButton" name="bookButton">
    <property name="geometry">
     <rect>
-     <x>1530</x>
+     <x>1510</x>
      <y>630</y>
-     <width>100</width>
+     <width>120</width>
      <height>50</height>
     </rect>
    </property>
+   <property name="minimumSize">
+    <size>
+     <width>120</width>
+     <height>0</height>
+    </size>
+   </property>
    <property name="maximumSize">
     <size>
-     <width>100</width>
+     <width>120</width>
      <height>16777215</height>
     </size>
    </property>
    <property name="text">
-    <string>预约</string>
+    <string>Appointment</string>
    </property>
   </widget>
  </widget>

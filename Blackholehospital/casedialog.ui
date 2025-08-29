@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>返回</string>
+    <string>BACK</string>
    </property>
   </widget>
   <widget class="QTextEdit" name="textEditResult">

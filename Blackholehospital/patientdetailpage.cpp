@@ -94,7 +94,7 @@ PatientDetailPage::~PatientDetailPage()
 
 void PatientDetailPage::onSaveButtonClicked()
 {
-    QMessageBox::information(this, "保存", "医嘱已保存！");
+    QMessageBox::information(this, "SAVE", "Doctor's Advice has been saved！");
 }
 
 void PatientDetailPage::onPrescriptionButtonClicked()
