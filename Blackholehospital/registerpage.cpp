@@ -12,6 +12,67 @@ registerpage::registerpage(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // ====== STYLE UNTUK REGISTER PAGE ======
+    this->setStyleSheet(
+        "QWidget {"
+        "   background-color: #f9fcff;"   // warna background lembut
+        "   font-family: 'Segoe UI', Arial, sans-serif;"
+        "   font-size: 15px;"
+        "   color: #333;"
+        "}"
+
+        // Tombol (misalnya ui->pushButton)
+        "QPushButton {"
+        "   background-color: #0066cc;"
+        "   color: white;"
+        "   border: none;"
+        "   border-radius: 12px;"
+        "   padding: 8px 16px;"
+        "   font-weight: bold;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #0052a3;"
+        "}"
+        "QPushButton:pressed {"
+        "   background-color: #003d7a;"
+        "}"
+
+        // TableView (tabel dokter)
+                "QTableView {"
+                    "   background-color: white;"
+                "   border: 4px solid #0066cc;"
+                    "   border-radius: 5px;"
+                    "   gridline-color: #cce6ff;"
+                    "   selection-background-color: #cce6ff;"
+                    "   selection-color: #003366;"
+                    "}"
+                    "QHeaderView::section {"
+                    "   background-color: #0066cc;"
+                    "   color: white;"
+                    "   padding: 6px;"
+                    "   border: none;"
+                    "   font-weight: bold;"
+                    "   font-size: 14px;"
+                    "}"
+                "QTableView::item {"
+                "   padding: 16px;"
+                "}"
+                    "QTableCornerButton::section {"
+                    "   background-color: #0066cc;"  // samain dengan header
+                    "   border: none;"
+                    "}"
+
+        // Baris tabel
+        "QTableView::item {"
+        "   padding: 4px;"
+        "}"
+        "QTableView::item:selected {"
+        "   background-color: #99ccff;"
+        "   color: black;"
+        "}"
+    );
+
+
     connect(ui->pushButton, &QPushButton::clicked,
             this, &registerpage::button_clicked);
 
@@ -21,7 +82,7 @@ registerpage::registerpage(QWidget *parent) :
 
     model = new QStandardItemModel(this);
     model->setHorizontalHeaderLabels(
-        {"编号", "科室", "工号", "姓名", "上班时间", "费用", "上限", "已预约", "剩余"}
+        {"Appointment Number", "Department", "User ID", "Name", "Work Time", "Fee", "Maximum", "Appointment", "Slot"}
     );
 
     // 添加测试数据
@@ -43,7 +104,7 @@ void registerpage::button_clicked()
 
     QItemSelectionModel *selection = ui->tableView->selectionModel();
     if (!selection->hasSelection()) {
-        QMessageBox::warning(this, "提示", "请先选择一个医生");
+        QMessageBox::warning(this, "Attention", "Please select a Doctor");
         return;
     }
 
@@ -54,7 +115,7 @@ void registerpage::button_clicked()
     int remain = model->item(row, 8)->text().toInt();
 
     if (remain <= 0) {
-        QMessageBox::information(this, "提示", "该医生今日已无余号");
+        QMessageBox::information(this, "Attention", "This Doctor cannot make another appointment");
         return;
     }
 
@@ -63,7 +124,7 @@ void registerpage::button_clicked()
     model->setItem(row, 7, new QStandardItem(QString::number(booked)));
     model->setItem(row, 8, new QStandardItem(QString::number(remain)));
 
-    QMessageBox::information(this, "成功", "挂号成功！");
+    QMessageBox::information(this, "Success", "Successfully make an appointment!");
 }
 
 // 双击医生姓名时弹出详情

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1900</width>
-    <height>850</height>
+    <width>1700</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QTableView" name="tableView">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>20</y>
-     <width>1500</width>
-     <height>811</height>
+     <x>40</x>
+     <y>40</y>
+     <width>1300</width>
+     <height>600</height>
     </rect>
    </property>
    <property name="maximumSize">
@@ -32,8 +32,8 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>1620</x>
-     <y>410</y>
+     <x>1430</x>
+     <y>320</y>
      <width>200</width>
      <height>100</height>
     </rect>

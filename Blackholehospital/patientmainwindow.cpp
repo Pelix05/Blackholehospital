@@ -35,8 +35,7 @@ patientmainwindow::patientmainwindow(QWidget *parent)
                                                    "background-color: #0052a3;"
                                                    "}"
                                                    "QPushButton:pressed {"
-                                                   "background-color: #003d7a;"
-                                                   "}";
+                                                   "background-color: #003d7a;"                                   "}";
 
         ui->register_2->setStyleSheet(sidebarButtonStyle);
         ui->medicalrecord->setStyleSheet(sidebarButtonStyle);
@@ -71,11 +70,7 @@ patientmainwindow::patientmainwindow(QWidget *parent)
         medicalrecord *medrc = new medicalrecord(this);
         appointment *apm = new appointment(this);
 
-        // ===== APPLY CONSISTENT STYLE TO CHILD WIDGETS =====
-        regpage->setStyleSheet("background-color: transparent;");
-        medrc->setStyleSheet("background-color: transparent;");
-        apm->setStyleSheet("background-color: transparent;");
-        // ===== END STYLE CHILD WIDGETS =====
+
 
 
     ui -> stackedWidget -> addWidget(regpage);

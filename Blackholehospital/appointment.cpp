@@ -13,7 +13,7 @@ appointment::appointment(QWidget *parent) :
     ui->setupUi(this);
 
     resultsModel->setHorizontalHeaderLabels({
-        "工号", "姓名", "医院", "科室", "门诊", "坐诊时间", "支持预约", "上限", "已预约", "剩余"
+        "User ID", "Name", "Hospital", "Departement", "Clinic", "Time", "Available", "Maximum", "Appointment", "Slot"
        });
 
     ui->resultsView->setModel(resultsModel);      // link model to QTableView
@@ -22,6 +22,87 @@ appointment::appointment(QWidget *parent) :
 
     loadTestDoctors();
     populateFilterChoices();                      // 从 doctors 提取医院/科室/门诊，填充下拉
+
+    // ====== STYLE UNTUK APPOINTMENT PAGE ======
+    this->setStyleSheet(
+        "QWidget {"
+        "   background-color: #f9fcff;"   // background lembut
+        "   font-family: 'Segoe UI', Arial, sans-serif;"
+        "   font-size: 14px;"
+        "   color: #333;"
+        "}"
+
+        // Tombol utama
+        "QPushButton {"
+        "   background-color: #0066cc;"
+        "   color: white;"
+        "   border-radius: 8px;"
+        "   padding: 8px 16px;"
+        "   font-weight: bold;"
+        "   font-size: 14px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #0052a3;"
+        "}"
+        "QPushButton:pressed {"
+        "   background-color: #003d7a;"
+        "}"
+
+        // ComboBox (下拉选择医院/科室/门诊)
+        "QComboBox {"
+        "   border: 1px solid #0066cc;"
+        "   border-radius: 6px;"
+        "   padding: 4px 8px;"
+        "   background: white;"
+        "}"
+        "QComboBox::drop-down {"
+        "   border: none;"
+        "   width: 20px;"
+        "}"
+        "QComboBox QAbstractItemView {"
+        "   background: white;"
+        "   selection-background-color: #cce6ff;"
+        "   selection-color: #003366;"
+        "}"
+
+        // DateEdit & TimeEdit
+        "QDateEdit, QTimeEdit {"
+        "   border: 1px solid #0066cc;"
+        "   border-radius: 6px;"
+        "   padding: 4px 8px;"
+        "   background: white;"
+        "}"
+
+        // TableView hasil pencarian
+        "QTableView {"
+        "   background-color: white;"
+        "   border: 4px solid #0066cc;"
+        "   border-radius: 4px;"
+        "   gridline-color: #cce6ff;"
+        "   selection-background-color: #cce6ff;"
+        "   selection-color: #003366;"
+        "}"
+        "QHeaderView::section {"
+        "   background-color: #0066cc;"
+        "   color: white;"
+        "   padding: 2px;"
+        "   border: none;"
+        "   font-weight: bold;"
+        "   font-size: 16px;"
+        "}"
+        "QTableCornerButton::section {"
+        "   background-color: #0066cc;"
+        "   border: none;"
+        "}"
+        "QTableView::item {"
+        "   padding: 16px;"
+        "}"
+        "QTableView::item:selected {"
+        "   background-color: #99ccff;"
+        "   color: black;"
+        "}"
+    );
+
 
     // 显式连接信号槽
     connect(ui->searchButton, &QPushButton::clicked,
@@ -81,15 +162,15 @@ void appointment::populateFilterChoices()     // 根据 doctors 动态填充下�
     }
 
     ui->hospitalCombo->clear();                   // 先清空，再添加“全部”+选项
-    ui->hospitalCombo->addItem("全部");
+    ui->hospitalCombo->addItem("ALL");
     for (const QString &h : hospitals) ui->hospitalCombo->addItem(h);
 
     ui->departmentCombo->clear();
-    ui->departmentCombo->addItem("全部");
+    ui->departmentCombo->addItem("ALL");
     for (const QString &d : departments) ui->departmentCombo->addItem(d);
 
     ui->clinicCombo->clear();
-    ui->clinicCombo->addItem("全部");
+    ui->clinicCombo->addItem("ALL");
     for (const QString &c : clinics) ui->clinicCombo->addItem(c);
 }
 
@@ -117,9 +198,9 @@ void appointment::searchclicked()           // 点击“搜索”后执行过滤
     for (int i = 0; i < doctors.size(); ++i) {
         const Doctor &d = doctors[i];
         //医院/科室/门诊三项：为“全部”时不限制，否则必须全等
-        const bool hospitalOK   = (hSel == "全部" || d.hospital   == hSel);
-        const bool departmentOK = (dSel == "全部" || d.department == dSel);
-        const bool clinicOK     = (cSel == "全部" || d.clinic     == cSel);
+        const bool hospitalOK   = (hSel == "ALL" || d.hospital   == hSel);
+        const bool departmentOK = (dSel == "ALL" || d.department == dSel);
+        const bool clinicOK     = (cSel == "ALL" || d.clinic     == cSel);
         //是否支持预约 + 时间是否匹配（注意只比对时分）
         const bool supportOK    = d.supportsAppointment;
         const bool timeOK       = timeWithinShift(d, t);
@@ -154,7 +235,7 @@ void appointment::refillResults(const QList<int> &indexes)
         resultsModel->setItem(row, 5, new QStandardItem(
             d.shiftStart.toString("HH:mm") + "-" + d.shiftEnd.toString("HH:mm")
         ));
-        resultsModel->setItem(row, 6, new QStandardItem(d.supportsAppointment ? "是" : "否"));
+        resultsModel->setItem(row, 6, new QStandardItem(d.supportsAppointment ? "Yes" : "No"));
         resultsModel->setItem(row, 7, new QStandardItem(QString::number(d.limitPerDay)));
         resultsModel->setItem(row, 8, new QStandardItem(QString::number(d.booked)));
         resultsModel->setItem(row, 9, new QStandardItem(QString::number(remain)));
@@ -171,7 +252,7 @@ void appointment::bookclicked()
     //获取当前选中行
     auto sel = ui->resultsView->selectionModel();
     if (!sel || !sel->hasSelection()) {
-        QMessageBox::warning(this, "提示", "请先在结果中选择一位医生");
+        QMessageBox::warning(this, "Attention", "Select one Doctor");
         return;
     }
     const QModelIndex cur = sel->currentIndex();
@@ -184,7 +265,7 @@ void appointment::bookclicked()
     Doctor &d = doctors[srcIdx];
     const int remain = d.limitPerDay - d.booked;
     if (remain <= 0) {
-        QMessageBox::information(this, "提示", "该医生今日已无可预约号");
+        QMessageBox::information(this, "Attention", "This doctor cannot make another appointment today");
         return;
     }
 
@@ -196,8 +277,8 @@ void appointment::bookclicked()
 
     const QDateTime dt(ui->dateedit->date(), ui->timeEdit->time());
     const QString when = dt.toString("yyyy-MM-dd HH:mm");
-    QMessageBox::information(this, "预约成功",
-        QString("已为您预约 %1（工号%2）\n就诊时间：%3")
+    QMessageBox::information(this, "Success make an appointment",
+        QString("Appointment with %1（User ID%2）\nTime：%3")
             .arg(d.name).arg(d.jobId).arg(when));
 
 }
