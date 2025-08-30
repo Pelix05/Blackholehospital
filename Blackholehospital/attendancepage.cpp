@@ -219,5 +219,5 @@ attendancepage::attendancepage(QWidget *parent) :
 
     void attendancepage::onBackClicked()
     {
-        emit backButtonClicked();  // Emit signal untuk kembali
+        this ->hide();  // Emit signal untuk kembali
     }

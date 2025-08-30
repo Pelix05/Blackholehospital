@@ -1,5 +1,6 @@
 #include "appointmentlistpage.h"
 #include "ui_appointmentlistpage.h"
+#include "doctorwindow.h"
 #include <QTableWidgetItem>
 
 appointmentlistpage::appointmentlistpage(QWidget *parent) :
@@ -124,5 +125,5 @@ void appointmentlistpage::populateAppointmentData()
 
 void appointmentlistpage::on_btnBack_clicked()
 {
-    emit backToDoctor();
+    this->hide();
 }
