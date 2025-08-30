@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1154</width>
-    <height>529</height>
+    <width>1500</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,9 +16,9 @@
   <widget class="QLineEdit" name="editName">
    <property name="geometry">
     <rect>
-     <x>290</x>
+     <x>550</x>
      <y>50</y>
-     <width>113</width>
+     <width>371</width>
      <height>29</height>
     </rect>
    </property>
@@ -26,20 +26,20 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>10</y>
-     <width>80</width>
-     <height>21</height>
+     <x>280</x>
+     <y>40</y>
+     <width>221</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="text">
-    <string>药品名称</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Input Medicine name :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnSearch">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>950</x>
      <y>50</y>
      <width>106</width>
      <height>30</height>
@@ -52,9 +52,9 @@
   <widget class="QLabel" name="lblImage">
    <property name="geometry">
     <rect>
-     <x>720</x>
-     <y>140</y>
-     <width>301</width>
+     <x>220</x>
+     <y>190</y>
+     <width>291</width>
      <height>291</height>
     </rect>
    </property>
@@ -65,9 +65,9 @@
   <widget class="QTextEdit" name="txtInfo">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>100</y>
-     <width>581</width>
+     <x>550</x>
+     <y>140</y>
+     <width>731</width>
      <height>401</height>
     </rect>
    </property>

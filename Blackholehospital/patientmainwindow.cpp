@@ -45,6 +45,22 @@ patientmainwindow::patientmainwindow(QWidget *parent)
         ui->register_2->setStyleSheet(sidebarButtonStyle);
         ui->medicalrecord->setStyleSheet(sidebarButtonStyle);
         ui->appointment->setStyleSheet(sidebarButtonStyle);
+        ui->selfcheck->setStyleSheet(sidebarButtonStyle);
+        ui->personalprofile->setStyleSheet(sidebarButtonStyle);
+        ui->btnpayment->setStyleSheet(sidebarButtonStyle);
+        ui->medicinesearch->setStyleSheet(sidebarButtonStyle);
+
+        ui->btnback->setStyleSheet("QPushButton {"
+                                      "background-color: #FF0000;"
+                                      "color: white;"
+                                      "border-radius: 10px;"
+                                      "padding: 8px;"
+                                      "font-size: 16px;"
+                                      "}"
+                                      "QPushButton:hover {"
+                                      "background-color: #8B0000;"
+                                      "}");
+
         // ===== END STYLE TOMBOL SIDEBAR =====
 
         // ===== STYLE SHEET UNTUK STACKED WIDGET =====

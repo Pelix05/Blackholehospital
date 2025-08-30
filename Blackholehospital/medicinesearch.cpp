@@ -9,6 +9,60 @@ medicinesearch::medicinesearch(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // ====== Stylesheet utama ======
+    this->setStyleSheet(R"(
+        QWidget {
+            background-color: #f8f9fa;
+            font-family: "Segoe UI";
+            font-size: 14px;
+            color: #333;
+        }
+
+        QLabel {
+            font-size: 14px;
+            color: #444;
+            font-weight: 500;
+        }
+
+        QLineEdit {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 6px 10px;
+            background-color: #fff;
+        }
+        QLineEdit:focus {
+            border: 1px solid #0078d7;
+            background-color: #eef6ff;
+        }
+
+        QPushButton {
+            border: none;
+            border-radius: 10px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            background-color: #0078d7;
+            color: white;
+        }
+        QPushButton:hover {
+            background-color: #005fa3;
+        }
+
+        QTextEdit {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 8px;
+            background-color: #fff;
+        }
+
+        QScrollArea {
+            border: 1px solid #bbb;
+            border-radius: 10px;
+            background: #ffffff;
+        }
+    )");
+
+
      initmedicineDB();
 
      connect(ui->btnSearch, &QPushButton::clicked,

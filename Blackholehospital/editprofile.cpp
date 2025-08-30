@@ -6,6 +6,65 @@ editprofile::editprofile(QWidget *parent) :
     ui(new Ui::editprofile)
 {
     ui->setupUi(this);
+    this->setStyleSheet(R"(
+        QWidget {
+            background-color: #f8f9fa;
+            font-family: "Segoe UI";
+            font-size: 14px;
+            color: #333;
+        }
+
+        QLabel {
+            font-size: 14px;
+            color: #444;
+            font-weight: 500;
+        }
+
+        QLineEdit {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 6px 10px;
+            background-color: #fff;
+        }
+        QLineEdit:focus {
+            border: 1px solid #0078d7;
+            background-color: #eef6ff;
+        }
+
+        QComboBox {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 6px 10px;
+            background-color: #fff;
+        }
+        QComboBox:hover {
+            border: 1px solid #0078d7;
+        }
+
+        QPushButton {
+            border: none;
+            border-radius: 10px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        QPushButton#btnconfirm {
+            background-color: #0078d7;
+            color: white;
+        }
+        QPushButton#btnconfirm:hover {
+            background-color: #005fa3;
+        }
+
+        QPushButton#btnback {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+        QPushButton#btnback:hover {
+            background-color: #c9c9c9;
+        }
+    )");
 
     // 连接确认按钮
     connect(ui->btnconfirm, &QPushButton::clicked, [=](){

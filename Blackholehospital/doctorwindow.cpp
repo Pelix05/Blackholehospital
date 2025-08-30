@@ -7,6 +7,7 @@
 #include "doctorplatform.h"
 #include "patientdetailpage.h"
 #include "prescriptionpage.h"
+#include "loginwidget.h"
 
 doctorwindow::doctorwindow(QWidget *parent) :
     QWidget(parent),
@@ -90,7 +91,9 @@ void doctorwindow::onEditProfileClicked()
 
 void doctorwindow::onExitClicked()
 {
-    close();
+    LoginWidget *loginWindow = new LoginWidget();
+    loginWindow->show();
+    this->close();
 }
 
 void doctorwindow::onAppointmentInfoClicked()
