@@ -70,7 +70,7 @@ RegisterWidget::RegisterWidget(QWidget *parent) :
             QString lineEditStyle = "QLineEdit {"
                                    "border: 2px solid #cccccc;"
                                    "border-radius: 8px;"
-                                   "padding: 9px;"
+                                   "padding: 4px;"
                                    "font-size: 16px;"
                                    "background-color: white;"
                                    "}"

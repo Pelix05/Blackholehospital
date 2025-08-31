@@ -6,12 +6,11 @@ editprofile::editprofile(QWidget *parent) :
     ui(new Ui::editprofile)
 {
     ui->setupUi(this);
+    this->setWindowTitle("EDIT PROFILE");
+
     this->setStyleSheet(R"(
         QWidget {
-            background-color: #f8f9fa;
-            font-family: "Segoe UI";
-            font-size: 14px;
-            color: #333;
+            background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 #e6f7ff, stop: 1 #ffffff);
         }
 
         QLabel {
@@ -58,11 +57,12 @@ editprofile::editprofile(QWidget *parent) :
         }
 
         QPushButton#btnback {
-            background-color: #e0e0e0;
+            background-color: #ff0000;
+                        color: white;
             color: #333;
         }
         QPushButton#btnback:hover {
-            background-color: #c9c9c9;
+            background-color: #8B0000;
         }
     )");
 

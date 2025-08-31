@@ -7,6 +7,60 @@ patientinfo::patientinfo(QWidget *parent) :
     ui(new Ui::patientinfo)
 {
     ui->setupUi(this);
+    setWindowTitle("PATIENT INFO");
+
+    this->setStyleSheet(R"(
+
+        QWidget {
+            background-color: qlineargradient(x1: 0, y1: 0,
+                                              x2: 1, y2: 1,
+                                              stop: 0 #e6f7ff,
+                                              stop: 1 #ffffff);
+            font-family: "Segoe UI";
+            font-size: 14px;
+            color: #333;
+        }
+
+        QLabel {
+            font-size: 14px;
+            color: #222;
+            padding: 2px;
+        }
+
+        /* Label untuk judul data (Nama:, Gender:, dll.) */
+        QLabel[data-label="title"] {
+            font-weight: bold;
+            color: #555;
+        }
+
+        /* Label untuk isi data pasien */
+        QLabel[data-label="value"] {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 6px 10px;
+            min-width: 200px;
+        }
+
+        QPushButton {
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 10px;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        QPushButton:hover {
+            background-color: #45a049;
+        }
+
+        QPushButton:pressed {
+            background-color: #0078d7;
+        }
+
+    )");
+
+
 
     connect(ui->editButton, &QPushButton::clicked, [=](){
         // 创建编辑页面实例
@@ -53,5 +107,7 @@ void patientinfo :: setpatientinfo(const personalinfo &info)
     ui->labelidnumber->setText(info.idNumber);
     ui->labelemail->setText(info.email);
     ui->labelphone->setText(info.phone);
+    ui->labelbirth->setText(info.birthDate);
+    ui->labeladdress->setText(info.address);
 
 }
