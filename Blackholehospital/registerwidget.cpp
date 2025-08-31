@@ -1,5 +1,8 @@
 #include "registerwidget.h"
 #include "ui_registerwidget.h"
+#include "databasemanager.h"
+#include "databasemanager.h"
+#include "personalprofile.h"
 #include <QMessageBox>
 #include <QRegularExpression>
 #include <QDebug>
@@ -146,12 +149,14 @@ RegisterWidget::RegisterWidget(QWidget *parent) :
             // ===== END STYLE SHEET =====
 
     // Connect buttons to functions
-    connect(ui->btnRegister, &QPushButton::clicked, this, &RegisterWidget::on_btnRegister_clicked);
+    qDebug() << "connect btnRegister clicked";
+    connect(ui->btnRegister, &QPushButton::clicked, this, &RegisterWidget::On_btnRegister_clicked);
     connect(ui->btnBack, &QPushButton::clicked, this, &RegisterWidget::on_btnBack_clicked);
 }
 
-void RegisterWidget::on_btnRegister_clicked()
+void RegisterWidget::On_btnRegister_clicked()
 {
+
     // Ambil data dari form
     QString username = ui->leUsername->text();
     QString userid = ui->leUserId->text();
@@ -160,6 +165,8 @@ void RegisterWidget::on_btnRegister_clicked()
     QString password = ui->lePassword->text();
     QString confirmPassword = ui->leConfirmPassword->text();
     QString role = ui->cbRole->currentText();
+    QString birthDate = ui->leDateBirth->text();
+    QString address = ui->leAddress->text();
     // Validasi input
     if (username.isEmpty() || email.isEmpty() || phone.isEmpty() || password.isEmpty()) {
         QMessageBox::warning(this, "Error", "Please fill all the information above!");
@@ -190,13 +197,60 @@ void RegisterWidget::on_btnRegister_clicked()
         return;
     }
 
+    //write data into patient/doctor & user
+
+
+    DatabaseManager &db = DatabaseManager::instance();
+
+    if(!db.checkUserLogin(username).isEmpty()){
+        QMessageBox::warning(this, "Error", "Username already exists!");
+        return;
+    }
+
     // Jika semua validasi passed
     qDebug() << "Register successful:";
     qDebug() << "Name:" << username;
-    qDebug() << "Name:" << userid;
+    qDebug() << "id:" << userid;
     qDebug() << "Email:" << email;
     qDebug() << "Phone:" << phone;
     qDebug() << "Role:" << role;
+
+
+    bool ok = db.addUser(username,password,email,phone,role);
+
+    if(!ok){
+        qDebug() << "fail1";
+        QMessageBox::critical(this,"Database Error", "Failed to insert into User table !");
+        return;
+    }
+
+    //patient
+    if(role == "Patient"){
+        if(!db.addPatient(username,birthDate,userid,phone)){
+            qDebug() << "fail2";
+            QMessageBox::critical(this,"Database Error", "Failed to insert into Patients table!");
+            return;
+        }
+    }
+
+    // doctor
+    else if (role == "Doctor") {
+            if (!db.addDoctor(userid,username, phone, "", address)) { // specialization 这里暂时传空
+                qDebug() << "fail3";
+                QMessageBox::critical(this, "Database Error", "Failed to insert into Doctors table!");
+                return;
+            }
+        }
+
+    // ✅把数据存入 personalinfo
+    personalinfo info;
+    info.name = username;
+    info.idNumber = userid;
+    info.email = email;
+    info.phone = phone;
+    info.birthDate = birthDate;
+    info.address = address;
+    info.gender = role;
 
     QMessageBox::information(this, "Success", "Registrasi Success!");
     emit backToLogin();  // Kembali ke login

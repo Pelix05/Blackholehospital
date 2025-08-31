@@ -22,7 +22,7 @@ signals:
 
 
 private slots:
-    void on_btnRegister_clicked();
+    void On_btnRegister_clicked();
     void on_btnBack_clicked();
 
 private:

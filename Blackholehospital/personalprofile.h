@@ -9,6 +9,8 @@ struct personalinfo{
     QString idNumber;
     QString email;
     QString phone;
+    QString birthDate;
+    QString address;
 };
 
 #endif // PERSONALPROFILE_H

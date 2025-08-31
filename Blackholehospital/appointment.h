@@ -38,7 +38,6 @@ signals:
 private slots:
     void searchclicked();
     void bookclicked();
-    void backclicked();
 
 private:
     Ui::appointment *ui;

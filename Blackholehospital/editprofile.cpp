@@ -90,6 +90,8 @@ void editprofile :: setpatientinfo(const personalinfo &info)
     ui->editphone->setText(info.phone);
     ui->editidnumber->setText(info.idNumber);
     ui->comboBox->setCurrentText(info.gender);
+    ui->leDateBirth->setText(info.birthDate);
+    ui->leAddress->setText(info.address);
 }
 
 personalinfo editprofile :: getupdatedinfo() const

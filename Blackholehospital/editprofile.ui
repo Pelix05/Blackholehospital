@@ -195,7 +195,7 @@
     <string>Date of Birth:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="editemail_2">
+  <widget class="QLineEdit" name="leDateBirth">
    <property name="geometry">
     <rect>
      <x>320</x>
@@ -205,7 +205,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="editphone_2">
+  <widget class="QLineEdit" name="leAddress">
    <property name="geometry">
     <rect>
      <x>320</x>

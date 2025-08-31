@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,11 +16,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    SmartMedicalDB.cpp \
     appointment.cpp \
     appointmentlistpage.cpp \
     attendancepage.cpp \
     casedialog.cpp \
     dataanalysispage.cpp \
+    databasemanager.cpp \
     doctordetial.cpp \
     doctorplatform.cpp \
     doctorprofilepage.cpp \
@@ -44,11 +46,13 @@ SOURCES += \
     registerwidget.cpp
 
 HEADERS += \
+    SmartMedicalDB.h \
     appointment.h \
     appointmentlistpage.h \
     attendancepage.h \
     casedialog.h \
     dataanalysispage.h \
+    databasemanager.h \
     doctordetial.h \
     doctorplatform.h \
     doctorprofilepage.h \

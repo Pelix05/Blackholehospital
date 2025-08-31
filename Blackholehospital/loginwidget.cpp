@@ -2,6 +2,7 @@
 #include "ui_loginwidget.h"
 #include "patientmainwindow.h"
 #include "doctorwindow.h"
+#include "databasemanager.h"
 #include <QMessageBox>
 #include <QDebug>
 #include <QPixmap>
@@ -61,7 +62,7 @@ LoginWidget::LoginWidget(QWidget *parent) :
                                    "}");
 
         // Style untuk tombol register
-        ui->btnRegister->setStyleSheet("QPushButton {"
+        ui->btnregister->setStyleSheet("QPushButton {"
                                       "background-color: #4CAF50;"
                                       "color: white;"
                                       "border-radius: 10px;"
@@ -188,7 +189,7 @@ LoginWidget::LoginWidget(QWidget *parent) :
         // ===== END STYLE SHEET =====
 
     // Connect buttons
-    connect(ui->btnRegister, &QPushButton::clicked, this, &LoginWidget::on_btnRegister_clicked);
+    connect(ui->btnregister, &QPushButton::clicked, this, &LoginWidget::on_btnRegister_clicked);
     connect(ui->btnForgot, &QPushButton::clicked, this, &LoginWidget::on_btnForgot_clicked);
 }
 
@@ -202,7 +203,25 @@ void LoginWidget::on_btnLogin_clicked()
         return;
     }
 
-    qDebug() << "Login attempt - UserID:" << userid << "Password:" << password;
+    DatabaseManager &db = DatabaseManager::instance();
+       QMap<QString, QVariant> user = db.checkUserLogin(userid);
+
+       if (user.isEmpty()) {
+           QMessageBox::warning(this, "Login Failed", "User does not exist!");
+           return;
+       }
+
+       // ✅ 比对密码和角色
+       if (user["password"].toString() != password) {
+           QMessageBox::warning(this, "Login Failed", "Incorrect password!");
+           return;
+       }
+
+       if (user["user_type"].toString()!= role) {
+           QMessageBox::warning(this, "Login Failed", "Role mismatch!");
+           return;
+       }
+
     if (role == "Patient") {
             patientmainwindow *pmw = new patientmainwindow();
             pmw->show();
