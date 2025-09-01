@@ -14,8 +14,9 @@ public:
     static DatabaseManager& instance();
 
     // 用户
-    bool addUser(const QString& username, const QString& password,
-                 const QString& email, const QString phone ,const QString& userType);
+    bool addUser(const QString& username, const QString& gender,
+                 const QString& password, const QString& email,
+                 const QString& phone, const QString& userType);
     QMap<QString, QVariant> checkUserLogin(const QString& username);
 
     // 患者

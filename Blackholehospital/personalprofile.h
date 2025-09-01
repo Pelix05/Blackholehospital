@@ -10,6 +10,7 @@ struct personalinfo{
     QString email;
     QString phone;
     QString birthDate;
+    QString role;
     QString address;
 };
 

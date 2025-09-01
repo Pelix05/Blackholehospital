@@ -15,12 +15,15 @@ DatabaseManager::DatabaseManager() {
 }
 
 // ----------------- 用户 -----------------
-bool DatabaseManager::addUser(const QString& username, const QString& password,
-                              const QString& email,const QString phone ,const QString& userType) {
+bool DatabaseManager::addUser(const QString& username, const QString& gender,
+                              const QString& password, const QString& email,
+                              const QString& phone, const QString& userType )
+{
     QSqlQuery query;
-    query.prepare("INSERT INTO users (username, password, email, phone, user_type) "
-                  "VALUES (?, ?, ?, ?, ?)");
+    query.prepare("INSERT INTO users (username, gender, password, email, phone, user_type) "
+                  "VALUES (?, ?, ?, ?, ?, ?)");
     query.addBindValue(username);
+    query.addBindValue(gender);
     query.addBindValue(password);
     query.addBindValue(email);
     query.addBindValue(phone);
@@ -31,8 +34,8 @@ bool DatabaseManager::addUser(const QString& username, const QString& password,
         return false;
     }
     return true;
-
 }
+
 
 QMap<QString, QVariant> DatabaseManager::checkUserLogin(const QString& username) {
     QSqlQuery query;

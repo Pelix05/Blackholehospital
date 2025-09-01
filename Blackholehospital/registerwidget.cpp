@@ -86,6 +86,50 @@ RegisterWidget::RegisterWidget(QWidget *parent) :
             ui->leConfirmPassword->setStyleSheet(lineEditStyle);
             ui->leDateBirth->setStyleSheet(lineEditStyle);
             ui->leAddress->setStyleSheet(lineEditStyle);
+            // Style for radio buttons
+            QString radioStyle = R"(
+                QRadioButton {
+                    spacing: 8px;
+                    font-size: 15px;
+                    color: #333333;
+                    font-weight: 500;
+                    background: transparent;
+                }
+
+                QRadioButton::indicator {
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 10px;   /* Make it circular */
+                    border: 2px solid #cccccc;
+                    background: #f8f9fa;
+                }
+
+                QRadioButton::indicator:hover {
+                    border: 2px solid #0066cc;
+                    background: #e6f7ff;
+                }
+
+                QRadioButton::indicator:checked {
+                    border: 2px solid #0066cc;
+                    background: #0066cc;
+                }
+
+                QRadioButton::indicator:checked:hover {
+                    background: #0052a3;
+                    border: 2px solid #0052a3;
+                }
+
+                QRadioButton:disabled {
+                    color: #aaaaaa;
+                }
+
+                QRadioButton::indicator:disabled {
+                    border: 2px solid #cccccc;
+                    background: #e9ecef;
+                }
+            )";
+            ui->rbMale->setStyleSheet(radioStyle);
+            ui->rbFemale->setStyleSheet(radioStyle);
 
             // Style untuk combo box
             ui->cbRole->setStyleSheet(
@@ -167,6 +211,11 @@ void RegisterWidget::On_btnRegister_clicked()
     QString role = ui->cbRole->currentText();
     QString birthDate = ui->leDateBirth->text();
     QString address = ui->leAddress->text();
+    QString gender ;
+    if (ui->rbMale->isChecked())
+        gender = "M";
+    else if (ui->rbFemale->isChecked())
+        gender = "F";
     // Validasi input
     if (username.isEmpty() || email.isEmpty() || phone.isEmpty() || password.isEmpty()) {
         QMessageBox::warning(this, "Error", "Please fill all the information above!");
@@ -214,9 +263,10 @@ void RegisterWidget::On_btnRegister_clicked()
     qDebug() << "Email:" << email;
     qDebug() << "Phone:" << phone;
     qDebug() << "Role:" << role;
+    qDebug() << "gender:" << role;
 
 
-    bool ok = db.addUser(username,password,email,phone,role);
+    bool ok = db.addUser(username, gender, password, email, phone, role);
 
     if(!ok){
         qDebug() << "fail1";
@@ -250,7 +300,8 @@ void RegisterWidget::On_btnRegister_clicked()
     info.phone = phone;
     info.birthDate = birthDate;
     info.address = address;
-    info.gender = role;
+    info.role = role;
+    info.gender = gender;
 
     QMessageBox::information(this, "Success", "Registrasi Success!");
     emit backToLogin();  // Kembali ke login

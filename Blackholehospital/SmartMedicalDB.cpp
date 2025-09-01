@@ -19,6 +19,7 @@ bool SmartMedicalDB::createDatabaseAndTables()
         CREATE TABLE IF NOT EXISTS users (
             user_id INTEGER PRIMARY KEY AUTOINCREMENT,
             username VARCHAR(50) NOT NULL UNIQUE,
+            gender TEXT CHECK(gender IN ('M','F')),
             password VARCHAR(255) NOT NULL,
             email VARCHAR(100) NOT NULL,
             phone VARCHAR(11) NOT NULL,
