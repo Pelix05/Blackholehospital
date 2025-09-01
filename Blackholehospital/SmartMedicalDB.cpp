@@ -19,10 +19,12 @@ bool SmartMedicalDB::createDatabaseAndTables()
         CREATE TABLE IF NOT EXISTS users (
             user_id INTEGER PRIMARY KEY AUTOINCREMENT,
             username VARCHAR(50) NOT NULL UNIQUE,
+            id_card VARCHAR(18) NOT NULL UNIQUE,
             password VARCHAR(255) NOT NULL,
-                   gender TEXT CHECK(gender IN ('M','F')),
+            gender TEXT CHECK(gender IN ('M','F')),
             email VARCHAR(100) NOT NULL,
             phone VARCHAR(11) NOT NULL,
+            address VARCHAR(100),
             user_type TEXT CHECK(user_type IN ('Patient','Doctor')) NOT NULL,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         );
@@ -37,7 +39,8 @@ bool SmartMedicalDB::createDatabaseAndTables()
             birth_date DATE,
             id_card VARCHAR(18) NOT NULL UNIQUE,
             phone VARCHAR(11) NOT NULL,
-            emergency_contact VARCHAR(50),
+            email VARCHAR(100) NOT NULL,
+            address VARCHAR(100),
             FOREIGN KEY (patient_id) REFERENCES users(user_id) ON DELETE CASCADE
         );
     )")) return false;

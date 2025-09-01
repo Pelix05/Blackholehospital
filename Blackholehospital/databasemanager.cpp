@@ -16,16 +16,21 @@ DatabaseManager::DatabaseManager() {
 
 // ----------------- 用户 -----------------
 bool DatabaseManager::addUser(const QString& username, const QString& password,
-                              const QString& email,const QString phone ,const QString& userType,const QString& gender) {
+                              const QString& email,const QString &phone ,
+                              const QString& userType,const QString& gender,
+                              const QString &idCard, const QString& address) {
     QSqlQuery query;
-    query.prepare("INSERT INTO users (username, password, email, phone, user_type, gender) "
-                  "VALUES (?, ?, ?, ?, ?, ?)");
+    query.prepare("INSERT INTO users (username, password, email, phone, user_type, "
+                  "gender, id_card, address) "
+                  "VALUES (?, ?, ?, ?, ?, ?, ?,?)");
     query.addBindValue(username);
     query.addBindValue(password);
     query.addBindValue(email);
     query.addBindValue(phone);
     query.addBindValue(userType);
     query.addBindValue(gender);
+    query.addBindValue(idCard);
+    query.addBindValue(address);
 
     if (!query.exec()) {
         qDebug() << "Add user failed:" << query.lastError().text();
@@ -37,7 +42,7 @@ bool DatabaseManager::addUser(const QString& username, const QString& password,
 
 QMap<QString, QVariant> DatabaseManager::checkUserLogin(const QString& username) {
     QSqlQuery query;
-    query.prepare("SELECT user_id, username, password, user_type FROM users WHERE username=?");
+    query.prepare("SELECT user_id, username, password, user_type, id_card FROM users WHERE username=?");
     query.addBindValue(username);
     QMap<QString, QVariant> result;
     if (query.exec() && query.next()) {
@@ -45,6 +50,7 @@ QMap<QString, QVariant> DatabaseManager::checkUserLogin(const QString& username)
         result["username"] = query.value("username");
         result["password"] = query.value("password");
         result["user_type"] = query.value("user_type");
+        result["id_card"]   = query.value("id_card");
     }
     return result;
 
@@ -56,14 +62,18 @@ QMap<QString, QVariant> DatabaseManager::checkUserLogin(const QString& username)
 // ----------------- 患者 -----------------
 bool DatabaseManager::addPatient(const QString& name,
                                  const QString& birthDate, const QString& idCard,
-                                 const QString& phone ) {
+                                 const QString& phone, const QString& email,
+                                 const QString& address,const QString& gender ) {
     QSqlQuery query;
-    query.prepare("INSERT INTO patients (name, birth_date, id_card, phone) "
-                  "VALUES (?, ?, ?, ?)");
+    query.prepare("INSERT INTO patients (name, birth_date, id_card, phone, email, address, gender) "
+                  "VALUES (?, ?, ?, ?, ?, ?, ?)");
     query.addBindValue(name);
     query.addBindValue(birthDate);
     query.addBindValue(idCard);
     query.addBindValue(phone);
+    query.addBindValue(email);
+    query.addBindValue(address);
+    query.addBindValue(gender);
 
     if (!query.exec()) {
         qDebug() << "Add patient failed:" << query.lastError().text();
@@ -74,16 +84,38 @@ bool DatabaseManager::addPatient(const QString& name,
 
 QMap<QString, QVariant> DatabaseManager::getPatientInfo(const QString& idCard) {
     QSqlQuery query;
-    query.prepare("SELECT * FROM patients WHERE id_card=?");
+    query.prepare("SELECT * FROM patients WHERE id_card=?");  // 修正列名
     query.addBindValue(idCard);
+
     QMap<QString, QVariant> result;
-    if (query.exec() && query.next()) {
-        result["name"] = query.value("name");
-        result["gender"] = query.value("gender");
-        result["birth_date"] = query.value("birth_date");
-        result["id_card"] = query.value("id_card");
-        result["phone"] = query.value("phone");
+
+    if (!query.exec()) {
+        qDebug() << "SQL execution failed:" << query.lastError().text();
+        return result;
     }
+
+    if (!query.next()) {
+        qDebug() << "No rows returned for idcard:" << idCard;
+        // 打印数据库里所有患者，确认表里是否有数据
+        QSqlQuery q("SELECT id_card, name FROM patients");
+        while (q.next()) {
+            qDebug() << "Patient row:" << q.value("id_card").toString() << q.value("name").toString();
+        }
+        return result;
+    }
+
+    // ✅ 成功获取数据
+    result["name"] = query.value("name");
+    result["gender"] = query.value("gender");
+    result["birth_date"] = query.value("birth_date");
+    result["id_card"] = query.value("id_card");
+    result["phone"] = query.value("phone");
+    result["id_card"]   = query.value("id_card");
+    result["email"] = query.value("email");
+    result["address"] = query.value("address");
+
+    qDebug() << "Loaded patient info:" << result;
+
     return result;
 }
 

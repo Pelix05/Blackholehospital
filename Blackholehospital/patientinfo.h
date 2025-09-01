@@ -13,7 +13,7 @@ class patientinfo : public QWidget
     Q_OBJECT
 
 public:
-    explicit patientinfo(const QString &username, QWidget *parent = nullptr);
+    explicit patientinfo(const QString &idCard, QWidget *parent = nullptr);
     ~patientinfo();
 
     void setpatientinfo(const personalinfo &info);
@@ -24,8 +24,9 @@ signals:
 private:
     Ui::patientinfo *ui;
     personalinfo currentinfo;
+     QString m_username;
 
-    void loadFromDatabase(const QString &username);
+    void loadFromDatabase(const QString &idCard);
 };
 
 #endif // PATIENTINFO_H

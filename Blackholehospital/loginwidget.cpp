@@ -196,16 +196,16 @@ LoginWidget::LoginWidget(QWidget *parent) :
 
 void LoginWidget::on_btnLogin_clicked()
 {
-    QString userid = ui->leUserId->text();
+    QString username = ui->leUserId->text();
     QString password = ui->lePassword->text();
     QString role = ui->cbRole->currentText();
-    if (userid.isEmpty() || password.isEmpty()) {
+    if (username.isEmpty() || password.isEmpty()) {
         QMessageBox::warning(this, "Error", "UserID dan password cannot be empty!");
         return;
     }
 
     DatabaseManager &db = DatabaseManager::instance();
-       QMap<QString, QVariant> user = db.checkUserLogin(userid);
+       QMap<QString, QVariant> user = db.checkUserLogin(username);
 
        if (user.isEmpty()) {
            QMessageBox::warning(this, "Login Failed", "User does not exist!");
@@ -223,18 +223,39 @@ void LoginWidget::on_btnLogin_clicked()
            return;
        }
 
+       qDebug() << "Login userid:" << ui->leUserId->text();
+       qDebug() << "Login username:" << ui->leUserId->text();
+       //确保你传给 getPatientInfo 的参数不是空。
+
     if (role == "Patient") {
 
-        QString idCard = user["id_card"].toString();
+        QString idCard = user["id_card"].toString();   // ✅ 永远拿身份证号
+        qDebug() << "Patient login, idCard:" << idCard;
+
         QMap<QString,QVariant> infoMap = db.getPatientInfo(idCard);
 
-            // 构造 personalinfo 对象
+        qDebug() << "getPatientInfo returned:";
+                for (auto key : infoMap.keys()) {
+                    qDebug() << key << ":" << infoMap[key].toString();
+                }
+
+        if (infoMap.isEmpty()) {
+            QMessageBox::critical(this, "Database Error", "Failed to load patient info!");
+            return;
+        }
+
             personalinfo info;
-            info.name = user["name"].toString();
-            info.gender = user["gender"].toString();
-            info.idNumber = user["idNumber"].toString();
-            info.email = user["email"].toString();
-            info.phone = user["phone"].toString();
+            info.name = infoMap["name"].toString();
+            info.gender = infoMap["gender"].toString();
+            info.idNumber = infoMap["id_card"].toString();
+            info.email = infoMap["email"].toString();
+            info.phone = infoMap["phone"].toString();
+            info.birthDate = infoMap["birth_date"].toString();
+            info.address = infoMap["address"].toString();
+            info.role = "Patient";
+
+            qDebug() << "Creating patientmainwindow with info:";
+            qDebug() << "Name:" << info.name << "id:" << info.idNumber << "gender:" << info.gender;
 
             patientmainwindow *pmw = new patientmainwindow(info);
             pmw->show();

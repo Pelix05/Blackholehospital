@@ -219,6 +219,15 @@ void RegisterWidget::On_btnRegister_clicked()
     else if (ui->rbFemale->isChecked())
         gender = "F";
 
+    // 检查是否选择了性别
+    if (gender.isEmpty()) {
+        QMessageBox::warning(this, "Error", "Please select gender!");
+        qDebug() << "Gender not selected!";
+        return;
+    }
+
+    qDebug() << "Selected gender:" << gender;
+
     // Validasi input
     if (username.isEmpty() || email.isEmpty() || phone.isEmpty() || password.isEmpty()) {
         QMessageBox::warning(this, "Error", "Please fill all the information above!");
@@ -268,7 +277,7 @@ void RegisterWidget::On_btnRegister_clicked()
     qDebug() << "Role:" << role;
 
 
-    bool ok = db.addUser(username,password,email,phone,role, gender);
+    bool ok = db.addUser(username,password,email,phone,role, gender,userid,address);
 
     if(!ok){
         qDebug() << "fail1";
@@ -278,7 +287,8 @@ void RegisterWidget::On_btnRegister_clicked()
 
     //patient
     if(role == "Patient"){
-        if(!db.addPatient(username,birthDate,userid,phone)){
+        qDebug() <<"at patient table" ;
+        if(!db.addPatient(username,birthDate,userid,phone,email,address,gender)){
             qDebug() << "fail2";
             QMessageBox::critical(this,"Database Error", "Failed to insert into Patients table!");
             return;
@@ -287,6 +297,7 @@ void RegisterWidget::On_btnRegister_clicked()
 
     // doctor
     else if (role == "Doctor") {
+        qDebug() <<"at doctor table" ;
             if (!db.addDoctor(userid,username, phone, "", address)) { // specialization 这里暂时传空
                 qDebug() << "fail3";
                 QMessageBox::critical(this, "Database Error", "Failed to insert into Doctors table!");

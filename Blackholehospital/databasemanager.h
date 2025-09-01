@@ -15,13 +15,16 @@ public:
 
     // 用户
     bool addUser(const QString& username, const QString& password,
-                 const QString& email, const QString phone ,const QString& userType,const QString& gender);
+                 const QString& email, const QString &phone ,
+                 const QString& userType,const QString& gender
+                 ,const QString &idCard, const QString &address);
     QMap<QString, QVariant> checkUserLogin(const QString& username);
 
     // 患者
     bool addPatient(const QString& name,
                     const QString& birthDate, const QString& idCard,
-                    const QString& phone);
+                    const QString& phone, const QString& email,
+                    const QString& address,const QString& gender);
     QMap<QString, QVariant> getPatientInfo(const QString& idCard);
 
     // 医生

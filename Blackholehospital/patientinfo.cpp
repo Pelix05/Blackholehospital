@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QMessageBox>
 
-patientinfo::patientinfo(const QString &username, QWidget *parent) :
+patientinfo::patientinfo(const QString &idCard, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::patientinfo)
 {
@@ -64,8 +64,9 @@ patientinfo::patientinfo(const QString &username, QWidget *parent) :
     )");
 
 
+    qDebug() << "idCard:" << idCard;
 
-    loadFromDatabase(username);
+    loadFromDatabase(idCard);
 
     connect(ui->editButton, &QPushButton::clicked, [=](){
         // 创建编辑页面实例
@@ -128,14 +129,16 @@ void patientinfo :: setpatientinfo(const personalinfo &info)
 
 }
 
-void patientinfo::loadFromDatabase(const QString &username)
+void patientinfo::loadFromDatabase(const QString &idCard)
 {
+    qDebug() << "Calling loadFromDatabase with username/idCard:" << idCard;
+
     DatabaseManager &db = DatabaseManager::instance();
-    QMap<QString, QVariant> user = db.getPatientInfo(username);
+    QMap<QString, QVariant> user = db.getPatientInfo(idCard);
 
     if(user.isEmpty()) {
         QMessageBox::critical(this,"Database Error", "Wrong user name!!");
-        qDebug() << "cant find username" ;
+        qDebug() << "username is" <<idCard ;
         return;
     }
 
@@ -145,7 +148,8 @@ void patientinfo::loadFromDatabase(const QString &username)
     info.birthDate = user["birth_date"].toString();
     info.idNumber = user["id_card"].toString();
     info.phone = user["phone"].toString();
-    info.address = user["emergency_contact"].toString();
+    info.address = user["address"].toString();
+    info.email = user["email"].toString();
 
     setpatientinfo(info);
 }
