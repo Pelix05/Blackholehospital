@@ -21,7 +21,6 @@ bool SmartMedicalDB::createDatabaseAndTables()
             username VARCHAR(50) NOT NULL UNIQUE,
             password VARCHAR(255) NOT NULL,
                    gender TEXT CHECK(gender IN ('M','F')),
-
             email VARCHAR(100) NOT NULL,
             phone VARCHAR(11) NOT NULL,
             user_type TEXT CHECK(user_type IN ('Patient','Doctor')) NOT NULL,
