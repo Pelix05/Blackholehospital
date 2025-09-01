@@ -16,15 +16,16 @@ DatabaseManager::DatabaseManager() {
 
 // ----------------- 用户 -----------------
 bool DatabaseManager::addUser(const QString& username, const QString& password,
-                              const QString& email,const QString phone ,const QString& userType) {
+                              const QString& email,const QString phone ,const QString& userType,const QString& gender) {
     QSqlQuery query;
-    query.prepare("INSERT INTO users (username, password, email, phone, user_type) "
-                  "VALUES (?, ?, ?, ?, ?)");
+    query.prepare("INSERT INTO users (username, password, email, phone, user_type, gender) "
+                  "VALUES (?, ?, ?, ?, ?, ?)");
     query.addBindValue(username);
     query.addBindValue(password);
     query.addBindValue(email);
     query.addBindValue(phone);
     query.addBindValue(userType);
+    query.addBindValue(gender);
 
     if (!query.exec()) {
         qDebug() << "Add user failed:" << query.lastError().text();

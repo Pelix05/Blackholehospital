@@ -15,7 +15,7 @@ public:
 
     // 用户
     bool addUser(const QString& username, const QString& password,
-                 const QString& email, const QString phone ,const QString& userType);
+                 const QString& email, const QString phone ,const QString& userType,const QString& gender);
     QMap<QString, QVariant> checkUserLogin(const QString& username);
 
     // 患者
