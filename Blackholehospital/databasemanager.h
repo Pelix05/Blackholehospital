@@ -28,9 +28,11 @@ public:
     QMap<QString, QVariant> getPatientInfo(const QString& idCard);
 
     // 医生
-    bool addDoctor(QString userId, const QString& department, const QString& title,
-                   const QString& intro, const QString& workSchedule);
-    QMap<QString, QVariant> getDoctorInfo(int doctorId);
+    bool addDoctor(const QString& name,
+                    const QString& birthDate, const QString& idCard,
+                    const QString& phone, const QString& email,
+                    const QString& address,const QString& gender);
+    QMap<QString, QVariant> getDoctorInfo(const QString& idCard);
 
     // 预约
     bool addAppointment(int patientId, int doctorId, const QString& appointTime);

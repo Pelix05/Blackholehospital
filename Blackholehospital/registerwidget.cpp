@@ -298,7 +298,7 @@ void RegisterWidget::On_btnRegister_clicked()
     // doctor
     else if (role == "Doctor") {
         qDebug() <<"at doctor table" ;
-            if (!db.addDoctor(userid,username, phone, "", address)) { // specialization 这里暂时传空
+            if (!db.addDoctor(username,birthDate,userid,phone,email,address,gender)) { // specialization 这里暂时传空
                 qDebug() << "fail3";
                 QMessageBox::critical(this, "Database Error", "Failed to insert into Doctors table!");
                 return;

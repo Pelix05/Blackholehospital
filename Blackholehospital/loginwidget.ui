@@ -43,7 +43,7 @@
     <item row="3" column="1">
      <widget class="QLineEdit" name="leUserId">
       <property name="placeholderText">
-       <string>Input your UserID</string>
+       <string>Input your Username</string>
       </property>
      </widget>
     </item>

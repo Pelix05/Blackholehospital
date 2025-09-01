@@ -110,7 +110,6 @@ QMap<QString, QVariant> DatabaseManager::getPatientInfo(const QString& idCard) {
     result["birth_date"] = query.value("birth_date");
     result["id_card"] = query.value("id_card");
     result["phone"] = query.value("phone");
-    result["id_card"]   = query.value("id_card");
     result["email"] = query.value("email");
     result["address"] = query.value("address");
 
@@ -120,16 +119,22 @@ QMap<QString, QVariant> DatabaseManager::getPatientInfo(const QString& idCard) {
 }
 
 // ----------------- 医生 -----------------
-bool DatabaseManager::addDoctor(QString userId, const QString& department, const QString& title,
-                                const QString& intro, const QString& workSchedule) {
+bool DatabaseManager::addDoctor(const QString& name,
+                                 const QString& birthDate, const QString& idCard,
+                                 const QString& phone, const QString& email,
+                                 const QString& address,const QString& gender ) {
     QSqlQuery query;
-    query.prepare("INSERT INTO doctors (doctor_id, department, title, intro, work_schedule) "
-                  "VALUES (?, ?, ?, ?, ?)");
-    query.addBindValue(userId);
-    query.addBindValue(department);
-    query.addBindValue(title);
-    query.addBindValue(intro);
-    query.addBindValue(workSchedule);
+    query.prepare("INSERT INTO doctors (name, birth_date, id_card, phone, email, address, gender) "
+                  "VALUES (?, ?, ?, ?, ?, ?, ?)");
+    query.addBindValue(name);
+    query.addBindValue(birthDate);
+    query.addBindValue(idCard);
+    query.addBindValue(phone);
+    query.addBindValue(email);
+    query.addBindValue(address);
+    query.addBindValue(gender);
+
+
     if (!query.exec()) {
         qDebug() << "Add doctor failed:" << query.lastError().text();
         return false;
@@ -137,17 +142,39 @@ bool DatabaseManager::addDoctor(QString userId, const QString& department, const
     return true;
 }
 
-QMap<QString, QVariant> DatabaseManager::getDoctorInfo(int doctorId) {
+QMap<QString, QVariant> DatabaseManager::getDoctorInfo(const QString& idCard) {
     QSqlQuery query;
-    query.prepare("SELECT * FROM doctors WHERE doctor_id=?");
-    query.addBindValue(doctorId);
+    query.prepare("SELECT * FROM doctors WHERE id_card=?");  // 修正列名
+    query.addBindValue(idCard);
+
     QMap<QString, QVariant> result;
-    if (query.exec() && query.next()) {
-        result["department"] = query.value("department");
-        result["title"] = query.value("title");
-        result["intro"] = query.value("intro");
-        result["work_schedule"] = query.value("work_schedule");
+
+    if (!query.exec()) {
+        qDebug() << "SQL execution failed:" << query.lastError().text();
+        return result;
     }
+
+    if (!query.next()) {
+        qDebug() << "No rows returned for idcard:" << idCard;
+        // 打印数据库里所有患者，确认表里是否有数据
+        QSqlQuery q("SELECT id_card, name FROM patients");
+        while (q.next()) {
+            qDebug() << "Doctor row:" << q.value("id_card").toString() << q.value("name").toString();
+        }
+        return result;
+    }
+
+    // ✅ 成功获取数据
+    result["name"] = query.value("name");
+    result["gender"] = query.value("gender");
+    result["birth_date"] = query.value("birth_date");
+    result["id_card"] = query.value("id_card");
+    result["phone"] = query.value("phone");
+    result["email"] = query.value("email");
+    result["address"] = query.value("address");
+
+    qDebug() << "Loaded patient info:" << result;
+
     return result;
 }
 

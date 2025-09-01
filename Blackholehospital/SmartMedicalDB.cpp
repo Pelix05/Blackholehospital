@@ -49,14 +49,17 @@ bool SmartMedicalDB::createDatabaseAndTables()
     if (!execQuery(query, R"(
         CREATE TABLE IF NOT EXISTS doctors (
             doctor_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            department VARCHAR(50) NOT NULL,
-            title VARCHAR(50),
-            intro TEXT,
-            work_schedule VARCHAR(100),
-            max_patients INTEGER DEFAULT 30,
+            name VARCHAR(50) NOT NULL,
+            gender TEXT CHECK(gender IN ('M','F')),
+            birth_date DATE,
+            id_card VARCHAR(18) NOT NULL UNIQUE,
+            phone VARCHAR(11) NOT NULL,
+            email VARCHAR(100) NOT NULL,
+            address VARCHAR(100),
             FOREIGN KEY (doctor_id) REFERENCES users(user_id) ON DELETE CASCADE
         );
     )")) return false;
+
 
     // 4. 预约表
     if (!execQuery(query, R"(

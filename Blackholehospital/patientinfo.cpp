@@ -10,9 +10,7 @@ patientinfo::patientinfo(const QString &idCard) :
 {
     ui->setupUi(this);
     setWindowTitle("PATIENT INFO");
-
     this->setStyleSheet(R"(
-
         QWidget {
             background-color: qlineargradient(x1: 0, y1: 0,
                                               x2: 1, y2: 1,
