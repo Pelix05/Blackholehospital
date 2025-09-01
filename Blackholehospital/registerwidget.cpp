@@ -252,6 +252,7 @@ void RegisterWidget::On_btnRegister_clicked()
     info.address = address;
     info.gender = role;
 
+
     QMessageBox::information(this, "Success", "Registrasi Success!");
     emit backToLogin();  // Kembali ke login
 }

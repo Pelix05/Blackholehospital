@@ -3,6 +3,7 @@
 #include "patientmainwindow.h"
 #include "doctorwindow.h"
 #include "databasemanager.h"
+#include "personalprofile.h"
 #include <QMessageBox>
 #include <QDebug>
 #include <QPixmap>
@@ -223,7 +224,19 @@ void LoginWidget::on_btnLogin_clicked()
        }
 
     if (role == "Patient") {
-            patientmainwindow *pmw = new patientmainwindow();
+
+        QString idCard = user["id_card"].toString();
+        QMap<QString,QVariant> infoMap = db.getPatientInfo(idCard);
+
+            // 构造 personalinfo 对象
+            personalinfo info;
+            info.name = user["name"].toString();
+            info.gender = user["gender"].toString();
+            info.idNumber = user["idNumber"].toString();
+            info.email = user["email"].toString();
+            info.phone = user["phone"].toString();
+
+            patientmainwindow *pmw = new patientmainwindow(info);
             pmw->show();
             this->close();   // Tutup login window
         }else if(role =="Doctor"){

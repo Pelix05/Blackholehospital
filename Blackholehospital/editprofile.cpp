@@ -1,5 +1,6 @@
 #include "editprofile.h"
 #include "ui_editprofile.h"
+#include <QDebug>
 
 editprofile::editprofile(QWidget *parent) :
     QWidget(parent),

@@ -71,10 +71,10 @@ bool DatabaseManager::addPatient(const QString& name,
     return true;
 }
 
-QMap<QString, QVariant> DatabaseManager::getPatientInfo(int patientId) {
+QMap<QString, QVariant> DatabaseManager::getPatientInfo(const QString& idCard) {
     QSqlQuery query;
-    query.prepare("SELECT * FROM patients WHERE patient_id=?");
-    query.addBindValue(patientId);
+    query.prepare("SELECT * FROM patients WHERE id_card=?");
+    query.addBindValue(idCard);
     QMap<QString, QVariant> result;
     if (query.exec() && query.next()) {
         result["name"] = query.value("name");
@@ -82,7 +82,6 @@ QMap<QString, QVariant> DatabaseManager::getPatientInfo(int patientId) {
         result["birth_date"] = query.value("birth_date");
         result["id_card"] = query.value("id_card");
         result["phone"] = query.value("phone");
-        result["emergency_contact"] = query.value("emergency_contact");
     }
     return result;
 }

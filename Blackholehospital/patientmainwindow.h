@@ -2,6 +2,7 @@
 #define PATIENTMAINWINDOW_H
 
 #include <QMainWindow>
+#include "personalprofile.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class patientmainwindow; }
@@ -12,7 +13,7 @@ class patientmainwindow : public QMainWindow
     Q_OBJECT
 
 public:
-    patientmainwindow(QWidget *parent = nullptr);
+    explicit patientmainwindow(const personalinfo &info, QWidget *parent = nullptr);
     ~patientmainwindow();
 
 private slots:
@@ -22,6 +23,7 @@ private slots:
 
 private:
     Ui::patientmainwindow *ui;
+    personalinfo currentinfo;
 };
 
 #endif // PATIENTMAINWINDOW_H

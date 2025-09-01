@@ -1,8 +1,11 @@
 #include "patientinfo.h"
 #include "ui_patientinfo.h"
 #include "editprofile.h"
+#include "databasemanager.h"
+#include <QDebug>
+#include <QMessageBox>
 
-patientinfo::patientinfo(QWidget *parent) :
+patientinfo::patientinfo(const QString &username, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::patientinfo)
 {
@@ -62,6 +65,8 @@ patientinfo::patientinfo(QWidget *parent) :
 
 
 
+    loadFromDatabase(username);
+
     connect(ui->editButton, &QPushButton::clicked, [=](){
         // 创建编辑页面实例
         editprofile *editPage = new editprofile;
@@ -93,6 +98,8 @@ patientinfo::patientinfo(QWidget *parent) :
 
 }
 
+
+
 patientinfo::~patientinfo()
 {
     delete ui;
@@ -102,6 +109,15 @@ void patientinfo :: setpatientinfo(const personalinfo &info)
 {
     currentinfo = info;
 
+    qDebug() << "Name:" << info.name;
+    qDebug() << "id:" << info.idNumber;
+    qDebug() << "Email:" << info.email;
+    qDebug() << "Phone:" << info.phone;
+    qDebug() << "bitrhDate:" << info.birthDate;
+    qDebug() << "gender:" << info.gender;
+    qDebug() << "address:" << info.address;
+
+
     ui->labelname->setText(info.name);
     ui->labelgender->setText(info.gender);
     ui->labelidnumber->setText(info.idNumber);
@@ -110,4 +126,26 @@ void patientinfo :: setpatientinfo(const personalinfo &info)
     ui->labelbirth->setText(info.birthDate);
     ui->labeladdress->setText(info.address);
 
+}
+
+void patientinfo::loadFromDatabase(const QString &username)
+{
+    DatabaseManager &db = DatabaseManager::instance();
+    QMap<QString, QVariant> user = db.getPatientInfo(username);
+
+    if(user.isEmpty()) {
+        QMessageBox::critical(this,"Database Error", "Wrong user name!!");
+        qDebug() << "cant find username" ;
+        return;
+    }
+
+    personalinfo info;
+    info.name = user["name"].toString();
+    info.gender = user["gender"].toString();
+    info.birthDate = user["birth_date"].toString();
+    info.idNumber = user["id_card"].toString();
+    info.phone = user["phone"].toString();
+    info.address = user["emergency_contact"].toString();
+
+    setpatientinfo(info);
 }

@@ -8,12 +8,15 @@
 #include "loginwidget.h"
 #include "medicinesearch.h"
 #include "patientinfo.h"
+#include "personalprofile.h"
+#include "databasemanager.h"
 #include <QMessageBox>
 #include <QDebug>
 
-patientmainwindow::patientmainwindow(QWidget *parent)
+patientmainwindow::patientmainwindow(const personalinfo &info, QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::patientmainwindow)
+    , ui(new Ui::patientmainwindow),
+      currentinfo(info)
 {
     ui->setupUi(this);
     setWindowTitle("PATIENT");
@@ -135,7 +138,21 @@ patientmainwindow::patientmainwindow(QWidget *parent)
     });
 
     connect(ui->personalprofile, &QPushButton::clicked, this, [=]() {
-        patientinfo *pinfo = new patientinfo();
+        DatabaseManager &db = DatabaseManager::instance();
+
+           // 根据当前用户的 id_card 获取最新信息
+           QMap<QString, QVariant> infoMap = db.getPatientInfo(currentinfo.idNumber);
+
+           personalinfo updatedInfo;
+           updatedInfo.name = infoMap["name"].toString();
+           updatedInfo.idNumber = infoMap["id_card"].toString();
+           updatedInfo.phone = infoMap["phone"].toString();
+           updatedInfo.birthDate = infoMap["birth_date"].toString();
+           updatedInfo.gender = infoMap["gender"].toString();
+           updatedInfo.address = infoMap["address"].toString();
+           updatedInfo.email = infoMap["email"].toString();
+
+        patientinfo *pinfo = new patientinfo(info, this);
         pinfo->show();
     });
 
