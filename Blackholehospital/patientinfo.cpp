@@ -5,8 +5,7 @@
 #include <QDebug>
 #include <QMessageBox>
 
-patientinfo::patientinfo(const QString &idCard, QWidget *parent) :
-    QWidget(parent),
+patientinfo::patientinfo(const QString &idCard) :
     ui(new Ui::patientinfo)
 {
     ui->setupUi(this);

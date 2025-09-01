@@ -13,7 +13,7 @@ class patientinfo : public QWidget
     Q_OBJECT
 
 public:
-    explicit patientinfo(const QString &idCard, QWidget *parent = nullptr);
+    explicit patientinfo(const QString &idCard);
     ~patientinfo();
 
     void setpatientinfo(const personalinfo &info);

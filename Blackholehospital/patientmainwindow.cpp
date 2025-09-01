@@ -152,7 +152,7 @@ patientmainwindow::patientmainwindow(const personalinfo &info, QWidget *parent)
            updatedInfo.address = infoMap["address"].toString();
            updatedInfo.email = infoMap["email"].toString();
 
-        patientinfo *pinfo = new patientinfo(info.idNumber, this);
+        patientinfo *pinfo = new patientinfo(info.idNumber);
         pinfo->show();
     });
 
