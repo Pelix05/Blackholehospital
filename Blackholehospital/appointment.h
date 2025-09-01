@@ -22,6 +22,7 @@ struct Doctor {
     bool    supportsAppointment;
     int     limitPerDay;
     int     booked;
+    int     book;
 };
 
 class appointment : public QWidget
