@@ -1,4 +1,5 @@
 #include "appointmentlistpage.h"
+#include "patientdetailpage.h"
 #include "ui_appointmentlistpage.h"
 #include "doctorwindow.h"
 #include <QTableWidgetItem>
@@ -105,21 +106,47 @@ appointmentlistpage::~appointmentlistpage()
 
 void appointmentlistpage::populateAppointmentData()
 {
-    // Sample data - in real application, this would come from a database
-    QStringList patients = {"张三", "李四", "王五", "赵六"};
-    QStringList times = {"2023-10-15 09:00", "2023-10-15 10:30", "2023-10-15 14:00", "2023-10-16 11:00"};
-    QStringList statuses = {"待就诊", "已就诊", "已取消", "待就诊"};
-    QStringList contacts = {"13800138000", "13900139000", "13700137000", "13600136000"};
-    QStringList descriptions = {"感冒发烧", "肠胃不适", "腰背疼痛", "年度体检"};
+    QStringList numberIds = {"101", "102", "103", "104"};  // Ini numberID pasien
+        QStringList patients  = {"张三", "李四", "王五", "赵六"};
+        QStringList times = {"2023-10-15 09:00", "2023-10-15 10:30", "2023-10-15 14:00", "2023-10-16 11:00"};
+        QStringList statuses = {"待就诊", "已就诊", "已取消", "待就诊"};
+        QStringList contacts = {"13800138000", "13900139000", "13700137000", "13600136000"};
+        QStringList descriptions = {"感冒发烧", "肠胃不适", "腰背疼痛", "年度体检"};
 
-    ui->tAppointment->setRowCount(patients.size());
+        ui->tAppointment->setRowCount(patients.size());
+        ui->tAppointment->setColumnCount(6); // tambah column numberID
+        QStringList headers = {"NumberID", "Patient", "Time", "Status", "Contact", "Description"};
+        ui->tAppointment->setHorizontalHeaderLabels(headers);
 
-    for(int i = 0; i < patients.size(); ++i) {
-        ui->tAppointment->setItem(i, 0, new QTableWidgetItem(patients[i]));
-        ui->tAppointment->setItem(i, 1, new QTableWidgetItem(times[i]));
-        ui->tAppointment->setItem(i, 2, new QTableWidgetItem(statuses[i]));
-        ui->tAppointment->setItem(i, 3, new QTableWidgetItem(contacts[i]));
-        ui->tAppointment->setItem(i, 4, new QTableWidgetItem(descriptions[i]));
+        for(int i = 0; i < patients.size(); ++i) {
+            ui->tAppointment->setItem(i, 0, new QTableWidgetItem(numberIds[i])); // numberID
+            ui->tAppointment->setItem(i, 1, new QTableWidgetItem(patients[i]));
+            ui->tAppointment->setItem(i, 2, new QTableWidgetItem(times[i]));
+            ui->tAppointment->setItem(i, 3, new QTableWidgetItem(statuses[i]));
+            ui->tAppointment->setItem(i, 4, new QTableWidgetItem(contacts[i]));
+            ui->tAppointment->setItem(i, 5, new QTableWidgetItem(descriptions[i]));
+        }
+
+        ui->tAppointment->hideColumn(0);
+
+        connect(ui->tAppointment, &QTableWidget::cellClicked, this, &appointmentlistpage::onTableCellClicked);
+}
+
+void appointmentlistpage::onTableCellClicked(int row, int column)
+{
+    if(column == 5) { // description column
+        QTableWidgetItem *idItem = ui->tAppointment->item(row, 0); // ambil numberID
+        if(idItem) {
+            QString numberId = idItem->text();
+
+            // Buka patientinfo page sesuai numberID
+
+
+            PatientDetailPage *patientdetailPage = new PatientDetailPage(numberId,this);
+            patientdetailPage->show();
+
+
+        }
     }
 }
 

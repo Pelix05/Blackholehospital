@@ -26,6 +26,11 @@ private slots:
 
 private:
     Ui::attendancepage *ui;
+    int currentDoctorId = 0; // pastikan ini di-set dari login
+
+        // Tambahkan deklarasi fungsi private ini
+        void saveAttendanceToDB(const QString &reason, const QString &checkIn = "", const QString &checkOut = "");
+        void loadLastAttendance();
 };
 
 #endif // ATTENDANCEPAGE_H

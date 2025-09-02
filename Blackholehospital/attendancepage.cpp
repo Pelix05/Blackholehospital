@@ -1,5 +1,10 @@
 #include "attendancepage.h"
 #include "ui_attendancepage.h"
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QVariant>
+#include <QDebug>
+
 
 #include <QDateTime>
 #include <QMessageBox>
@@ -9,6 +14,7 @@ attendancepage::attendancepage(QWidget *parent) :
     ui(new Ui::attendancepage)
 {
     ui->setupUi(this);
+    loadLastAttendance();
     this->setWindowTitle("ATTANDANCE");
 
     this->setObjectName("attendancePage");
@@ -201,16 +207,33 @@ attendancepage::attendancepage(QWidget *parent) :
     void attendancepage::onCheckInClicked()
     {
         QString currentTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
-        ui->lStatusIn->setText("Get on work: " + currentTime);
-        QMessageBox::information(this, "success", "Attendance\nTIME: " + currentTime);
+        QString reason = ui->leReason->text().trimmed();
+            if (!reason.isEmpty()) {
+                saveAttendanceToDB(reason);  // Simpan ke DB langsung
+                QMessageBox::information(this, "Permission", "Permission recorded. No check-in required.");
+                return;
+            }
+            // Kalau ada reason, nggak perlu check-out
+
+
+            ui->lStatusIn->setText("Check-in: " + currentTime);
+            saveAttendanceToDB("", currentTime, "");  // Simpan waktu check-in
+            QMessageBox::information(this, "Success", "Checked in at " + currentTime);
     }
 
     void attendancepage::onCheckOutClicked()
     {
         QString currentTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
-        ui->lStatusOut->setText("Get off work: " + currentTime);
-        QMessageBox::information(this, "success", "Get off work\nTIME: " + currentTime);
+
+        // Kalau ada reason, nggak perlu check-out
+        QString reason = ui->leReason->text().trimmed();
+        if (!reason.isEmpty()) return;
+
+        ui->lStatusOut->setText("Check-out: " + currentTime);
+        saveAttendanceToDB("", "", currentTime);  // Update waktu check-out
+        QMessageBox::information(this, "Success", "Checked out at " + currentTime);
     }
+
 
     void attendancepage::onLeaveRequestClicked()
     {
@@ -221,3 +244,59 @@ attendancepage::attendancepage(QWidget *parent) :
     {
         this ->hide();  // Emit signal untuk kembali
     }
+
+    void attendancepage::saveAttendanceToDB(const QString &reason, const QString &checkIn, const QString &checkOut)
+    {
+        // Asumsikan doctor_id sudah diketahui, misal dari login
+        int doctorId = currentDoctorId;
+
+        QSqlQuery query;
+        query.prepare(R"(
+            INSERT INTO attendance_log (doctor_id, check_in_time, check_out_time, reason)
+            VALUES (:doctor_id, :check_in_time, :check_out_time, :reason)
+        )");
+
+        query.bindValue(":doctor_id", doctorId);
+        query.bindValue(":check_in_time", checkIn.isEmpty() ? QVariant(QVariant::String) : checkIn);
+        query.bindValue(":check_out_time", checkOut.isEmpty() ? QVariant(QVariant::String) : checkOut);
+        query.bindValue(":reason", reason);
+
+        if (!query.exec()) {
+            qDebug() << "Failed to save attendance:" << query.lastError().text();
+        }
+    }
+
+    void attendancepage::loadLastAttendance()
+    {
+        int doctorId = currentDoctorId;
+
+        QSqlQuery query;
+        query.prepare(R"(
+            SELECT check_in_time, check_out_time, reason, created_at
+            FROM attendance_log
+            WHERE doctor_id = :doctor_id
+            ORDER BY created_at DESC
+            LIMIT 1
+        )");
+        query.bindValue(":doctor_id", doctorId);
+
+        if (query.exec() && query.next()) {
+            QString checkIn = query.value("check_in_time").toString();
+            QString checkOut = query.value("check_out_time").toString();
+            QString reason = query.value("reason").toString();
+            QString createdAt = query.value("created_at").toString();
+
+            QString displayText;
+            if (!reason.isEmpty())
+                ui->lPermission->setText("Permission on " + createdAt + ": " + reason);
+            else {
+                ui->lStatusIn->setText("Check-in: " + checkIn);
+                ui->lStatusOut->setText("Check-out: " + checkOut);
+            }
+
+
+            ui->lStatusIn->setText(displayText);  // Bisa juga buat label baru khusus
+        }
+    }
+
+

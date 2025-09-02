@@ -57,8 +57,6 @@ doctorwindow::doctorwindow(const QString &doctorId, QWidget *parent) :
         "}";
 
     ui->btnInfo->setStyleSheet(buttonStyle);
-    ui->btnCase->setStyleSheet(buttonStyle);
-    ui->btnPrescription->setStyleSheet(buttonStyle);
     ui->btnProfile->setStyleSheet(buttonStyle);
     ui->btnPlatform->setStyleSheet(buttonStyle);
     ui->btnAttendance->setStyleSheet(buttonStyle);
@@ -79,8 +77,6 @@ doctorwindow::doctorwindow(const QString &doctorId, QWidget *parent) :
     );
 
     connect(ui->btnInfo, &QPushButton::clicked, this, &doctorwindow::onAppointmentInfoClicked);
-    connect(ui->btnCase, &QPushButton::clicked, this, &doctorwindow::onEditCaseClicked);
-    connect(ui->btnPrescription, &QPushButton::clicked, this, &doctorwindow::onEditPrescriptionClicked);
     connect(ui->btnProfile, &QPushButton::clicked, this, &doctorwindow::onEditProfileClicked);
     connect(ui->btnPlatform, &QPushButton::clicked, this, &doctorwindow::onPlatformClicked);
     connect(ui->btnAttendance, &QPushButton::clicked, this, &doctorwindow::onAttendanceClicked);
@@ -115,12 +111,7 @@ patientdetailPage->show();
 
 }
 
-void doctorwindow::onEditPrescriptionClicked()
-{
- PrescriptionPage *prescriptionPage = new PrescriptionPage("");
- prescriptionPage->show();
 
-}
 
 void doctorwindow::onAttendanceClicked()
 {
