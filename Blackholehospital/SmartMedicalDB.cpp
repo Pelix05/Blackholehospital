@@ -67,15 +67,14 @@ bool SmartMedicalDB::createDatabaseAndTables()
 
     // 4. 预约表
     if (!execQuery(query, R"(
-        CREATE TABLE IF NOT EXISTS appointments (
-            appointment_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            patient_id INTEGER NOT NULL,
-            doctor_id INTEGER NOT NULL,
-            appoint_time DATETIME NOT NULL,
-            status TEXT CHECK(status IN ('pending','confirmed','canceled')) DEFAULT 'pending',
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
-            FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
+       CREATE TABLE IF NOT EXISTS appointments (
+          appointment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+          patient_id INTEGER NOT NULL,
+          doctor_id INTEGER NOT NULL,
+          appoint_time DATETIME NOT NULL,
+          status TEXT DEFAULT 'booked',
+          FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
+          FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
         );
     )")) return false;
 
@@ -129,6 +128,28 @@ bool SmartMedicalDB::createDatabaseAndTables()
             FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
         );
     )")) return false;
+
+    // 4. 医生排班
+    if (!query.exec(R"(
+        CREATE TABLE IF NOT EXISTS doctor_schedules (
+            schedule_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            doctor_id INTEGER NOT NULL,
+            hospital TEXT,
+            department TEXT,
+            clinic TEXT,
+            job_number TEXT,
+            work_date DATE,
+            start_time TIME,
+            end_time TIME,
+            fee REAL,
+            limit_per_day INTEGER,
+            supports_appointment BOOLEAN,
+            booked_count INTEGER DEFAULT 0,
+            FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
+        )
+    )")) return false;
+
+
 
     qDebug() << "✅ 数据库和表已成功创建！";
     return true;

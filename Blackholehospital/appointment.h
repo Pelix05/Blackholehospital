@@ -11,26 +11,12 @@ namespace Ui {
 class appointment;
 }
 
-struct Doctor {
-    QString jobId;
-    QString name;
-    QString hospital;
-    QString department;
-    QString clinic;
-    QTime   shiftStart;
-    QTime   shiftEnd;
-    bool    supportsAppointment;
-    int     limitPerDay;
-    int     booked;
-    int     book;
-};
-
 class appointment : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit appointment(QWidget *parent = nullptr);
+    explicit appointment(const QString &patientIdCard, QWidget *parent = nullptr);
     ~appointment();
 
 signals:
@@ -43,12 +29,10 @@ private slots:
 private:
     Ui::appointment *ui;
     QStandardItemModel *resultsModel;
-    QVector<Doctor> doctors;
+    QString m_patientIdCard;
 
-    void loadTestDoctors();
     void populateFilterChoices();
-    void refillResults(const QList<int> &indexes);
-    bool timeWithinShift(const Doctor &d, const QTime &t) const;
+    void refillResults(const QList<QVariantMap> &schedules);
 };
 
 #endif // APPOINTMENT_H

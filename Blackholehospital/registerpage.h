@@ -14,7 +14,7 @@ class registerpage : public QWidget
     Q_OBJECT
 
 public:
-    explicit registerpage(QWidget *parent = nullptr);
+    explicit registerpage(const QString &patientIdCard, QWidget *parent = nullptr);
     ~registerpage();
 
 private slots:
@@ -24,9 +24,9 @@ private slots:
 private:
     Ui::registerpage *ui;
     QStandardItemModel *model;
+    QString m_patientIdCard;
 
-    void addDoctor(QString id, QString dep, QString job, QString name,
-                   QString time, double fee, int limit, int booked);
+    void loadDoctorSchedules();
 
 };
 

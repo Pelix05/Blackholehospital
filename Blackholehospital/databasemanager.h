@@ -8,6 +8,14 @@
 #include <QVariant>
 #include <QList>
 #include <QMap>
+#include <QDate>
+#include <QTime>
+
+struct PrescriptionRecord {
+    int prescriptionId;
+    int recordId;
+    QString content;
+};
 
 class DatabaseManager {
 public:
@@ -55,6 +63,29 @@ public:
                       double fee,
                       int dailyLimit);
 
+
+    // ===== 医生排班 =====
+       bool addDoctorSchedule(int doctorId, const QString& hospital,
+                              const QString& department, const QString& clinic,
+                              const QString& jobNumber, const QDate& workDate,
+                              const QTime& start, const QTime& end,
+                              double fee, int limitPerDay,
+                              bool supportsAppointment);
+       QList<QVariantMap> queryDoctorSchedules(
+           const QString& hospital, const QString& department,
+           const QString& clinic, const QDate& onDate,
+           const QTime& atTime, bool requireSupportAppointment);
+
+
+       // ====== 预约 / 挂号 ======
+       // 根据 schedule_id + 患者 id_card 建立预约，并更新已约人数。返回是否成功。
+       bool bookAppointmentBySchedule(const QString& patientIdCard,
+                                      int scheduleId,
+                                      const QDateTime& appointTime,
+                                      QString* errorOut = nullptr);
+
+    bool insertPerscription(int recordId, const QString &content);
+    QVector<PrescriptionRecord> getPrescriptions();
 
 private:
     DatabaseManager(); // 构造函数私有化

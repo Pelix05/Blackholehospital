@@ -14,11 +14,16 @@
 #include <QDebug>
 
 patientmainwindow::patientmainwindow(const personalinfo &info, QWidget *parent)
-    : QMainWindow(parent)
+    : QWidget(parent)
     , ui(new Ui::patientmainwindow),
       currentinfo(info)
 {
+    qDebug() << "Constructing patientmainwindow for:" << info.name << info.idNumber;
+    qDebug() << "UI pointers:";
+
     ui->setupUi(this);
+    qDebug() << "register_2:" << ui->register_2;
+    qDebug() << "stackedWidget:" << ui->stackedWidget;
     setWindowTitle("PATIENT");
     // ===== STYLE SHEET UNTUK MAIN WINDOW =====
         this->setStyleSheet(
@@ -90,9 +95,9 @@ patientmainwindow::patientmainwindow(const personalinfo &info, QWidget *parent)
         );
         // ===== END STYLE HEADER =====
 
-        registerpage *regpage = new registerpage(this);
+        registerpage *regpage = new registerpage(currentinfo.idNumber, this);
         medicalrecord *medrc = new medicalrecord(this);
-        appointment *apm = new appointment(this);
+        appointment *apm = new appointment(currentinfo.idNumber, this);
         healthyselfcheck *selfc = new healthyselfcheck(this);
         medicinesearch *mdsrch = new medicinesearch(this);
 

@@ -8,7 +8,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class patientmainwindow; }
 QT_END_NAMESPACE
 
-class patientmainwindow : public QMainWindow
+class patientmainwindow : public QWidget
 {
     Q_OBJECT
 
