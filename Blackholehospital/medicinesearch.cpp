@@ -2,6 +2,9 @@
 #include "ui_medicinesearch.h"
 #include <QMessageBox>
 #include <QPixmap>
+#include <QSqlQuery>
+#include <QSqlError>
+
 
 medicinesearch::medicinesearch(QWidget *parent) :
     QWidget(parent),
@@ -112,28 +115,43 @@ void medicinesearch::onSearch()
         return;
     }
 
-    if (!medicineDB.contains(key)) {
+    QSqlQuery query;
+    query.prepare("SELECT name, category, spec, usage, caution, imagePath FROM medicines WHERE name LIKE :name");
+    query.bindValue(":name", "%" + key + "%");
+
+    if (!query.exec()) {
+        QMessageBox::critical(this, "错误", "数据库查询失败: " + query.lastError().text());
+        return;
+    }
+
+    if (!query.next()) {
         QMessageBox::information(this, "提示", "未找到药品：" + key);
         ui->lblImage->clear();
         ui->txtInfo->clear();
         return;
     }
 
-    medicineinfo drug = medicineDB.value(key);
+    QString name = query.value(0).toString();
+    QString category = query.value(1).toString();
+    QString spec = query.value(2).toString();
+    QString usage = query.value(3).toString();
+    QString caution = query.value(4).toString();
+    QString imagePath = query.value(5).toString();
 
     // 显示图片
-    QPixmap pix(drug.imagePath);
+    QPixmap pix(imagePath);
     ui->lblImage->setPixmap(pix.scaled(150, 150, Qt::KeepAspectRatio));
 
     // 显示信息
     QString text = QString("【药品名称】%1\n【类别】%2\n【规格】%3\n\n"
                            "【使用说明】%4\n\n【注意事项】%5")
-                           .arg(drug.name)
-                           .arg(drug.category)
-                           .arg(drug.spec)
-                           .arg(drug.usage)
-                           .arg(drug.caution);
+                           .arg(name)
+                           .arg(category)
+                           .arg(spec)
+                           .arg(usage)
+                           .arg(caution);
 
     ui->txtInfo->setText(text);
 }
+
 

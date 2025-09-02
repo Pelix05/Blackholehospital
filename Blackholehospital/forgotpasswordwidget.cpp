@@ -3,6 +3,9 @@
 #include <QMessageBox>
 #include <QRegularExpression>
 #include <QDebug>
+#include <QSqlQuery>
+#include <QSqlError>
+
 
 ForgotPasswordWidget::ForgotPasswordWidget(QWidget *parent) :
     QWidget(parent),
@@ -101,42 +104,48 @@ void ForgotPasswordWidget::on_btnResetPassword_clicked()
     QString confirmPassword = ui->leConfirmNewPassword->text();
 
     // Validasi input
-    if (email.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
-        QMessageBox::warning(this, "Error", "Please fill the information above!");
-        return;
+        if (email.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
+            QMessageBox::warning(this, "Error", "Please fill the information above!");
+            return;
+        }
+
+        // Validasi format email
+        QRegularExpression emailRegex(R"(\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b)",
+                                      QRegularExpression::CaseInsensitiveOption);
+        if (!emailRegex.match(email).hasMatch()) {
+            QMessageBox::warning(this, "Error", "Wrong email format!");
+            return;
+        }
+
+        if (newPassword != confirmPassword) {
+            QMessageBox::warning(this, "Error", "Passwords do not match!");
+            return;
+        }
+
+        if (newPassword.length() < 8) {
+            QMessageBox::warning(this, "Error", "Password must be at least 8 characters!");
+            return;
+        }
+
+        // ====== Update password di database ======
+        QSqlQuery query;
+        query.prepare("UPDATE users SET password = :password WHERE email = :email");
+        query.bindValue(":password", newPassword);
+        query.bindValue(":email", email);
+
+        if (!query.exec()) {
+            QMessageBox::critical(this, "Error", "Failed to update password: " + query.lastError().text());
+            return;
+        }
+
+        if (query.numRowsAffected() == 0) {
+            QMessageBox::warning(this, "Error", "Email not registered in system!");
+            return;
+        }
+
+        QMessageBox::information(this, "Success", "Password updated successfully!");
+        emit backToLogin();
     }
-
-    // Validasi email format
-    QRegularExpression emailRegex(R"(\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b)",
-                                 QRegularExpression::CaseInsensitiveOption);
-    if (!emailRegex.match(email).hasMatch()) {
-        QMessageBox::warning(this, "Error", "Wrong email format!");
-        return;
-    }
-
-    if (newPassword != confirmPassword) {
-        QMessageBox::warning(this, "Error", "New password and New password confirmation doesn't match!");
-        return;
-    }
-
-    // Validasi kekuatan password (minimal 8 karakter)
-    if (newPassword.length() < 8) {
-        QMessageBox::warning(this, "Error", "Password min 8 character!");
-        return;
-    }
-
-    // Simulasi pengiriman email reset password
-    qDebug() << "Password reset requested for email:" << email;
-    qDebug() << "New password would be set to:" << newPassword;
-
-    // Dalam implementasi nyata, di sini akan ada kode untuk:
-    // 1. Memverifikasi email terdaftar di database
-    // 2. Mengirim email dengan link reset password
-    // 3. atau Langsung mengubah password (tergantung kebijakan keamanan)
-
-    QMessageBox::information(this, "Success", "You have successfully change your password");
-    emit backToLogin();  // Kembali ke login
-}
 
 void ForgotPasswordWidget::on_btnBack_clicked()
 {

@@ -159,7 +159,7 @@ bool SmartMedicalDB::createDatabaseAndTables()
             supports_appointment BOOLEAN,
             booked_count INTEGER DEFAULT 0,
             FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
-        )
+        );
     )")) return false;
 
     // 9. Attendance log table
@@ -174,6 +174,37 @@ bool SmartMedicalDB::createDatabaseAndTables()
             FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
         );
     )")) return false;
+
+    if (!execQuery(query, R"(
+        CREATE TABLE IF NOT EXISTS medicines (
+            medicine_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL UNIQUE,
+            category TEXT,
+            spec TEXT,
+            usage TEXT,
+            caution TEXT,
+            imagePath TEXT
+        );
+    )")) return false;
+
+    // Insert dummy data if empty
+    query.exec("SELECT COUNT(*) FROM medicines;");
+    if (query.next() && query.value(0).toInt() == 0) {
+        execQuery(query, R"(
+            INSERT INTO medicines (name, category, spec, usage, caution, imagePath)
+            VALUES ('Amoxicillin Capsule', 'Antibiotic', '500mg*20', 'Oral, 500mg per dose, 3 times daily after meals', 'Contraindicated in patients allergic to penicillin; use as prescribed', ':/images/amoxicillin.png');
+        )");
+        execQuery(query, R"(
+            INSERT INTO medicines (name, category, spec, usage, caution, imagePath)
+            VALUES ('Vitamin C Tablet', 'Vitamin', '100mg*100', 'Oral, 100mg per dose, 1-2 times daily', 'Avoid long-term excessive use; caution in patients with kidney stones', ':/images/vitaminC.png');
+        )");
+        execQuery(query, R"(
+            INSERT INTO medicines (name, category, spec, usage, caution, imagePath)
+            VALUES ('Ibuprofen Tablet', 'Pain Reliever', '200mg*24', 'Oral, 200-400mg per dose, 3 times daily', 'Avoid in patients with gastric ulcers; contraindicated in pregnancy', ':/images/ibuprofen.png');
+        )");
+
+    }
+
 
     qDebug() << "✅ 数据库和表已成功创建！";
     return true;
