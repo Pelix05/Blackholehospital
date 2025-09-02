@@ -261,7 +261,8 @@ void LoginWidget::on_btnLogin_clicked()
             pmw->show();
             this->close();   // Tutup login window
         }else if(role =="Doctor"){
-            doctorwindow *dw = new doctorwindow();
+        QString doctorId = user["id_card"].toString();
+            doctorwindow *dw = new doctorwindow(doctorId);
             dw->show();
             this->close();
 

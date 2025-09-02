@@ -43,6 +43,19 @@ public:
     bool addMedicalRecord(int patientId, int doctorId, const QString& diagnose);
     QList<QMap<QString, QVariant>> getMedicalRecordsByPatient(int patientId);
 
+    bool updateDoctor(const QString &idCard,
+                      const QString &name,
+                      const QString &email,
+                      const QString &phone,
+                      const QString &birthDate,
+                      const QString &department,
+                      const QString &address,
+                      const QString &gender,
+                      const QString &photo,
+                      double fee,
+                      int dailyLimit);
+
+
 private:
     DatabaseManager(); // 构造函数私有化
     QSqlDatabase db;

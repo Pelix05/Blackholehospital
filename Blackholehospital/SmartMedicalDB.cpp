@@ -56,6 +56,10 @@ bool SmartMedicalDB::createDatabaseAndTables()
             phone VARCHAR(11) NOT NULL,
             email VARCHAR(100) NOT NULL,
             address VARCHAR(100),
+                    department VARCHAR(50),
+                   photo TEXT,
+                   fee REAL DEFAULT 0,
+                   daily_limit INTEGER DEFAULT 0,
             FOREIGN KEY (doctor_id) REFERENCES users(user_id) ON DELETE CASCADE
         );
     )")) return false;

@@ -13,7 +13,7 @@ class doctorwindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit doctorwindow(QWidget *parent = nullptr);
+    explicit doctorwindow(const QString &doctorId, QWidget *parent = nullptr);
     ~doctorwindow();
 
 private slots:
@@ -28,7 +28,7 @@ private slots:
 
 private:
     Ui::doctorwindow *ui;
-    personalinfo currentinfo;
+    QString currentDoctorId;
 };
 
 #endif // DOCTORWINDOW_H

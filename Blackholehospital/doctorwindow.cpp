@@ -9,11 +9,13 @@
 #include "prescriptionpage.h"
 #include "loginwidget.h"
 #include "personalprofile.h"
+#include "editprofile.h"
 
 
-doctorwindow::doctorwindow(QWidget *parent) :
+doctorwindow::doctorwindow(const QString &doctorId, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::doctorwindow)
+    ui(new Ui::doctorwindow),
+    currentDoctorId(doctorId)
 {
     ui->setupUi(this);
     this->setWindowTitle("DOCTOR");
@@ -87,7 +89,7 @@ doctorwindow::doctorwindow(QWidget *parent) :
 
 void doctorwindow::onEditProfileClicked()
 {
-    doctorprofilepage *profilePage = new doctorprofilepage(currentinfo.idNumber);
+    doctorprofilepage *profilePage = new doctorprofilepage(currentDoctorId);
     profilePage->show();
 }
 

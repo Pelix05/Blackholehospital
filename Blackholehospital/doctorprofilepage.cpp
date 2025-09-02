@@ -3,6 +3,8 @@
 #include "databasemanager.h"
 #include <QFileDialog>
 #include <QPixmap>
+#include <QMessageBox>
+
 
 doctorprofilepage::doctorprofilepage(const QString &doctorId) :
 
@@ -78,13 +80,58 @@ doctorprofilepage::doctorprofilepage(const QString &doctorId) :
             border-bottom: 2px solid #0078d7;
         }
     )");
+    // Style for radio buttons
+    QString radioStyle = R"(
+        QRadioButton {
+            spacing: 8px;
+            font-size: 15px;
+            color: #333333;
+            font-weight: 500;
+            background: transparent;
+        }
+
+        QRadioButton::indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;   /* Make it circular */
+            border: 2px solid #cccccc;
+            background: #f8f9fa;
+        }
+
+        QRadioButton::indicator:hover {
+            border: 2px solid #0066cc;
+            background: #e6f7ff;
+        }
+
+        QRadioButton::indicator:checked {
+            border: 2px solid #0066cc;
+            background: #0066cc;
+        }
+
+        QRadioButton::indicator:checked:hover {
+            background: #0052a3;
+            border: 2px solid #0052a3;
+        }
+
+        QRadioButton:disabled {
+            color: #aaaaaa;
+        }
+
+        QRadioButton::indicator:disabled {
+            border: 2px solid #cccccc;
+            background: #e9ecef;
+        }
+    )";
+    ui->rbMale->setStyleSheet(radioStyle);
+    ui->rbFemale->setStyleSheet(radioStyle);
 
     // Connect signals and slots
         connect(ui->btnExit, &QPushButton::clicked, this, &doctorprofilepage::onCloseButtonClicked);
         connect(ui->btnChangePhoto, &QPushButton::clicked, this, &doctorprofilepage::onChangePhotoClicked);
+        connect(ui->btnSave, &QPushButton::clicked, this, &doctorprofilepage::onSaveButtonClicked);
+
 
         // Set initial values
-        ui->dteWorkTime->setDateTime(QDateTime::currentDateTime());
         ui->dsbFee->setMaximum(9999);
         ui->sbDailyLimit->setMaximum(100);
 
@@ -107,12 +154,20 @@ doctorprofilepage::doctorprofilepage(const QString &doctorId) :
 
     void doctorprofilepage::onChangePhotoClicked()
     {
-        QString file = QFileDialog::getOpenFileName(this, "选择照片", "", "Images (*.png *.jpg *.bmp)");
+        QString file = QFileDialog::getOpenFileName(this, "Select a photo :", "", "Images (*.png *.jpg *.bmp)");
         if (!file.isEmpty()) {
-            ui->lPhoto->setPixmap(QPixmap(file).scaled(100, 100,
-                Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            // Copy ke folder proyek
+            QString targetPath = QCoreApplication::applicationDirPath() + "/photos/" + QFileInfo(file).fileName();
+            if (!QFile::exists(targetPath)) {
+                QFile::copy(file, targetPath);
+            }
+
+            ui->lPhoto->setPixmap(QPixmap(targetPath).scaled(100, 100,
+                        Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            currentPhotoPath = targetPath;
         }
     }
+
 
     void doctorprofilepage::loadDoctorData(const QString &doctorId)
     {
@@ -122,10 +177,13 @@ doctorprofilepage::doctorprofilepage(const QString &doctorId) :
         if (info.isEmpty()) return; // kalau ga ada data
 
         // Isi ke field
-        ui->leUsername->setText(info.value("username").toString());
+        ui->leUsername->setText(info.value("name").toString());
         ui->leEmail->setText(info.value("email").toString());
         ui->lePhone->setText(info.value("phone").toString());
+        ui->leBirthDate->setText(info.value("birth_date").toString());
+        ui->leUserId->setText(info.value("id_card").toString());
         ui->leDepartment->setText(info.value("department").toString());
+        ui->leAddress->setText(info.value("address").toString());
 
         // Jika ada gender
         QString gender = info.value("gender").toString();
@@ -134,9 +192,53 @@ doctorprofilepage::doctorprofilepage(const QString &doctorId) :
 
         // Photo
         QString photoPath = info.value("photo").toString();
-        if (!photoPath.isEmpty()) {
-            ui->lPhoto->setPixmap(QPixmap(photoPath).scaled(100,100,Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            if (!photoPath.isEmpty()) {
+                ui->lPhoto->setPixmap(QPixmap(photoPath).scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                currentPhotoPath = photoPath;  // simpan path foto saat load
+            }
+        if (info.contains("fee"))
+                ui->dsbFee->setValue(info.value("fee").toDouble());
+
+            if (info.contains("daily_limit"))
+                ui->sbDailyLimit->setValue(info.value("daily_limit").toInt());
+    }
+
+    void doctorprofilepage::onSaveButtonClicked()
+    {
+        QString name       = ui->leUsername->text();
+        QString email      = ui->leEmail->text();
+        QString phone      = ui->lePhone->text();
+        QString birthDate  = ui->leBirthDate->text();
+        QString idCard     = ui->leUserId->text();
+        QString department = ui->leDepartment->text();
+        QString address    = ui->leAddress->text();
+        QString gender     = ui->rbMale->isChecked() ? "M" : "F";
+        double fee = ui->dsbFee->value();
+        int dailyLimit = ui->sbDailyLimit->value();
+
+
+        QString photoPath = currentPhotoPath;
+
+        DatabaseManager &db = DatabaseManager::instance();
+        bool success = db.updateDoctor(idCard, name, email, phone, birthDate, department, address, gender, photoPath, fee, dailyLimit);
+        qDebug() << "Binding values:";
+        qDebug() << ":name" << name;
+        qDebug() << ":email" << email;
+        qDebug() << ":phone" << phone;
+        qDebug() << ":birthDate" << birthDate;
+        qDebug() << ":department" << department;
+        qDebug() << ":address" << address;
+        qDebug() << ":gender" << gender;
+        qDebug() << ":photo" << photoPath;
+        qDebug() << ":idCard" << idCard;
+
+
+        if(success) {
+            QMessageBox::information(this, "Success", "Profile updated successfully!");
+        } else {
+            QMessageBox::critical(this, "Error", "Failed to update profile.");
         }
     }
+
 
 

@@ -19,9 +19,11 @@ public:
 private slots:
     void onCloseButtonClicked();
     void onChangePhotoClicked();
+    void onSaveButtonClicked();
 
 private:
     Ui::doctorprofilepage *ui;
+    QString currentPhotoPath;
 };
 
 #endif // DOCTORPROFILEPAGE_H

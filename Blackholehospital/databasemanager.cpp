@@ -172,11 +172,65 @@ QMap<QString, QVariant> DatabaseManager::getDoctorInfo(const QString& idCard) {
     result["phone"] = query.value("phone");
     result["email"] = query.value("email");
     result["address"] = query.value("address");
+    result["department"] = query.value("department");
+    result["fee"] = query.value("fee");
+    result["daily_limit"] = query.value("daily_limit");
+
 
     qDebug() << "Loaded patient info:" << result;
 
     return result;
 }
+
+bool DatabaseManager::updateDoctor(const QString &idCard,
+                                   const QString &name,
+                                   const QString &email,
+                                   const QString &phone,
+                                   const QString &birthDate,
+                                   const QString &department,
+                                   const QString &address,
+                                   const QString &gender,
+                                   const QString &photo,
+                                   double fee,
+                                   int dailyLimit)
+{
+    QSqlQuery query(db);
+    query.prepare(R"(
+        UPDATE doctors SET
+            name = :name,
+            email = :email,
+            phone = :phone,
+            birth_date = :birthDate,
+            department = :department,
+            address = :address,
+            gender = :gender,
+            photo = :photo,
+                  fee = :fee,
+                  daily_limit = :dailyLimit
+
+        WHERE id_card = :idCard
+    )");
+
+    query.bindValue(":name", name);
+    query.bindValue(":email", email);
+    query.bindValue(":phone", phone);
+    query.bindValue(":birthDate", birthDate);
+    query.bindValue(":department", department);
+    query.bindValue(":address", address);
+    query.bindValue(":gender", gender);
+    query.bindValue(":photo", photo);
+    query.bindValue(":fee", fee);
+    query.bindValue(":dailyLimit", dailyLimit);
+    query.bindValue(":idCard", idCard);
+
+    if(!query.exec()) {
+        qDebug() << "Failed to update doctor:" << query.lastError().text();
+        return false;
+    }
+
+    return true;
+}
+
 
 // ----------------- 预约 -----------------
 bool DatabaseManager::addAppointment(int patientId, int doctorId, const QString& appointTime) {
