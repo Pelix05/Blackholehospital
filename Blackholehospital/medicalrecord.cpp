@@ -1,15 +1,20 @@
 #include "medicalrecord.h"
 #include "ui_medicalrecord.h"
 #include "casedialog.h"
+#include "databasemanager.h"
 #include <QStandardItem>
 #include <QMessageBox>
 
-medicalrecord::medicalrecord(QWidget *parent) :
+medicalrecord::medicalrecord(const QString &patientIdCard,QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::medicalrecord)
+    ui(new Ui::medicalrecord),
+    m_patientIdCard(patientIdCard)
 {
     ui->setupUi(this);
     this->setWindowTitle("MEDICAL RECORD");
+    model = new QStandardItemModel(this);
+    model->setHorizontalHeaderLabels({"Record ID", "Date", "Doctor ID", "Doctor Name", "Diagnose"});
+    ui->tableView->setModel(model);
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
 
@@ -46,19 +51,11 @@ medicalrecord::medicalrecord(QWidget *parent) :
                 "}"
     );
 
-
-    model = new QStandardItemModel(this);
-    model -> setHorizontalHeaderLabels({"NO", "DATE", "DEPARTMENT", "MAIN DOCTOR", "USER ID"});
-
-
-    addcase(1, "2023-09-01", "内科", "张三", "1001");
-    addcase(2, "2023-09-05", "外科", "李四", "1002");
-
-    ui->tableView->setModel(model);
-    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-
     connect(ui->tableView,&QTableView::doubleClicked,
             this,&medicalrecord::doubleclicked);
+
+    // 初始加载病例
+    loadMedicalRecords();
 
 }
 
@@ -67,31 +64,108 @@ medicalrecord::~medicalrecord()
     delete ui;
 }
 
-void medicalrecord::addcase(int id, QString date, QString dep, QString doctor, QString job)
+void medicalrecord::loadMedicalRecords()
 {
-    QList<QStandardItem*> row;
-        row << new QStandardItem(QString::number(id))
-            << new QStandardItem(date)
-            << new QStandardItem(dep)
-            << new QStandardItem(doctor)
-            << new QStandardItem(job);
-        model->appendRow(row); //add role to model
-}
+    qDebug() << "Loading medical records for patient id card:" << m_patientIdCard;
 
+    model->removeRows(0, model->rowCount());
+
+    DatabaseManager &db = DatabaseManager::instance();
+
+        // ----------------- 获取患者信息 -----------------
+        QMap<QString, QVariant> patientInfo = db.getPatientInfo(m_patientIdCard);
+        qDebug() << "Patient info:" << patientInfo;
+        if (patientInfo.isEmpty()) {
+            QMessageBox::warning(this, "错误", "未找到该患者信息，无法加载病例！");
+            return;
+        }
+
+        int patientId = patientInfo["patient_id"].toInt();
+         QString patientName = patientInfo["name"].toString();
+
+        QList<QMap<QString, QVariant>> records = db.getMedicalRecordsByPatient(patientId);
+        if (records.isEmpty()) {
+               qDebug() << "No medical records found for patient, generating test data.";
+
+               // 获取医生列表
+               QMap<QString,int> doctorIds;
+               QSqlQuery q2("SELECT doctor_id, name FROM doctors");
+               while(q2.next()) {
+                   doctorIds[q2.value("name").toString()] = q2.value("doctor_id").toInt();
+               }
+
+               if (!doctorIds.isEmpty()) {
+                   // 随机选一个医生
+                   QString docName = doctorIds.firstKey(); // 这里可以改成随机选择
+                   int doctorId = doctorIds[docName];
+
+                   // 插入测试病例
+                   QSqlQuery query;
+                   query.prepare("INSERT INTO medical_records (patient_id, doctor_id, diagnose, created_at) "
+                                 "VALUES (:pid, :did, :diag, datetime('now','localtime'))");
+                   query.bindValue(":pid", patientId);
+                   query.bindValue(":did", doctorId);
+                   query.bindValue(":diag", patientName + " 的测试诊断");
+                   if(!query.exec()) {
+                       qDebug() << "Failed to insert test medical record:" << query.lastError().text();
+                   } else {
+                       qDebug() << "✅ 已为患者" << patientName << "生成测试病例";
+                   }
+
+                   // 再次获取病例
+                   records = db.getMedicalRecordsByPatient(patientId);
+               }
+           }
+
+        qDebug() << "Records found:" << records.size();
+        for (const auto &rec : records) {
+            qDebug() << "Record:" << rec;
+        }
+
+          for (const auto &rec : records) {
+              int doctorId = rec["doctor_id"].toInt();
+
+              // 先通过 doctor_id 查 id_card
+              QSqlQuery q;
+              q.prepare("SELECT id_card FROM doctors WHERE doctor_id=?");
+              q.addBindValue(doctorId);
+              QString doctorIdCard;
+              if (q.exec() && q.next()) {
+                  doctorIdCard = q.value("id_card").toString();
+              } else {
+                  qDebug() << "Cannot find id_card for doctor_id:" << doctorId;
+                  doctorIdCard = ""; // 兜底
+              }
+
+              QMap<QString, QVariant> docInfo = db.getDoctorInfo(doctorIdCard);
+               // 新增按 doctor_id 查询
+              QString doctorName = docInfo.isEmpty() ? QString("医生%1").arg(doctorId) : docInfo["name"].toString();
+
+              QList<QStandardItem*> row;
+              row << new QStandardItem(rec["record_id"].toString());
+              row << new QStandardItem(rec["created_at"].toDateTime().toString("yyyy-MM-dd HH:mm"));
+              row << new QStandardItem(doctorIdCard);
+              row << new QStandardItem(doctorName);
+              row << new QStandardItem(rec["diagnose"].toString());
+
+              model->appendRow(row);
+          }
+}
 
 void medicalrecord::doubleclicked(const QModelIndex &index){
 
+    if (!index.isValid()) return;
+
     int row = index.row();
-    QString doctor = model -> item(row,3)-> text();
-    QString dep = model -> item(row,2)-> text();
-    QString date = model -> item(row,1)-> text();
-    // 使用模拟数据代替数据库查询
-    QString instructions = generateInstructions(dep);
-    QString prescription = generatePrescription(dep);
+    QString recordId = model->item(row, 0)->text();
+    QString diagnose = model->item(row, 4)->text();
 
+    QString department = "未知科室"; // 可以拓展从 doctor_id 查询科室
 
-    casedialog dialog(this);
-    dialog.setCaseInfo(doctor, dep, date, "这是病例诊断结果........");
+    QString instructions = generateInstructions(department);
+    QString prescription = generatePrescription(department);
+
+    casedialog dialog(recordId, diagnose, instructions, prescription, this);
     dialog.exec();
 }
 

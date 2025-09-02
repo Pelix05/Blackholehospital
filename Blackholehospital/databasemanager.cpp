@@ -50,6 +50,7 @@ DatabaseManager::DatabaseManager() {
                               "VALUES (%1, '黑洞医院', '儿科', '门诊3', 'D003', '2025-09-04', '09:00', '17:00', 25.0, 10, 0, 0)")
                       .arg(doctorIds["王五"]));
 
+
        qDebug() << "✅ 已预存三条测试排班&doctor数据";
     }
 
@@ -165,6 +166,8 @@ QMap<QString, QVariant> DatabaseManager::getPatientInfo(const QString& idCard) {
     result["phone"] = query.value("phone");
     result["email"] = query.value("email");
     result["address"] = query.value("address");
+    result["patient_id"] = query.value("patient_id");
+
 
     qDebug() << "Loaded patient info:" << result;
 
