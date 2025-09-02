@@ -140,7 +140,7 @@ void medicinesearch::onSearch()
 
     // 显示图片
     QPixmap pix(imagePath);
-    ui->lblImage->setPixmap(pix.scaled(150, 150, Qt::KeepAspectRatio));
+    ui->lblImage->setPixmap(pix.scaled(300, 300, Qt::KeepAspectRatio));
 
     // 显示信息
     QString text = QString("【药品名称】%1\n【类别】%2\n【规格】%3\n\n"
