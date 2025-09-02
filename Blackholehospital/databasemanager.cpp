@@ -427,7 +427,7 @@ bool DatabaseManager::addAppointment(int patientId, int doctorId, const QString&
     return true;
 }
 
-QList<QMap<QString, QVariant>> DatabaseManager::getAppointmentsByDoctor(int doctorId, const QString& date) {
+QList<QMap<QString, QVariant>> DatabaseManager::getAppointmentsByDoctor(const QString& doctorId, const QString& date) {
     QSqlQuery query;
     query.prepare("SELECT appointment_id, patient_id, appoint_time, status "
                   "FROM appointments "
@@ -492,3 +492,22 @@ QList<QMap<QString, QVariant>> DatabaseManager::getMedicalRecordsByPatient(int p
     }
     return results;
 }
+
+QMap<QString, QVariant> DatabaseManager::getPatientInfoById(int patientId) {
+    QSqlQuery query;
+    query.prepare("SELECT * FROM patients WHERE patient_id=?");
+    query.addBindValue(patientId);
+
+    QMap<QString, QVariant> result;
+    if (query.exec() && query.next()) {
+        result["name"] = query.value("name");
+        result["gender"] = query.value("gender");
+        result["birth_date"]= query.value("birth_date").toString();
+        result["id_card"] = query.value("id_card");
+        result["phone"] = query.value("phone");
+        result["email"] = query.value("email");
+        result["address"] = query.value("address");
+    }
+    return result;
+}
+

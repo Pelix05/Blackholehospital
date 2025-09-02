@@ -44,12 +44,13 @@ public:
 
     // 预约
     bool addAppointment(int patientId, int doctorId, const QString& appointTime);
-    QList<QMap<QString, QVariant>> getAppointmentsByDoctor(int doctorId, const QString& date);
+    QList<QMap<QString, QVariant>> getAppointmentsByDoctor(const QString& doctorId, const QString& date);
     bool updateAppointmentStatus(int appointmentId, const QString& status);
 
     // 病例
     bool addMedicalRecord(int patientId, int doctorId, const QString& diagnose);
     QList<QMap<QString, QVariant>> getMedicalRecordsByPatient(int patientId);
+
 
     bool updateDoctor(const QString &idCard,
                       const QString &name,
@@ -62,6 +63,8 @@ public:
                       const QString &photo,
                       double fee,
                       int dailyLimit);
+
+    QMap<QString, QVariant> getPatientInfoById(int patientId);
 
 
     // ===== 医生排班 =====

@@ -98,7 +98,7 @@ void doctorwindow::onExitClicked()
 
 void doctorwindow::onAppointmentInfoClicked()
 {
-    appointmentlistpage *appointmentPage = new appointmentlistpage();
+    appointmentlistpage *appointmentPage = new appointmentlistpage(currentDoctorId);
     appointmentPage->show();
 
 }

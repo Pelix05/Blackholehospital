@@ -12,7 +12,7 @@ class appointmentlistpage : public QWidget
     Q_OBJECT
 
 public:
-    explicit appointmentlistpage(QWidget *parent = nullptr);
+    explicit appointmentlistpage(const QString doctorId, QWidget *parent = nullptr);
     ~appointmentlistpage();
 
 signals:
@@ -23,6 +23,7 @@ private:
     void populateAppointmentData();
     void on_btnBack_clicked();
     void onTableCellClicked(int row, int column);
+    QString m_doctorId;
 };
 
 #endif // APPOINTMENTLISTPAGE_H

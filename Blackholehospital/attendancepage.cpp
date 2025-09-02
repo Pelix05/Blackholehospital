@@ -295,7 +295,6 @@ attendancepage::attendancepage(QWidget *parent) :
             }
 
 
-            ui->lStatusIn->setText(displayText);  // Bisa juga buat label baru khusus
         }
     }
 

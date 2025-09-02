@@ -2,11 +2,16 @@
 #include "patientdetailpage.h"
 #include "ui_appointmentlistpage.h"
 #include "doctorwindow.h"
-#include <QTableWidgetItem>
+#include "databasemanager.h"
 
-appointmentlistpage::appointmentlistpage(QWidget *parent) :
+#include <QTableWidgetItem>
+#include <QDate>
+
+
+appointmentlistpage::appointmentlistpage(const QString doctorId, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::appointmentlistpage)
+    ui(new Ui::appointmentlistpage),
+  m_doctorId(doctorId)
 {
     ui->setupUi(this);
     this->setWindowTitle("APPOINTMENT LIST");
@@ -106,29 +111,41 @@ appointmentlistpage::~appointmentlistpage()
 
 void appointmentlistpage::populateAppointmentData()
 {
-    QStringList numberIds = {"101", "102", "103", "104"};  // Ini numberID pasien
-        QStringList patients  = {"张三", "李四", "王五", "赵六"};
-        QStringList times = {"2023-10-15 09:00", "2023-10-15 10:30", "2023-10-15 14:00", "2023-10-16 11:00"};
-        QStringList statuses = {"待就诊", "已就诊", "已取消", "待就诊"};
-        QStringList contacts = {"13800138000", "13900139000", "13700137000", "13600136000"};
-        QStringList descriptions = {"感冒发烧", "肠胃不适", "腰背疼痛", "年度体检"};
+    ui->tAppointment->clear();
+       ui->tAppointment->setColumnCount(6);
+       QStringList headers = {"NumberID", "Patient", "Time", "Status", "Contact", "Description"};
+       ui->tAppointment->setHorizontalHeaderLabels(headers);
 
-        ui->tAppointment->setRowCount(patients.size());
-        ui->tAppointment->setColumnCount(6); // tambah column numberID
-        QStringList headers = {"NumberID", "Patient", "Time", "Status", "Contact", "Description"};
-        ui->tAppointment->setHorizontalHeaderLabels(headers);
+       // ambil dari DB
+       QString today = QDate::currentDate().toString("yyyy-MM-dd");
+       QList<QMap<QString, QVariant>> appointments = DatabaseManager::instance().getAppointmentsByDoctor(m_doctorId, today);
 
-        for(int i = 0; i < patients.size(); ++i) {
-            ui->tAppointment->setItem(i, 0, new QTableWidgetItem(numberIds[i])); // numberID
-            ui->tAppointment->setItem(i, 1, new QTableWidgetItem(patients[i]));
-            ui->tAppointment->setItem(i, 2, new QTableWidgetItem(times[i]));
-            ui->tAppointment->setItem(i, 3, new QTableWidgetItem(statuses[i]));
-            ui->tAppointment->setItem(i, 4, new QTableWidgetItem(contacts[i]));
-            ui->tAppointment->setItem(i, 5, new QTableWidgetItem(descriptions[i]));
-        }
+       ui->tAppointment->setRowCount(appointments.size());
 
-        ui->tAppointment->hideColumn(0);
+       for (int i = 0; i < appointments.size(); ++i) {
+           auto record = appointments[i];
 
+           int patientId = record["patient_id"].toInt();
+
+           // 🔹 ambil info pasien
+           QMap<QString, QVariant> patient = DatabaseManager::instance().getPatientInfoById(patientId);
+
+           // 🔹 ambil diagnose terbaru dari medical_records
+           QString diagnose = "";
+           QList<QMap<QString, QVariant>> records = DatabaseManager::instance().getMedicalRecordsByPatient(patientId);
+           if (!records.isEmpty()) {
+               diagnose = records.first()["diagnose"].toString();
+           }
+
+           ui->tAppointment->setItem(i, 0, new QTableWidgetItem(QString::number(record["appointment_id"].toInt())));
+           ui->tAppointment->setItem(i, 1, new QTableWidgetItem(patient["name"].toString()));
+           ui->tAppointment->setItem(i, 2, new QTableWidgetItem(record["appoint_time"].toString()));
+           ui->tAppointment->setItem(i, 3, new QTableWidgetItem(record["status"].toString()));
+           ui->tAppointment->setItem(i, 4, new QTableWidgetItem(patient["phone"].toString()));
+           ui->tAppointment->setItem(i, 5, new QTableWidgetItem(diagnose));
+       }
+
+       ui->tAppointment->hideColumn(0);
         connect(ui->tAppointment, &QTableWidget::cellClicked, this, &appointmentlistpage::onTableCellClicked);
 }
 
