@@ -41,7 +41,7 @@
      <string>Full Name :</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="leDepartement">
+   <widget class="QLineEdit" name="leDepartment">
     <property name="geometry">
      <rect>
       <x>390</x>
@@ -61,7 +61,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Personal Information :</string>
+     <string>Gender :</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="leUserId">
@@ -172,16 +172,6 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lePersonalInformation">
-    <property name="geometry">
-     <rect>
-      <x>390</x>
-      <y>340</y>
-      <width>400</width>
-      <height>30</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btnExit">
     <property name="geometry">
      <rect>
@@ -218,7 +208,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="leUsername">
     <property name="geometry">
      <rect>
       <x>390</x>
@@ -258,7 +248,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_5">
+   <widget class="QLineEdit" name="leAddress">
     <property name="geometry">
      <rect>
       <x>1000</x>
@@ -318,6 +308,45 @@
     </property>
     <property name="text">
      <string>SAVE</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="rbMale">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>340</y>
+      <width>133</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Male</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="rbFemale">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>340</y>
+      <width>133</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Female</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_11">
+    <property name="geometry">
+     <rect>
+      <x>1000</x>
+      <y>310</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Address :</string>
     </property>
    </widget>
   </widget>

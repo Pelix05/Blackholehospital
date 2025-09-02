@@ -21,33 +21,30 @@ patientinfo::patientinfo(const QString &idCard) :
             color: #333;
         }
 
-        QLabel {
-            font-size: 14px;
-            color: #222;
-            padding: 2px;
-        }
-
-        /* Label untuk judul data (Nama:, Gender:, dll.) */
-        QLabel[data-label="title"] {
-            font-weight: bold;
-            color: #555;
-        }
-
-        /* Label untuk isi data pasien */
-        QLabel[data-label="value"] {
+        /* Frame besar (utama) */
+        QFrame#infoFrame {
             background-color: #ffffff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 6px 10px;
-            min-width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
         }
 
+        /* Frame kecil (row value) */
+        QFrame.valueFrame {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 6px;
+        }
+
+        /* Buttons */
         QPushButton {
             background-color: #4CAF50;
             color: white;
             border-radius: 10px;
             padding: 8px 16px;
             font-size: 14px;
+            font-weight: 500;
         }
 
         QPushButton:hover {
@@ -57,8 +54,11 @@ patientinfo::patientinfo(const QString &idCard) :
         QPushButton:pressed {
             background-color: #0078d7;
         }
-
     )");
+
+
+
+
 
 
     qDebug() << "idCard:" << idCard;

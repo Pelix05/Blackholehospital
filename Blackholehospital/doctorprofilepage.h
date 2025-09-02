@@ -12,8 +12,9 @@ class doctorprofilepage : public QWidget
     Q_OBJECT
 
 public:
-    explicit doctorprofilepage(QWidget *parent = nullptr);
+    explicit doctorprofilepage(const QString &doctorId);
     ~doctorprofilepage();
+     void loadDoctorData(const QString &doctorId);
 
 private slots:
     void onCloseButtonClicked();

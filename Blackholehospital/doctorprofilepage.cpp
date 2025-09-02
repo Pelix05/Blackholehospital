@@ -1,11 +1,11 @@
 #include "doctorprofilepage.h"
 #include "ui_doctorprofilepage.h"
-
+#include "databasemanager.h"
 #include <QFileDialog>
 #include <QPixmap>
 
-doctorprofilepage::doctorprofilepage(QWidget *parent) :
-    QWidget(parent),
+doctorprofilepage::doctorprofilepage(const QString &doctorId) :
+
     ui(new Ui::doctorprofilepage)
 {
     ui->setupUi(this);
@@ -91,6 +91,8 @@ doctorprofilepage::doctorprofilepage(QWidget *parent) :
         // Set initial photo
         ui->lPhoto->setPixmap(QPixmap(":/images/doctor.png").scaled(100, 100,
             Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+        loadDoctorData(doctorId);
     }
 
     doctorprofilepage::~doctorprofilepage()
@@ -111,3 +113,30 @@ doctorprofilepage::doctorprofilepage(QWidget *parent) :
                 Qt::KeepAspectRatio, Qt::SmoothTransformation));
         }
     }
+
+    void doctorprofilepage::loadDoctorData(const QString &doctorId)
+    {
+        DatabaseManager &db = DatabaseManager::instance();
+        QMap<QString, QVariant> info = db.getDoctorInfo(doctorId); // pastikan doctorId int di DB
+
+        if (info.isEmpty()) return; // kalau ga ada data
+
+        // Isi ke field
+        ui->leUsername->setText(info.value("username").toString());
+        ui->leEmail->setText(info.value("email").toString());
+        ui->lePhone->setText(info.value("phone").toString());
+        ui->leDepartment->setText(info.value("department").toString());
+
+        // Jika ada gender
+        QString gender = info.value("gender").toString();
+        if (gender == "M") ui->rbMale->setChecked(true);
+        else if (gender == "F") ui->rbFemale->setChecked(true);
+
+        // Photo
+        QString photoPath = info.value("photo").toString();
+        if (!photoPath.isEmpty()) {
+            ui->lPhoto->setPixmap(QPixmap(photoPath).scaled(100,100,Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        }
+    }
+
+

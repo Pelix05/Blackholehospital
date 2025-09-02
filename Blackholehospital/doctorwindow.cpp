@@ -8,6 +8,8 @@
 #include "patientdetailpage.h"
 #include "prescriptionpage.h"
 #include "loginwidget.h"
+#include "personalprofile.h"
+
 
 doctorwindow::doctorwindow(QWidget *parent) :
     QWidget(parent),
@@ -85,7 +87,7 @@ doctorwindow::doctorwindow(QWidget *parent) :
 
 void doctorwindow::onEditProfileClicked()
 {
-    doctorprofilepage *profilePage = new doctorprofilepage();
+    doctorprofilepage *profilePage = new doctorprofilepage(currentinfo.idNumber);
     profilePage->show();
 }
 

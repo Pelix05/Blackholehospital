@@ -2,6 +2,7 @@
 #define DOCTORWINDOW_H
 
 #include <QWidget>
+#include "personalprofile.h"
 
 namespace Ui {
 class doctorwindow;
@@ -27,6 +28,7 @@ private slots:
 
 private:
     Ui::doctorwindow *ui;
+    personalinfo currentinfo;
 };
 
 #endif // DOCTORWINDOW_H

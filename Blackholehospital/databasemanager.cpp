@@ -157,7 +157,7 @@ QMap<QString, QVariant> DatabaseManager::getDoctorInfo(const QString& idCard) {
     if (!query.next()) {
         qDebug() << "No rows returned for idcard:" << idCard;
         // 打印数据库里所有患者，确认表里是否有数据
-        QSqlQuery q("SELECT id_card, name FROM patients");
+        QSqlQuery q("SELECT id_card, name FROM doctors");
         while (q.next()) {
             qDebug() << "Doctor row:" << q.value("id_card").toString() << q.value("name").toString();
         }
