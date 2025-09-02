@@ -1,6 +1,7 @@
 #include "loginwidget.h"
 #include "patientmainwindow.h"
 #include "SmartMedicalDB.h"
+#include "databasemanager.h"
 
 #include <QApplication>
 

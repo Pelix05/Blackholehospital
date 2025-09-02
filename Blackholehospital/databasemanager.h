@@ -44,7 +44,7 @@ public:
 
     // 预约
     bool addAppointment(int patientId, int doctorId, const QString& appointTime);
-    QList<QMap<QString, QVariant>> getAppointmentsByDoctor(const QString& doctorId, const QString& date);
+    QList<QMap<QString, QVariant>> getAppointmentsByDoctor();
     bool updateAppointmentStatus(int appointmentId, const QString& status);
 
     // 病例

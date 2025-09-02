@@ -13,7 +13,7 @@ class PatientDetailPage : public QWidget
     Q_OBJECT
 
 public:
-    explicit PatientDetailPage(const QString &patientInfo, QWidget *parent = nullptr);
+    explicit PatientDetailPage(const QString &patientInfo);
     ~PatientDetailPage();
 
 private slots:

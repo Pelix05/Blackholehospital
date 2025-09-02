@@ -34,6 +34,7 @@ DatabaseManager::DatabaseManager() {
        }
 
 
+
        // 3. 插入排班数据，使用真实 doctor_id
            query.exec(QString("INSERT OR IGNORE INTO doctor_schedules "
                               "(doctor_id, hospital, department, clinic, job_number, work_date, start_time, end_time, fee, limit_per_day, supports_appointment, booked_count) "
@@ -427,13 +428,12 @@ bool DatabaseManager::addAppointment(int patientId, int doctorId, const QString&
     return true;
 }
 
-QList<QMap<QString, QVariant>> DatabaseManager::getAppointmentsByDoctor(const QString& doctorId, const QString& date) {
+QList<QMap<QString, QVariant>> DatabaseManager::getAppointmentsByDoctor() {
     QSqlQuery query;
     query.prepare("SELECT appointment_id, patient_id, appoint_time, status "
                   "FROM appointments "
-                  "WHERE doctor_id=? AND DATE(appoint_time)=?");
-    query.addBindValue(doctorId);
-    query.addBindValue(date);
+                  );
+
     QList<QMap<QString, QVariant>> results;
     if (query.exec()) {
         while (query.next()) {

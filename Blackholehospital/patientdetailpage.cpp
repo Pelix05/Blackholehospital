@@ -3,9 +3,9 @@
 #include "prescriptionpage.h"
 #include <QMessageBox>
 
-PatientDetailPage::PatientDetailPage(const QString &patientInfo, QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::PatientDetailPage)
+PatientDetailPage::PatientDetailPage(const QString &patientInfo)
+    :
+     ui(new Ui::PatientDetailPage)
     , patientInfo(patientInfo)
 {
     ui->setupUi(this);

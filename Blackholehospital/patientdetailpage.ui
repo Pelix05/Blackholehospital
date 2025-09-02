@@ -16,8 +16,8 @@
   <widget class="QLabel" name="infoLabel">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>40</y>
+     <x>270</x>
+     <y>60</y>
      <width>311</width>
      <height>61</height>
     </rect>
@@ -123,6 +123,19 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>BACK</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>60</y>
+     <width>191</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;ID NUMBER :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
  </widget>

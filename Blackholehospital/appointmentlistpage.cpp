@@ -16,6 +16,23 @@ appointmentlistpage::appointmentlistpage(const QString doctorId, QWidget *parent
     ui->setupUi(this);
     this->setWindowTitle("APPOINTMENT LIST");
     this->setObjectName("appointmentListPage");
+
+    QSqlQuery q;
+       q.exec("INSERT OR IGNORE INTO patients (patient_id, name, id_card, phone, email, address, gender, dob) "
+              "VALUES (1, 'Alice', 'P001', '13811110001', 'alice@example.com', 'Address A', 'F', '1990-01-01')");
+       q.exec("INSERT OR IGNORE INTO patients (patient_id, name, id_card, phone, email, address, gender, dob) "
+              "VALUES (2, 'Bob', 'P002', '13811110002', 'bob@example.com', 'Address B', 'M', '1985-02-02')");
+
+       q.exec("INSERT OR IGNORE INTO doctors (doctor_id, name, id_card, phone, email, address, gender, dob) "
+              "VALUES (456, 'Dr. Zhang', 'D001', '13800000001', 'zhang@example.com', 'Address 1', 'M', '1980-01-01')");
+       q.exec("INSERT OR IGNORE INTO doctors (doctor_id, name, id_card, phone, email, address, gender, dob) "
+              "VALUES (456, 'Dr. Li', 'D002', '13800000002', 'li@example.com', 'Address 2', 'F', '1985-02-02')");
+
+       // Dummy appointments
+       q.exec("INSERT OR IGNORE INTO appointments (appointment_id, patient_id, doctor_id, appoint_time, status) "
+              "VALUES (1, 1, 456, '2025-09-03 09:00:00', 'booked')");
+       q.exec("INSERT OR IGNORE INTO appointments (appointment_id, patient_id, doctor_id, appoint_time, status) "
+              "VALUES (2, 2, 456, '2025-09-03 14:00:00', 'booked')");
         ui->tAppointment->setObjectName("appointmentTable");
         ui->btnBack->setObjectName("btnBack");
 
@@ -118,7 +135,8 @@ void appointmentlistpage::populateAppointmentData()
 
        // ambil dari DB
        QString today = QDate::currentDate().toString("yyyy-MM-dd");
-       QList<QMap<QString, QVariant>> appointments = DatabaseManager::instance().getAppointmentsByDoctor(m_doctorId, today);
+       QList<QMap<QString, QVariant>> appointments = DatabaseManager::instance().getAppointmentsByDoctor();
+
 
        ui->tAppointment->setRowCount(appointments.size());
 
@@ -159,7 +177,7 @@ void appointmentlistpage::onTableCellClicked(int row, int column)
             // Buka patientinfo page sesuai numberID
 
 
-            PatientDetailPage *patientdetailPage = new PatientDetailPage(numberId,this);
+            PatientDetailPage *patientdetailPage = new PatientDetailPage(numberId);
             patientdetailPage->show();
 
 
