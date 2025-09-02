@@ -54,6 +54,7 @@ HEADERS += \
     dataanalysispage.h \
     databasemanager.h \
     doctordetial.h \
+    doctorinfo.h \
     doctorplatform.h \
     doctorprofilepage.h \
     doctorwindow.h \

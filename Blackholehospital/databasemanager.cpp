@@ -12,6 +12,59 @@ DatabaseManager::DatabaseManager() {
     if (!db.isOpen()) {
         qDebug() << "Database not open in DatabaseManager!";
     }
+
+    QSqlQuery checkQuery;
+    checkQuery.exec("SELECT COUNT(*) FROM doctors");
+    if (checkQuery.next() && checkQuery.value(0).toInt() == 0) {
+    // ======== 预存三条医生排班数据（仅测试用） ========
+       QSqlQuery query;
+
+       query.exec("INSERT OR IGNORE INTO doctors (name, birth_date, id_card, phone, email, address, gender) "
+                  "VALUES ('张三','1980-01-01','D001','13800000001','zhangsan@example.com','地址1','M')");
+       query.exec("INSERT OR IGNORE INTO doctors (name, birth_date, id_card, phone, email, address, gender) "
+                  "VALUES ('李四','1985-02-02','D002','13800000002','lisi@example.com','地址2','F')");
+       query.exec("INSERT OR IGNORE INTO doctors (name, birth_date, id_card, phone, email, address, gender) "
+                  "VALUES ('王五','1990-03-03','D003','13800000003','地址3','M')");
+
+       // 查询真实 doctor_id
+       QMap<QString,int> doctorIds;
+       QSqlQuery q2("SELECT doctor_id, name FROM doctors");
+       while(q2.next()) {
+           doctorIds[q2.value("name").toString()] = q2.value("doctor_id").toInt();
+       }
+
+
+       // 3. 插入排班数据，使用真实 doctor_id
+           query.exec(QString("INSERT OR IGNORE INTO doctor_schedules "
+                              "(doctor_id, hospital, department, clinic, job_number, work_date, start_time, end_time, fee, limit_per_day, supports_appointment, booked_count) "
+                              "VALUES (%1, '黑洞医院', '内科', '门诊1', 'D001', '2025-09-03', '08:00', '12:00', 20.0, 20, 1, 0)")
+                      .arg(doctorIds["张三"]));
+
+           query.exec(QString("INSERT OR IGNORE INTO doctor_schedules "
+                              "(doctor_id, hospital, department, clinic, job_number, work_date, start_time, end_time, fee, limit_per_day, supports_appointment, booked_count) "
+                              "VALUES (%1, '黑洞医院', '外科', '门诊2', 'D002', '2025-09-03', '14:00', '18:00', 30.0, 15, 1, 0)")
+                      .arg(doctorIds["李四"]));
+
+           query.exec(QString("INSERT OR IGNORE INTO doctor_schedules "
+                              "(doctor_id, hospital, department, clinic, job_number, work_date, start_time, end_time, fee, limit_per_day, supports_appointment, booked_count) "
+                              "VALUES (%1, '黑洞医院', '儿科', '门诊3', 'D003', '2025-09-04', '09:00', '17:00', 25.0, 10, 0, 0)")
+                      .arg(doctorIds["王五"]));
+
+       qDebug() << "✅ 已预存三条测试排班&doctor数据";
+    }
+
+       QSqlQuery q("SELECT doctor_id, name FROM doctors");
+       while(q.next()) {
+           qDebug() << "Doctor table:" << q.value("doctor_id").toInt()
+                    << q.value("name").toString();
+       }
+
+
+       QSqlQuery q3("SELECT doctor_id, department FROM doctor_schedules");
+       while(q3.next()) {
+           qDebug() << "Schedule table:" << q3.value("doctor_id").toInt() << q3.value("department").toString();
+       }
+
 }
 
 // ----------------- 用户 -----------------
@@ -107,7 +160,7 @@ QMap<QString, QVariant> DatabaseManager::getPatientInfo(const QString& idCard) {
     // ✅ 成功获取数据
     result["name"] = query.value("name");
     result["gender"] = query.value("gender");
-    result["birth_date"] = query.value("birth_date");
+    result["birth_date"]= query.value("birth_date").toString(); // 保证字符串格式
     result["id_card"] = query.value("id_card");
     result["phone"] = query.value("phone");
     result["email"] = query.value("email");
@@ -231,6 +284,130 @@ bool DatabaseManager::updateDoctor(const QString &idCard,
     return true;
 }
 
+// ===== 医生排班 =====
+bool DatabaseManager::addDoctorSchedule(int doctorId, const QString& hospital,
+                                        const QString& department, const QString& clinic,
+                                        const QString& jobNumber, const QDate& workDate,
+                                        const QTime& start, const QTime& end,
+                                        double fee, int limitPerDay,
+                                        bool supportsAppointment) {
+    QSqlQuery query;
+    query.prepare(R"(
+        INSERT INTO doctor_schedules
+        (doctor_id, hospital, department, clinic, job_number,
+         work_date, start_time, end_time, fee, limit_per_day, supports_appointment)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    )");
+    query.addBindValue(doctorId);
+    query.addBindValue(hospital);
+    query.addBindValue(department);
+    query.addBindValue(clinic);
+    query.addBindValue(jobNumber);
+    query.addBindValue(workDate);
+    query.addBindValue(start);
+    query.addBindValue(end);
+    query.addBindValue(fee);
+    query.addBindValue(limitPerDay);
+    query.addBindValue(supportsAppointment);
+
+    if (!query.exec()) {
+        qDebug() << "Add schedule failed:" << query.lastError().text();
+        return false;
+    }
+    return true;
+}
+
+QList<QVariantMap> DatabaseManager::queryDoctorSchedules(
+    const QString& hospital, const QString& department,
+    const QString& clinic, const QDate& onDate,
+    const QTime& atTime, bool requireSupportAppointment) {
+
+    QList<QVariantMap> results;
+    QString sql = "SELECT s.*, d.name, d.gender, d.phone, d.email "
+                  "FROM doctor_schedules s "
+                  "JOIN doctors d ON s.doctor_id = d.doctor_id WHERE 1=1 ";
+
+    if (!hospital.isEmpty()) sql += " AND hospital='" + hospital + "'";
+    if (!department.isEmpty()) sql += " AND department='" + department + "'";
+    if (!clinic.isEmpty()) sql += " AND clinic='" + clinic + "'";
+    if (onDate.isValid()) sql += " AND work_date='" + onDate.toString("yyyy-MM-dd") + "'";
+    if (atTime.isValid()) sql += " AND start_time<='" + atTime.toString("HH:mm") + "' AND end_time>='" + atTime.toString("HH:mm") + "'";
+    if (requireSupportAppointment) sql += " AND supports_appointment=1";
+
+    QSqlQuery query(sql);
+    while (query.next()) {
+        QVariantMap m;
+        m["schedule_id"] = query.value("schedule_id");
+        m["doctor_id"] = query.value("doctor_id");
+        m["name"] = query.value("name");
+        m["hospital"] = query.value("hospital");
+        m["department"] = query.value("department");
+        m["clinic"] = query.value("clinic");
+        m["work_date"] = query.value("work_date");
+        m["start_time"] = query.value("start_time");
+        m["end_time"] = query.value("end_time");
+        m["fee"] = query.value("fee");
+        m["limit_per_day"] = query.value("limit_per_day");
+        m["booked_count"] = query.value("booked_count");
+        results.append(m);
+    }
+    return results;
+}
+
+// ===== 挂号/预约 =====
+bool DatabaseManager::bookAppointmentBySchedule(const QString& patientIdCard,
+                                                int scheduleId,
+                                                const QDateTime& appointTime,
+                                                QString* errorOut) {
+    // 查找患者
+    QSqlQuery q1;
+    qDebug() << "Looking for patient id_card:" << patientIdCard;
+    q1.prepare("SELECT patient_id FROM patients WHERE id_card=?");
+    q1.addBindValue(patientIdCard);
+    if (!q1.exec() || !q1.next()) {
+        if (errorOut) *errorOut = "未找到患者";
+        return false;
+    }
+    int patientId = q1.value(0).toInt();
+
+    // 查找排班
+    QSqlQuery q2;
+    q2.prepare("SELECT doctor_id, limit_per_day, booked_count "
+               "FROM doctor_schedules WHERE schedule_id=?");
+    q2.addBindValue(scheduleId);
+    if (!q2.exec() || !q2.next()) {
+        if (errorOut) *errorOut = "未找到医生排班";
+        return false;
+    }
+    int doctorId = q2.value(0).toInt();
+    int limit = q2.value(1).toInt();
+    int booked = q2.value(2).toInt();
+
+    if (booked >= limit) {
+        if (errorOut) *errorOut = "预约人数已满";
+        return false;
+    }
+
+    // 插入预约
+    QSqlQuery q3;
+    q3.prepare("INSERT INTO appointments (patient_id, doctor_id, appoint_time) "
+               "VALUES (?, ?, ?)");
+    q3.addBindValue(patientId);
+    q3.addBindValue(doctorId);
+    q3.addBindValue(appointTime);
+    if (!q3.exec()) {
+        if (errorOut) *errorOut = q3.lastError().text();
+        return false;
+    }
+
+    // 更新已约人数
+    QSqlQuery q4;
+    q4.prepare("UPDATE doctor_schedules SET booked_count=booked_count+1 WHERE schedule_id=?");
+    q4.addBindValue(scheduleId);
+    q4.exec();
+
+    return true;
+}
 
 // ----------------- 预约 -----------------
 bool DatabaseManager::addAppointment(int patientId, int doctorId, const QString& appointTime) {

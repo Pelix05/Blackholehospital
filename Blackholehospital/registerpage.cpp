@@ -1,18 +1,31 @@
 #include "registerpage.h"
 #include "ui_registerpage.h"
-#include "doctordetial.h"
+#include "databasemanager.h"
 #include <QDialog>
 #include <QMessageBox>
 #include <QStandardItem>
 #include <QTableView>
+#include <QDate>
+#include <QTime>
 
-registerpage::registerpage(QWidget *parent) :
+registerpage::registerpage(const QString &patientIdCard, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::registerpage)
+  , m_patientIdCard(patientIdCard)
 {
+    qDebug() << "registerpage created for patientIdCard:" << m_patientIdCard;
     ui->setupUi(this);
     this->setWindowTitle("REGISTER");
+    // 设置表格模型
+    model = new QStandardItemModel(this);
+    model->setHorizontalHeaderLabels({
+        "排班ID", "医生姓名", "科室", "门诊", "工号",
+        "上班时间", "下班时间", "挂号费用", "限额", "已预约人数"
+    });
+
+    ui->tableView->setModel(model);
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
 
 
@@ -76,30 +89,49 @@ registerpage::registerpage(QWidget *parent) :
         "}"
     );
 
+    loadDoctorSchedules();
 
     connect(ui->pushButton, &QPushButton::clicked,
             this, &registerpage::button_clicked);
 
     connect(ui->tableView, &QTableView::doubleClicked,
             this, &registerpage::onDoctorDoubleClicked);
-
-
-    model = new QStandardItemModel(this);
-    model->setHorizontalHeaderLabels(
-        {"Appointment Number", "Department", "User ID", "Name", "Work Time", "Fee", "Maximum", "Appointment", "Slot"}
-    );
-
-    // 添加测试数据
-    addDoctor("D001", "内科", "1001", "张三", "08:00-12:00", 20, 10, 3);
-    addDoctor("D002", "外科", "1002", "李四", "14:00-18:00", 25, 8, 8);
-
-    ui->tableView->setModel(model);
-    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 }
 
 registerpage::~registerpage()
 {
     delete ui;
+}
+
+void registerpage::loadDoctorSchedules()
+{
+    model->removeRows(0, model->rowCount());
+
+    // 调用数据库查询接口（这里传空参数表示查询全部）
+    auto schedules = DatabaseManager::instance().queryDoctorSchedules(
+        "", "", "", QDate(), QTime(), false);
+    qDebug() << "Schedules size:" << schedules.size();
+
+    QString sql = "SELECT s.*, d.name, d.gender, d.phone, d.email "
+                  "FROM doctor_schedules s "
+                  "JOIN doctors d ON s.doctor_id = d.doctor_id WHERE 1=1 ";
+    qDebug() << sql;
+
+
+    for (int i = 0; i < schedules.size(); ++i) {
+        QList<QStandardItem*> row;
+        row << new QStandardItem(schedules[i]["schedule_id"].toString())
+            << new QStandardItem(schedules[i]["name"].toString())
+            << new QStandardItem(schedules[i]["department"].toString())
+            << new QStandardItem(schedules[i]["clinic"].toString())
+            << new QStandardItem(schedules[i]["job_number"].toString())
+            << new QStandardItem(schedules[i]["start_time"].toString())
+            << new QStandardItem(schedules[i]["end_time"].toString())
+            << new QStandardItem(schedules[i]["fee"].toString())
+            << new QStandardItem(schedules[i]["limit_per_day"].toString())
+            << new QStandardItem(schedules[i]["booked_count"].toString());
+        model->appendRow(row);
+    }
 }
 
 void registerpage::button_clicked()
@@ -112,62 +144,31 @@ void registerpage::button_clicked()
         return;
     }
 
-    QModelIndex index = selection->currentIndex();
-    int row = index.row();
-    int booked = model->item(row, 7)->text().toInt();
-    int limit  = model->item(row, 6)->text().toInt();
-    int remain = model->item(row, 8)->text().toInt();
+    int row = selection->currentIndex().row();
+    int scheduleId = model->item(row, 0)->text().toInt();
 
-    if (remain <= 0) {
-        QMessageBox::information(this, "Attention", "This Doctor cannot make another appointment");
-        return;
-    }
+    QString error;
+       bool ok = DatabaseManager::instance().bookAppointmentBySchedule(
+           m_patientIdCard, scheduleId, QDateTime::currentDateTime(), &error);
 
-    booked++;
-    remain = limit - booked;
-    model->setItem(row, 7, new QStandardItem(QString::number(booked)));
-    model->setItem(row, 8, new QStandardItem(QString::number(remain)));
-
-    QMessageBox::information(this, "Success", "Successfully make an appointment!");
+       if (ok) {
+           QMessageBox::information(this, "成功", "挂号成功！");
+           loadDoctorSchedules();  // 刷新
+       } else {
+           QMessageBox::critical(this, "失败", "挂号失败: " + error);
+       }
 }
 
 // 双击医生姓名时弹出详情
 void registerpage::onDoctorDoubleClicked(const QModelIndex &index)
 {
     int row = index.row();
-    int col = index.column();
+    QString name = model->item(row, 1)->text();
+    QString dept = model->item(row, 2)->text();
+    QString clinic = model->item(row, 3)->text();
+    QString profile = name + " 医生（科室：" + dept + "，门诊：" + clinic + "），经验丰富。";
 
-    // 只处理“姓名”列（第 3 列，索引为 3）
-    if (col == 3) {
-        QString jobId   = model->item(row, 2)->text();
-        QString dep     = model->item(row, 1)->text();
-        QString name    = model->item(row, 3)->text();
-        QString workTime= model->item(row, 4)->text();
-        double fee      = model->item(row, 5)->text().toDouble();
-        int limit       = model->item(row, 6)->text().toInt();
-
-        // 可以改成数据库取真实资料和头像路径
-        QString profile = name + " 医生，经验丰富，擅长临床诊断与治疗。";
-        QString photoPath = ":/images/default_doctor.png";
-
-        doctordetial dialog(this);
-        dialog.setDoctorInfo(jobId, dep, name, profile, photoPath, workTime, fee, limit);
-        dialog.exec();
-    }
+    QMessageBox::information(this, "医生详情", profile);
 }
 
-void registerpage::addDoctor(QString id, QString dep, QString job, QString name,
-                             QString time, double fee, int limit, int booked)
-{
-    QList<QStandardItem*> row;
-    row << new QStandardItem(id)
-        << new QStandardItem(dep)
-        << new QStandardItem(job)
-        << new QStandardItem(name)
-        << new QStandardItem(time)
-        << new QStandardItem(QString::number(fee))
-        << new QStandardItem(QString::number(limit))
-        << new QStandardItem(QString::number(booked))
-        << new QStandardItem(QString::number(limit - booked));
-    model->appendRow(row);
-}
+
