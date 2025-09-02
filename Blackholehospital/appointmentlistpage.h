@@ -22,6 +22,7 @@ private:
     Ui::appointmentlistpage *ui;
     void populateAppointmentData();
     void on_btnBack_clicked();
+    void onTableCellClicked(int row, int column);
 };
 
 #endif // APPOINTMENTLISTPAGE_H
