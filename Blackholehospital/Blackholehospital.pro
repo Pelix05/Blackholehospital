@@ -111,4 +111,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     images/resources.qrc
 
-DISTFILES +=
+DISTFILES += \
+    images/amoxicillin.png
