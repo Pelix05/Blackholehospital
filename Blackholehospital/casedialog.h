@@ -12,7 +12,8 @@ class casedialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit casedialog(QWidget *parent = nullptr);
+    explicit casedialog(QWidget *parent = nullptr); // 新增
+    explicit casedialog(QString doctor, QString dep, QString date, QString result, QWidget *parent = nullptr);
     ~casedialog();
 
     void setCaseInfo(QString doctor, QString dep, QString date, QString result);

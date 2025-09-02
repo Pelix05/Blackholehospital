@@ -61,6 +61,13 @@ casedialog::casedialog(QWidget *parent) :
     });
 }
 
+// 带参数构造函数，委托给默认构造函数
+casedialog::casedialog(QString doctor, QString dep, QString date, QString result, QWidget *parent)
+    : casedialog(parent)   // 调用默认构造函数
+{
+    setCaseInfo(doctor, dep, date, result);
+}
+
 casedialog::~casedialog()
 {
     delete ui;

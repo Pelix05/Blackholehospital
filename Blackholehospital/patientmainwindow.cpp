@@ -27,7 +27,7 @@ patientmainwindow::patientmainwindow(const personalinfo &info, QWidget *parent)
     setWindowTitle("PATIENT");
     // ===== STYLE SHEET UNTUK MAIN WINDOW =====
         this->setStyleSheet(
-            "QMainWindow {"
+            "QWidget {"
             "   background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 #e6f7ff, stop: 1 #f0f8ff);"
             "   font-family: 'Segoe UI', Arial, sans-serif;"
             "}"
@@ -96,7 +96,7 @@ patientmainwindow::patientmainwindow(const personalinfo &info, QWidget *parent)
         // ===== END STYLE HEADER =====
 
         registerpage *regpage = new registerpage(currentinfo.idNumber, this);
-        medicalrecord *medrc = new medicalrecord(this);
+        medicalrecord *medrc = new medicalrecord(currentinfo.idNumber, this);
         appointment *apm = new appointment(currentinfo.idNumber, this);
         healthyselfcheck *selfc = new healthyselfcheck(this);
         medicinesearch *mdsrch = new medicinesearch(this);
