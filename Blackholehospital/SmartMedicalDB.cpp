@@ -129,7 +129,6 @@ bool SmartMedicalDB::createDatabaseAndTables()
         );
     )")) return false;
 
-<<<<<<< HEAD
     // 9. Attendance log table
     if (!execQuery(query, R"(
         CREATE TABLE IF NOT EXISTS attendance_log (
@@ -143,9 +142,6 @@ bool SmartMedicalDB::createDatabaseAndTables()
         );
     )")) return false;
 
-
-=======
->>>>>>> b9b7956f6afbb58b275dd7dfca11d18572b15fcf
     // 4. 医生排班
     if (!query.exec(R"(
         CREATE TABLE IF NOT EXISTS doctor_schedules (
@@ -166,10 +162,6 @@ bool SmartMedicalDB::createDatabaseAndTables()
         )
     )")) return false;
 
-
-
-<<<<<<< HEAD
-=======
     // 9. Attendance log table
     if (!execQuery(query, R"(
         CREATE TABLE IF NOT EXISTS attendance_log (
@@ -183,8 +175,6 @@ bool SmartMedicalDB::createDatabaseAndTables()
         );
     )")) return false;
 
-
->>>>>>> b9b7956f6afbb58b275dd7dfca11d18572b15fcf
     qDebug() << "✅ 数据库和表已成功创建！";
     return true;
 }
