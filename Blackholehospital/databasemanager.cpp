@@ -16,43 +16,104 @@ DatabaseManager::DatabaseManager() {
     QSqlQuery checkQuery;
     checkQuery.exec("SELECT COUNT(*) FROM doctors");
     if (checkQuery.next() && checkQuery.value(0).toInt() == 0) {
-    // ======== 预存三条医生排班数据（仅测试用） ========
-       QSqlQuery query;
 
-       query.exec("INSERT OR IGNORE INTO doctors (name, birth_date, id_card, phone, email, address, gender) "
-                  "VALUES ('张三','1980-01-01','D001','13800000001','zhangsan@example.com','地址1','M')");
-       query.exec("INSERT OR IGNORE INTO doctors (name, birth_date, id_card, phone, email, address, gender) "
-                  "VALUES ('李四','1985-02-02','D002','13800000002','lisi@example.com','地址2','F')");
-       query.exec("INSERT OR IGNORE INTO doctors (name, birth_date, id_card, phone, email, address, gender) "
-                  "VALUES ('王五','1990-03-03','D003','13800000003','地址3','M')");
+        // ======== 预存三条医生数据（测试用） ========
+        QSqlQuery query;
 
-       // 查询真实 doctor_id
-       QMap<QString,int> doctorIds;
-       QSqlQuery q2("SELECT doctor_id, name FROM doctors");
-       while(q2.next()) {
-           doctorIds[q2.value("name").toString()] = q2.value("doctor_id").toInt();
-       }
+        query.exec("INSERT OR IGNORE INTO doctors (name, birth_date, id_card, phone, email, address, gender) "
+                   "VALUES ('张三','1980-01-01','D001','13800000001','zhangsan@example.com','地址1','M')");
+        query.exec("INSERT OR IGNORE INTO doctors (name, birth_date, id_card, phone, email, address, gender) "
+                   "VALUES ('李四','1985-02-02','D002','lisi@example.com','地址2','F')");
+        query.exec("INSERT OR IGNORE INTO doctors (name, birth_date, id_card, phone, email, address, gender) "
+                   "VALUES ('王五','1990-03-03','D003','13800000003','地址3','M')");
 
+        // 查询真实 doctor_id
+        QMap<QString,int> doctorIds;
+        QSqlQuery q2("SELECT doctor_id, name FROM doctors");
+        while(q2.next()) {
+            doctorIds[q2.value("name").toString()] = q2.value("doctor_id").toInt();
+        }
 
+        // 插入排班数据
+        {
+            QSqlQuery q;
+            q.prepare("INSERT OR IGNORE INTO doctor_schedules "
+                      "(doctor_id, hospital, department, clinic, job_number, work_date, start_time, end_time, fee, limit_per_day, supports_appointment, booked_count) "
+                      "VALUES (?, '黑洞医院', '内科', '门诊1', 'D001', '2025-09-03', '08:00', '12:00', 20.0, 20, 1, 0)");
+            q.addBindValue(doctorIds["张三"]);
+            q.exec();
+        }
+        {
+            QSqlQuery q;
+            q.prepare("INSERT OR IGNORE INTO doctor_schedules "
+                      "(doctor_id, hospital, department, clinic, job_number, work_date, start_time, end_time, fee, limit_per_day, supports_appointment, booked_count) "
+                      "VALUES (?, '黑洞医院', '外科', '门诊2', 'D002', '2025-09-03', '14:00', '18:00', 30.0, 15, 1, 0)");
+            q.addBindValue(doctorIds["李四"]);
+            q.exec();
+        }
+        {
+            QSqlQuery q;
+            q.prepare("INSERT OR IGNORE INTO doctor_schedules "
+                      "(doctor_id, hospital, department, clinic, job_number, work_date, start_time, end_time, fee, limit_per_day, supports_appointment, booked_count) "
+                      "VALUES (?, '黑洞医院', '儿科', '门诊3', 'D003', '2025-09-04', '09:00', '17:00', 25.0, 10, 0, 0)");
+            q.addBindValue(doctorIds["王五"]);
+            q.exec();
+        }
 
-       // 3. 插入排班数据，使用真实 doctor_id
-           query.exec(QString("INSERT OR IGNORE INTO doctor_schedules "
-                              "(doctor_id, hospital, department, clinic, job_number, work_date, start_time, end_time, fee, limit_per_day, supports_appointment, booked_count) "
-                              "VALUES (%1, '黑洞医院', '内科', '门诊1', 'D001', '2025-09-03', '08:00', '12:00', 20.0, 20, 1, 0)")
-                      .arg(doctorIds["张三"]));
+        // 插入医嘱，每条使用独立 QSqlQuery
+        {
+            QSqlQuery q;
+            q.prepare("INSERT INTO doctor_orders (doctor_id, patient_id, order_content) VALUES (?, ?, ?)");
+            q.addBindValue(1);
+            q.addBindValue(1);
+            q.addBindValue(
+                "1. 注意休息，多饮水\n"
+                "2. 按时服药，每日3次\n"
+                "3. 高热不退或症状加重，请及时复诊\n"
+                "4. 饮食清淡，避免辛辣刺激食物"
+            );
+            if (!q.exec()) {
+                qDebug() << "Insert doctor_order failed:" << q.lastError().text();
+            } else {
+                qDebug() << "Insert doctor_order succeeded";
+            }
+        }
+        {
+            QSqlQuery q;
+            q.prepare("INSERT INTO doctor_orders (doctor_id, patient_id, order_content) VALUES (?, ?, ?)");
+            q.addBindValue(2);
+            q.addBindValue(1);
+            q.addBindValue(
+                "1. 患肢制动，抬高患肢\n"
+                "2. 伤后48小时内冷敷，之后热敷\n"
+                "3. 按时服用止痛药物\n"
+                "4. 一周后复诊"
+            );
+            if (!q.exec()) {
+                qDebug() << "Insert doctor_order failed:" << q.lastError().text();
+            } else {
+                qDebug() << "Insert doctor_order succeeded";
+            }
+        }
+        {
+            QSqlQuery q;
+            q.prepare("INSERT INTO doctor_orders (doctor_id, patient_id, order_content) VALUES (?, ?, ?)");
+            q.addBindValue(3);
+            q.addBindValue(2);
+            q.addBindValue(
+                "1. 按时滴眼药水，每日4次\n"
+                "2. 注意手部卫生，避免揉眼\n"
+                "3. 毛巾、脸盆单独使用，防止交叉感染\n"
+                "4. 症状消失后继续用药3天"
+            );
+            if (!q.exec()) {
+                qDebug() << "Insert doctor_order failed:" << q.lastError().text();
+            } else {
+                qDebug() << "Insert doctor_order succeeded";
+            }
+        }
 
-           query.exec(QString("INSERT OR IGNORE INTO doctor_schedules "
-                              "(doctor_id, hospital, department, clinic, job_number, work_date, start_time, end_time, fee, limit_per_day, supports_appointment, booked_count) "
-                              "VALUES (%1, '黑洞医院', '外科', '门诊2', 'D002', '2025-09-03', '14:00', '18:00', 30.0, 15, 1, 0)")
-                      .arg(doctorIds["李四"]));
-
-           query.exec(QString("INSERT OR IGNORE INTO doctor_schedules "
-                              "(doctor_id, hospital, department, clinic, job_number, work_date, start_time, end_time, fee, limit_per_day, supports_appointment, booked_count) "
-                              "VALUES (%1, '黑洞医院', '儿科', '门诊3', 'D003', '2025-09-04', '09:00', '17:00', 25.0, 10, 0, 0)")
-                      .arg(doctorIds["王五"]));
-
-
-       qDebug() << "✅ 已预存三条测试排班&doctor数据";
+        qDebug() << "✅ 已预存三条测试排班 & doctor 数据及医嘱";
     }
 
        QSqlQuery q("SELECT doctor_id, name FROM doctors");
@@ -66,6 +127,8 @@ DatabaseManager::DatabaseManager() {
        while(q3.next()) {
            qDebug() << "Schedule table:" << q3.value("doctor_id").toInt() << q3.value("department").toString();
        }
+
+
 
 }
 
@@ -509,5 +572,78 @@ QMap<QString, QVariant> DatabaseManager::getPatientInfoById(int patientId) {
         result["address"] = query.value("address");
     }
     return result;
+}
+
+QList<QMap<QString, QVariant>> DatabaseManager::getOrdersByPatient(qlonglong  patientId) {
+    QSqlQuery queryCheck;
+    qDebug() << "[getOrdersByPatient] Checking doctor_orders table content:";
+    queryCheck.exec("SELECT * FROM doctor_orders");
+    while(queryCheck.next()) {
+        qDebug() << "[doctor_orders table]"
+                 << "order_id:" << queryCheck.value("order_id").toInt()
+                 << "patient_id:" << queryCheck.value("patient_id").toInt()
+                 << "doctor_id:" << queryCheck.value("doctor_id").toInt()
+                 << "order_content:" << queryCheck.value("order_content").toString()
+                 << "created_at:" << queryCheck.value("created_at").toString();
+    }
+
+    QSqlQuery query;
+    query.prepare(R"(
+        SELECT o.order_id, o.created_at, o.order_content,
+               d.name AS doctor_name, d.department
+        FROM doctor_orders o
+        JOIN doctors d ON o.doctor_id = d.doctor_id
+        WHERE o.patient_id = ?
+        ORDER BY o.created_at DESC
+    )");
+    query.addBindValue(patientId);
+
+    QList<QMap<QString, QVariant>> results;
+
+    qDebug() << "[getOrdersByPatient] Executing query for patient_id =" << patientId;
+
+    if (!query.exec()) {
+        qDebug() << "[getOrdersByPatient] SQL execution failed:" << query.lastError().text();
+        return results;
+    }
+
+    if (!query.next()) {
+        qDebug() << "[getOrdersByPatient] No orders found for patient_id =" << patientId;
+
+        // 打印 doctor_orders 表内容用于排查
+        QSqlQuery qAll("SELECT * FROM doctor_orders");
+        while (qAll.next()) {
+            qDebug() << "[doctor_orders]"
+                     << "order_id:" << qAll.value("order_id").toInt()
+                     << "patient_id:" << qAll.value("patient_id").toInt()
+                     << "doctor_id:" << qAll.value("doctor_id").toInt()
+                     << "order_content:" << qAll.value("order_content").toString()
+                     << "created_at:" << qAll.value("created_at").toString();
+        }
+
+        return results;
+    }
+
+    // 第一行已被 query.next() 移动，需要先处理这一行
+    do {
+        QMap<QString, QVariant> order;
+        order["order_id"] = query.value("order_id");
+        order["created_at"] = query.value("created_at");
+        order["doctor_name"] = query.value("doctor_name");
+        order["department"] = query.value("department");
+        order["order_content"] = query.value("order_content");
+
+        qDebug() << "[getOrdersByPatient] Loaded order:"
+                 << order["order_id"].toInt()
+                 << order["doctor_name"].toString()
+                 << order["department"].toString()
+                 << order["order_content"].toString();
+
+        results.append(order);
+    } while (query.next());
+
+    qDebug() << "[getOrdersByPatient] Total orders loaded:" << results.size();
+
+    return results;
 }
 

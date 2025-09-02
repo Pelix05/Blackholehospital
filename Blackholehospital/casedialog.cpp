@@ -3,9 +3,10 @@
 #include "instruction.h"
 #include "prescription.h"
 #include "hospitalization.h"
+#include <QDebug>
 
 
-casedialog::casedialog(QWidget *parent) :
+casedialog::casedialog(QWidget *parent, qlonglong patientId) :
     QDialog(parent),
     ui(new Ui::casedialog)
 {
@@ -46,7 +47,7 @@ casedialog::casedialog(QWidget *parent) :
 
     // 点击 → 弹出医嘱对话框
     connect(ui->insturctions, &QPushButton::clicked, this, [=](){
-        instruction dlg(this);
+        instruction dlg(patientId, this);
         dlg.exec();
     });
 
@@ -59,6 +60,9 @@ casedialog::casedialog(QWidget *parent) :
         hospitalization dlg(this);
         dlg.exec();
     });
+
+    qDebug() << "[casedialog] m_patientId initial:" << m_patientId;
+
 }
 
 // 带参数构造函数，委托给默认构造函数

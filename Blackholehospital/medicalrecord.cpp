@@ -157,30 +157,16 @@ void medicalrecord::doubleclicked(const QModelIndex &index){
     if (!index.isValid()) return;
 
     int row = index.row();
-    QString recordId = model->item(row, 0)->text();
-    QString diagnose = model->item(row, 4)->text();
+    QString recordId   = model->item(row, 0)->text();
+    QString date       = model->item(row, 1)->text();
+    QString doctorId   = model->item(row, 2)->text();
+    QString doctorName = model->item(row, 3)->text();
+    QString diagnose   = model->item(row, 4)->text();
 
     QString department = "未知科室"; // 可以拓展从 doctor_id 查询科室
 
-    QString instructions = generateInstructions(department);
-    QString prescription = generatePrescription(department);
-
-    casedialog dialog(recordId, diagnose, instructions, prescription, this);
+    casedialog dialog(doctorName, department, date, diagnose, this);
     dialog.exec();
-}
-
-// 生成模拟医嘱
-QString medicalrecord::generateInstructions(const QString &department)
-{
-    if (department == "内科") {
-        return "1. 注意休息，多饮水\n2. 按时服药，每日3次\n3. 如有高热不退或症状加重，请及时复诊\n4. 饮食清淡，避免辛辣刺激食物";
-    } else if (department == "外科") {
-        return "1. 患肢制动，抬高患肢\n2. 伤后48小时内冷敷，48小时后热敷\n3. 按时服用消肿止痛药物\n4. 一周后复诊，如有肿胀加重请及时就医";
-    } else if (department == "眼科") {
-        return "1. 按时滴眼药水，每日4次\n2. 注意手部卫生，避免揉眼\n3. 毛巾、脸盆等用品单独使用，防止交叉感染\n4. 症状消失后继续用药3天以巩固疗效";
-    } else {
-        return "1. 注意休息，避免劳累\n2. 按时服药\n3. 如有不适，请及时就医\n4. 定期复查";
-    }
 }
 
 // 生成模拟处方

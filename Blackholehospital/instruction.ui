@@ -18,22 +18,10 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1450</width>
-     <height>450</height>
+     <width>1451</width>
+     <height>461</height>
     </rect>
    </property>
-   <property name="wordWrap">
-    <bool>false</bool>
-   </property>
-   <attribute name="horizontalHeaderHighlightSections">
-    <bool>false</bool>
-   </attribute>
-   <attribute name="verticalHeaderVisible">
-    <bool>false</bool>
-   </attribute>
-   <attribute name="verticalHeaderHighlightSections">
-    <bool>false</bool>
-   </attribute>
   </widget>
  </widget>
  <resources/>

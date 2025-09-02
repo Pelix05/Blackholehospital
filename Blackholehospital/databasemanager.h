@@ -90,6 +90,10 @@ public:
     bool insertPerscription(int recordId, const QString &content);
     QVector<PrescriptionRecord> getPrescriptions();
 
+    // 获取患者医嘱
+    QList<QMap<QString, QVariant>> getOrdersByPatient(qlonglong  patientId);
+
+
 private:
     DatabaseManager(); // 构造函数私有化
     QSqlDatabase db;
